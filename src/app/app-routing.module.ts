@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
   {
@@ -11,6 +11,16 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'login',
+    title: 'Login',
+    loadChildren: () => import('./features/auth/pages/login-page/login-page.module').then(m => m.LoginPageModule),
+  },
+  {
+    path: 'register',
+    title: 'Register',
+    loadChildren: () => import('./features/auth/pages/register-page/register-page.module').then(m => m.RegisterPageModule),
+  }
 ];
 
 @NgModule({
