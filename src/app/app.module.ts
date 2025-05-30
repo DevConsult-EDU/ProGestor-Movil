@@ -6,7 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import {NavMenuModule} from "./shared/nav-menu/nav-menu.module";
+import {AuthService} from "./core/auth/services/auth-service.service";
+import {authInterceptor} from "./core/auth/interceptors/auth-interceptor.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,9 +16,13 @@ import {NavMenuModule} from "./shared/nav-menu/nav-menu.module";
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    NavMenuModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    provideHttpClient(withInterceptors([
+        authInterceptor
+      ])),
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
