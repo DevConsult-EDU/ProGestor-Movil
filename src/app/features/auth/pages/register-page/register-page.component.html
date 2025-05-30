@@ -1,0 +1,32 @@
+
+<ion-content class="ion-padding">
+  <div class="ion-text-center ion-margin-bottom">
+    <ion-label color="danger">Pro/<ion-label color="primary">\Gestor</ion-label></ion-label>
+  </div>
+  <form [formGroup]="registerForm" (ngSubmit)="register($event)">
+    <ion-list lines="full">
+
+      <ion-item>
+        <ion-label position="floating">Nombre de usuario</ion-label>
+        <ion-input formControlName="name" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Correo Electrónico</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <ion-button expand="block" (click)="register($event)" class="ion-margin-top">Registrarse</ion-button>
+
+  <ion-text class="ion-text-center ion-margin-top">
+    <!--    <p>¿Olvidaste tu contraseña? <a href="#">Recupérala aquí</a></p>-->
+    <p>¿Ya tienes una cuenta? <a [routerLink]="'/login'">Iniciar sesión</a></p>
+  </ion-text>
+</ion-content>

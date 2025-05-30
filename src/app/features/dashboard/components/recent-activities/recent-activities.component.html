@@ -1,0 +1,23 @@
+<ion-card class="ion-margin-top">
+  <!-- Encabezado -->
+  <ion-card-header>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-icon slot="start" name="stats-chart-outline" color="primary" class="ion-margin-end" style="font-size: 24px;" aria-hidden="true"></ion-icon>
+      <ion-card-title>Tareas Pendientes</ion-card-title>
+    </ion-item>
+  </ion-card-header>
+
+  <!-- Lista de Actividades (mostrando un solo item) -->
+  <ion-list lines="none">
+    <!-- Item 1 -->
+    @for (comment of comments; track comment.id) {
+      <ion-item lines="inset">
+        <ion-label>
+          <p class="ion-text-sm">{{getUserName(comment.user_id)}} añadió un comentario a {{getTaskTitle(comment.task_id)}}</p>
+          <p class="ion-text-xs ion-color-medium ion-margin-top-xs">{{comment.created_at | timeAgo}}</p>
+        </ion-label>
+      </ion-item>
+    }
+    <!-- Si hubiera más items, se añadirían aquí como <ion-item> -->
+  </ion-list>
+</ion-card>

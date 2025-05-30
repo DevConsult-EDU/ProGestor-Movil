@@ -1,0 +1,54 @@
+<ion-card class="tasks-summary-card">
+  <!-- Header -->
+  <ion-card-header>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-icon slot="start" name="file-tray-stacked-outline" color="primary" class="ion-margin-end" style="font-size: 24px;" aria-hidden="true"></ion-icon>
+      <ion-card-title>Proyectos Activos</ion-card-title>
+    </ion-item>
+  </ion-card-header>
+  <!-- Removed hr, card-header usually provides separation. Add <hr class="ion-margin-bottom-small"> if needed -->
+
+  <!-- Task List -->
+  <ion-list lines="full">
+    <!-- Task Loop -->
+    @for (project of projects; track project.id) {
+      @if (project.status !== 'completado' && project.status !== 'cancelado') {
+        <ion-label>
+          <h2 style="font-weight: 600;">{{project.name}}</h2>
+
+          <!-- Customer Loop -->
+          @for (customer of customers; track customer.id) {
+            <p *ngIf="project.customer_id === customer.id" class="ion-text-small" color="medium" style="margin-top: 0.25rem;">
+              Cliente: {{customer.name}}
+            </p>
+          }
+
+          <p class="ion-text-small ion-margin-vertical-small" color="medium">
+            Progreso: {{(project.task_count > 0 ? (project.completed_task_count / project.task_count) * 100 : 0) | number:'1.0-0'}}%
+          </p>
+          <div style="display: flex; align-items: center;">
+            <ion-progress-bar
+              color="primary"
+              [value]="project.task_count > 0 ? (project.completed_task_count / project.task_count) : 0"
+              style="flex-grow: 1; margin-right: 8px; --buffer-background: var(--ion-color-light-shade);">
+            </ion-progress-bar>
+            <ion-text class="ion-text-small ion-text-nowrap" color="medium">
+              {{project.completed_task_count}}/{{project.task_count}} tareas
+            </ion-text>
+          </div>
+        </ion-label>
+
+        <ion-badge *ngIf="project.status === 'en progreso'" color="primary" slot="end">{{ project.status }}</ion-badge>
+        <ion-badge *ngIf="project.status === 'pendiente'" color="warning" slot="end">{{ project.status }}</ion-badge>
+        <!-- You might want to add other status conditions here or use ngSwitch -->
+      }
+    }
+  </ion-list>
+
+  <ion-card-content class="ion-text-center ion-padding-top">
+    <ion-button fill="clear" color="secondary" routerLink="/auth/projects" size="small">
+      Ver todos los proyectos
+    </ion-button>
+  </ion-card-content>
+
+</ion-card>

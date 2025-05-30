@@ -1,0 +1,59 @@
+
+<ion-card class="tasks-summary-card">
+  <!-- Header -->
+  <ion-card-header>
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-icon slot="start" name="checkmark-circle" color="primary" class="ion-margin-end" style="font-size: 24px;" aria-hidden="true"></ion-icon>
+      <ion-card-title>Tareas Pendientes</ion-card-title>
+    </ion-item>
+  </ion-card-header>
+
+  <hr class="card-divider ion-margin-start ion-margin-end">
+
+  <!-- Task List -->
+  <!-- The original HTML had <div class="divide-y divide-gray-200"> *inside* the @for loop,
+       which is unusual. Assuming the intent was a list of tasks with dividers.
+       ion-list with lines="full" achieves this. -->
+  <ion-list lines="full" class="ion-no-padding">
+    @for (task of tasks; track task.id) {
+      @if (task.status !== "completado") {
+        <!-- Task Item -->
+        <ion-item class="ion-no-padding ion-padding-top ion-padding-bottom">
+          <ion-label class="ion-text-wrap">
+            <h3 style="font-weight: 600; color: var(--ion-color-dark-tint, #373737);">{{task.title}}</h3>
+            @for (project of projects; track project.id) {
+              @if (task.project_id === project.id) {
+                <p style="font-size: 0.875rem; color: var(--ion-color-medium-shade, #757575); margin-top: 0.125rem;">Proyecto: {{project.name}}</p>
+              }
+            }
+            <div style="display: flex; align-items: center; font-size: 0.875rem; color: var(--ion-color-medium-shade, #757575); margin-top: 0.25rem;">
+              <ion-icon name="time-outline" style="margin-right: 0.25rem; color: var(--ion-color-medium-tint, #86888f);"></ion-icon>
+              Creación: {{task.created_at | date: 'dd/MM/yyyy'}}
+            </div>
+          </ion-label>
+
+          @if (task.priority === "media") {
+            <!-- For closer Tailwind styling, use class="priority-media" and define in CSS (see comment block above) -->
+            <ion-chip slot="end" color="warning" style="font-size: 0.75rem; font-weight: 500;">
+              <ion-label class="ion-text-capitalize">{{ task.priority }}</ion-label>
+            </ion-chip>
+          }@else if (task.priority === "alta") {
+            <ion-chip slot="end" color="danger" style="font-size: 0.75rem; font-weight: 500;">
+              <ion-label class="ion-text-capitalize">{{ task.priority }}</ion-label>
+            </ion-chip>
+          }@else { <!-- Assuming "baja" or other priority -->
+            <ion-chip slot="end" color="primary" style="font-size: 0.75rem; font-weight: 500;">
+              <ion-label class="ion-text-capitalize">{{ task.priority }}</ion-label>
+            </ion-chip>
+          }
+        </ion-item>
+      }
+    }
+  </ion-list>
+
+  <div class="ion-text-center ion-margin-top">
+    <ion-button fill="clear" color="primary" routerLink="/auth/tasks" style="font-size: 0.875rem; font-weight: 500; --color: #7e22ce; --color-hover: #581c87;">
+      Ver todas mis tareas
+    </ion-button>
+  </div>
+</ion-card>

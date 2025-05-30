@@ -1,0 +1,28 @@
+<div class="ion-padding-vertical ion-text-end">
+  <ion-button (click)="navigateCreateUser()" color="primary" shape="round" expand="block" class="ion-margin-bottom-sm">
+    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+    Crear usuario
+  </ion-button>
+</div>
+
+@if (users && users.length > 0) {
+  <ion-list lines="inset"> <!-- O "full" o "none" -->
+    @for (user of users; track user.id) {
+      <ion-item button (click)="navigateDetailsUser(user.id)"> <!-- 'button' para efecto visual al pulsar -->
+        <ion-label>
+          <h2>{{ user.name }}</h2>
+          <p>{{ user.email }}</p>
+          <p>
+            <ion-text color="medium"><small>Rol: {{ user.rol }}</small></ion-text><br>
+            <ion-text color="medium"><small>Registro: {{ user.created_at | date: 'dd/MM/yyyy'}}</small></ion-text>
+          </p>
+        </ion-label>
+        <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+      </ion-item>
+    }
+  </ion-list>
+} @else {
+  <div class="ion-padding ion-text-center">
+    <p>No hay usuarios para mostrar.</p>
+  </div>
+}
