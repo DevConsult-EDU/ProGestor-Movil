@@ -1,7 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, Inject, inject, OnInit} from '@angular/core';
 import {UserListService} from "../../services/user-list-service/user-list.service";
 import {UserListed} from "../../../../shared/interfaces/userListed.interface";
 import {Router} from "@angular/router";
+import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.component";
 
 @Component({
   selector: 'app-users',
@@ -14,8 +15,11 @@ export class UsersComponent  implements OnInit {
   public users = [] as UserListed[];
   router = inject(Router)
 
-  ngOnInit() {
+  constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
+  }
 
+  ngOnInit() {
+    this.parent.titulo = 'Usuarios';
     this.userListService.invoke().subscribe((response: UserListed[]) => {
       this.users = response;
     })
@@ -23,11 +27,11 @@ export class UsersComponent  implements OnInit {
   }
 
   navigateDetailsUser(id: string) {
-    this.router.navigate(['auth/users', id]);
+    this.router.navigate(['users', id]);
   }
 
   navigateCreateUser() {
-    this.router.navigate(['auth/users/createUser']);
+    this.router.navigate(['users/createUser']);
   }
 
 }

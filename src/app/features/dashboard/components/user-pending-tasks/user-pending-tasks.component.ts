@@ -30,6 +30,10 @@ export class UserPendingTasksComponent  implements OnInit {
     this.rol = localStorage.getItem('rol');
   }
 
+  navigateTask() {
+    this.router.navigate(['/tasks']);
+  }
+
   ngOnInit() {
 
     this.userPendingTasksService.invoke().subscribe((response: TaskListed[]) => {

@@ -27,6 +27,10 @@ export class UserActiveProjectsComponent  implements OnInit {
     this.rol = localStorage.getItem('rol');
   }
 
+  navigateProjects() {
+    this.router.navigate(['/projects']);
+  }
+
   getPercentage(i: number, j: number) {
 
     if(i == 0 || j == 0){

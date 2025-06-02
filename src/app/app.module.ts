@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {AuthService} from "./core/auth/services/auth-service.service";
 import {authInterceptor} from "./core/auth/interceptors/auth-interceptor.interceptor";
+import {ProjectLayoutComponent} from "./project-layout/project-layout.component";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ProjectLayoutComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

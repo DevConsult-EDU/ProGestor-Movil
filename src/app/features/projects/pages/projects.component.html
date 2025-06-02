@@ -1,15 +1,13 @@
-
-<div class="ion-text-center">
-  <ion-button (click)="navigateCreateProject()" color="primary" shape="round" class="ion-margin-bottom-sm">
-    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-    Crear proyecto
-  </ion-button>
-</div>
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab-button (click)="navigateCreateProject()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 @if (projects && projects.length > 0) {
   <ion-list lines="inset"> <!-- O "full" o "none" -->
     @for (project of projects; track project.id) {
-      <ion-item button (click)="navigateDetailsProject(project.id)"> <!-- 'button' para efecto visual al pulsar -->
+      <ion-item (click)="navigateDetailsProject(project.id)"> <!-- 'button' para efecto visual al pulsar -->
         <ion-label>
           <h2>{{ project.name }}</h2>
           <p>{{ project.description }}</p>
@@ -24,9 +22,9 @@
             } @else if (project.status === 'en progreso') {
               <p>Estado: <ion-text color="primary"><small>{{ project.status }}</small></ion-text></p>
             } @else if (project.status === 'completado') {
-              <p>Estado: <ion-text color="success"><small>Estado: {{ project.status }}</small></ion-text></p>
+              <p>Estado: <ion-text color="success"><small>{{ project.status }}</small></ion-text></p>
             } @else if (project.status === 'cancelado') {
-              <p>Estado: <ion-text color="error"><small>Estado: {{ project.status }}</small></ion-text></p>
+              <p>Estado: <ion-text color="error"><small>{{ project.status }}</small></ion-text></p>
             }
 
           </p>

@@ -1,0 +1,51 @@
+<ion-content class="ion-padding">
+  <ion-card class="ion-margin custom-card-styles">
+    <ion-card-content class="custom-card-padding">
+      <div class="ion-text-center ion-margin-bottom"> <!-- flex justify-center mb-6 -->
+        <!-- Necesitarás CSS para 'icon-background-circle' para replicar h-34 w-34 rounded-full bg-blue-100 flex items-center justify-center -->
+        <div class="icon-background-circle">
+          <svg style="width: 8rem; height: 8rem;"
+          class="text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/>
+          </svg>
+        </div>
+      </div>
+
+      <form [formGroup]="createCustomerForm" (ngSubmit)="storeCustomer($event)">
+        <!-- El div original con class="mt-10" se traduce a ion-margin-top en la lista o en el primer item -->
+        <ion-list lines="none" class="ion-margin-top"> <!-- lines="none" para quitar bordes por defecto de items si los inputs tendrán los suyos -->
+
+          <ion-item class="ion-margin-top"> <!-- mt-5 (para este y los siguientes), sm:col-span-2 es implícito en la lista vertical -->
+            <ion-label position="stacked" class="ion-text-center custom-label">Nombre</ion-label> <!-- font-bold flex justify-center -->
+            <ion-input required formControlName="name" type="text" placeholder="Nombre..." class="ion-text-center custom-input"></ion-input> <!-- w-full ... text-center -->
+          </ion-item>
+
+          <ion-item class="ion-margin-top"> <!-- sm:col-auto mt-5 -->
+            <ion-label position="stacked" class="ion-text-center custom-label">Email</ion-label>
+            <ion-input required formControlName="email" type="email" placeholder="Email..." class="ion-text-center custom-input"></ion-input>
+          </ion-item>
+
+          <ion-item class="ion-margin-top"> <!-- sm:col-span-2 mt-5 -->
+            <ion-label position="stacked" class="ion-text-center custom-label">Teléfono</ion-label>
+            <ion-input required formControlName="phone" type="text" placeholder="Teléfono..." class="ion-text-center custom-input"></ion-input>
+          </ion-item>
+
+          <ion-item class="ion-margin-top"> <!-- sm:col-span-2 mt-5 -->
+            <ion-label position="stacked" class="ion-text-center custom-label">Dirección</ion-label>
+            <ion-input required formControlName="address" type="text" placeholder="Dirección..." class="ion-text-center custom-input"></ion-input>
+          </ion-item>
+
+        </ion-list>
+      </form>
+
+      <div class="ion-margin-top ion-padding-top"> <!-- mt-10, padding-top para un espacio similar a mt-6 en el primer botón -->
+        <ion-button expand="block" (click)="storeCustomer($event)" color="primary"> <!-- w-full bg-blue-500 ... -->
+          Guardar cliente
+        </ion-button>
+        <ion-button expand="block" routerLink="/customers" color="danger" class="ion-margin-top"> <!-- mt-6 w-full bg-red-500 ... -->
+          Cancelar
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

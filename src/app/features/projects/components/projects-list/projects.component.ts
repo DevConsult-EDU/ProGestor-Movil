@@ -1,9 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, Inject, inject, OnInit} from '@angular/core';
 import {ProjectListService} from "../../services/project-list-service/project-list.service";
 import {CustomerListService} from "../../../customers/services/customer-list-service/customer-list.service";
 import {ProjectListed} from "../../../../shared/interfaces/projectListed.interface";
 import {CustomerListed} from "../../../../shared/interfaces/customerListed.interface";
 import {Router} from "@angular/router";
+import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.component";
 
 @Component({
   selector: 'app-projects',
@@ -20,12 +21,12 @@ export class ProjectsComponent  implements OnInit {
   public customers = [] as CustomerListed[];
   router = inject(Router)
 
-  constructor() {
+  constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
     this.rol = localStorage.getItem('rol');
   }
 
   ngOnInit() {
-
+    this.parent.titulo = 'Proyectos';
     this.projectListService.invoke().subscribe((response: ProjectListed[]) => {
       this.projects = response;
     })
@@ -37,11 +38,11 @@ export class ProjectsComponent  implements OnInit {
   }
 
   navigateDetailsProject(id: string) {
-    this.router.navigate(['auth/projects', id]);
+    this.router.navigate(['projects', id]);
   }
 
   navigateCreateProject() {
-    this.router.navigate(['auth/projects/createProject']);
+    this.router.navigate(['projects/createProject']);
   }
 
 }

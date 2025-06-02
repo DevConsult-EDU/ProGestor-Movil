@@ -3,7 +3,7 @@
   <!-- Header -->
   <ion-card-header>
     <ion-item lines="none" class="ion-no-padding">
-      <ion-icon slot="start" name="checkmark-circle" color="primary" class="ion-margin-end" style="font-size: 24px;" aria-hidden="true"></ion-icon>
+      <ion-icon slot="start" name="checkmark-circle" color="primary" class="ion-margin-end" style="font-size: 24px;"></ion-icon>
       <ion-card-title>Tareas Pendientes</ion-card-title>
     </ion-item>
   </ion-card-header>
@@ -52,7 +52,7 @@
   </ion-list>
 
   <div class="ion-text-center ion-margin-top">
-    <ion-button fill="clear" color="primary" routerLink="/auth/tasks" style="font-size: 0.875rem; font-weight: 500; --color: #7e22ce; --color-hover: #581c87;">
+    <ion-button fill="clear" color="primary" (click)="navigateTask()" style="font-size: 0.875rem; font-weight: 500; --color: #7e22ce; --color-hover: #581c87;">
       Ver todas mis tareas
     </ion-button>
   </div>

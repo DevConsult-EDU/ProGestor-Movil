@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {ProjectLayoutComponent} from "./project-layout/project-layout.component";
 
 const routes: Routes = [
   {
@@ -13,35 +14,112 @@ const routes: Routes = [
     loadChildren: () => import('./features/auth/pages/login-page/login-page.module').then(m => m.LoginPageModule),
   },
   {
+    path: '',
+    component: ProjectLayoutComponent,
+    children: [
+      {
+        path: 'dashboard',
+        title: 'Dashboard',
+        loadChildren: () => import('./features/dashboard/main-dashboard/main-dashboard.module').then(m => m.MainDashboardModule),
+      },
+      {
+        path: 'users',
+        title: 'Users',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./features/users/components/users-list/users.module').then(m => m.UsersModule),
+          },
+          {
+            path: 'createUser',
+            title: 'Create User',
+            loadChildren: () => import('./features/users/components/create-user/create-user.module').then(m => m.CreateUserModule),
+          },
+          {
+            path: 'updateUser/:idUser',
+            title: 'Update User',
+            loadChildren: () => import('./features/users/components/update-user/update-user.module').then(m => m.UpdateUserModule),
+          },
+          {
+            path: ':idUser',
+            loadChildren: () => import('./features/users/components/user-details/user-details.module').then(m => m.UserDetailsModule),
+          },
+
+        ],
+
+      },
+      {
+        path: 'customers',
+        title: 'Customers',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./features/customers/components/customer-list/customer.module').then(m => m.CustomerModule),
+          },
+          {
+            path: 'createCustomer',
+            title: 'Create Customer',
+            loadChildren: () => import('./features/customers/components/create-customer/create-customer.module').then(m => m.CreateCustomerModule),
+          },
+          {
+            path: ':idCustomer',
+            loadChildren: () => import('./features/customers/components/customer-details/customer-details.module').then(m => m.CustomerDetailsModule),
+          },
+
+        ]
+      },
+      {
+        path: 'projects',
+        title: 'Projects',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./features/projects/components/projects-list/projects.module').then(m => m.ProjectsModule),
+          },
+          {
+            path: 'createProject',
+            title: 'Create Project',
+            loadChildren: () => import('./features/projects/components/create-project/create-project.module').then(m => m.CreateProjectModule),
+          },
+          {
+            path: ':idProject',
+            loadChildren: () => import('./features/projects/components/project-details/project-details.module').then(m => m.ProjectDetailsModule),
+          },
+
+        ]
+      },
+      {
+        path: 'tasks',
+        title: 'Tasks',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./features/tasks/components/tasks-list/tasks.module').then(m => m.TasksModule),
+          },
+          {
+            path: 'createTask',
+            title: 'Create Task',
+            loadChildren: () => import('./features/tasks/components/create-task/create-task.module').then(m => m.CreateTaskModule),
+          },
+          {
+            path: ':idTask',
+            loadChildren: () => import('./features/tasks/components/task-details/task-details.module').then(m => m.TaskDetailsModule),
+          },
+
+        ]
+      },
+      {
+        path: 'notifications',
+        title: 'Notifications',
+        loadChildren: () => import('./features/notifications/components/notifications-list/notifications-list.module').then(m => m.NotificationsListModule),
+      }
+    ]
+  },
+  {
     path: 'register',
     title: 'Register',
     loadChildren: () => import('./features/auth/pages/register-page/register-page.module').then(m => m.RegisterPageModule),
   },
-  {
-    path: 'dashboard',
-    title: 'Dashboard',
-    loadChildren: () => import('./features/dashboard/main-dashboard/main-dashboard.module').then(m => m.MainDashboardModule),
-  },
-  {
-    path: 'users',
-    title: 'Users',
-    loadChildren: () => import('./features/users/components/users/users.module').then(m => m.UsersModule),
-  },
-  {
-    path: 'customers',
-    title: 'Customers',
-    loadChildren: () => import('./features/customers/components/customer-list/customer.module').then(m => m.CustomerModule),
-  },
-  {
-    path: 'projects',
-    title: 'Projects',
-    loadChildren: () => import('./features/projects/components/projects-list/projects.module').then(m => m.ProjectsModule),
-  },
-  {
-    path: 'tasks',
-    title: 'Tasks',
-    loadChildren: () => import('./features/tasks/components/tasks-list/tasks.module').then(m => m.TasksModule),
-  }
 ];
 
 @NgModule({

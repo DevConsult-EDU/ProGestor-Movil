@@ -1,0 +1,38 @@
+<ion-card class="ion-margin"> <!-- m-4 -> ion-margin -->
+  <ion-card-content class="ion-padding"> <!-- p-8 -> ion-padding (ion-card-content ya tiene padding por defecto, ion-padding lo puede aumentar) -->
+
+    <div class="ion-text-center ion-margin-bottom"> <!-- flex justify-center mb-6 -->
+      <ion-avatar class="profile-avatar-custom"> <!-- Contenedor para el icono, necesita algo de CSS para el bg y tamaño -->
+        <ion-icon name="person-circle-outline" class="profile-icon-custom"></ion-icon>
+      </ion-avatar>
+    </div>
+
+    <div>
+      <p><ion-text><strong>Nombre:</strong> {{project.name}}</ion-text></p>
+      <p><ion-text><strong>Descripción:</strong> {{project.description}}</ion-text></p>
+      <p><ion-text><strong>ID Cliente:</strong> {{project.customer_id}}</ion-text></p>
+      @if (project.status === 'pendiente') {
+        <p><strong>Estado: </strong></p><ion-text color="warning">{{ project.status }}</ion-text>
+      } @else if (project.status === 'en progreso') {
+        <p><strong>Estado: </strong></p><ion-text color="primary">{{ project.status }}</ion-text>
+      } @else if (project.status === 'completado') {
+        <p><strong>Estado: </strong></p><ion-text color="success">{{ project.status }}</ion-text>
+      } @else if (project.status === 'cancelado') {
+        <p><strong>Estado: </strong></p><ion-text color="danger">{{ project.status }}</ion-text>
+      }
+      <p><ion-text><strong>Fecha de inicio:</strong> {{project.started_at | date: 'dd/MM/yyyy'}}</ion-text></p>
+      <p><ion-text><strong>Fecha de vencimiento:</strong> {{project.finished_at | date: 'dd/MM/yyyy'}}</ion-text></p>
+    </div>
+
+    <ion-button expand="block" color="primary" (click)="navigateUpdateProject()" class="ion-margin-top">
+      Editar perfil
+    </ion-button>
+    <ion-button expand="block" color="danger" (click)="executeDeleteProject()" class="ion-margin-top">
+      Eliminar cuenta
+    </ion-button>
+    <ion-button expand="block" color="tertiary" routerLink="/projects" class="ion-margin-top"> <!-- Usando tertiary para violeta, puede necesitar ajuste de tema -->
+      Volver
+    </ion-button>
+
+  </ion-card-content>
+</ion-card>

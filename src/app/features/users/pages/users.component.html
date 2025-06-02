@@ -1,14 +1,13 @@
-<div class="ion-padding-vertical ion-text-end">
-  <ion-button (click)="navigateCreateUser()" color="primary" shape="round" expand="block" class="ion-margin-bottom-sm">
-    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
-    Crear usuario
-  </ion-button>
-</div>
+<ion-fab horizontal="end" vertical="bottom" slot="fixed">
+  <ion-fab-button (click)="navigateCreateUser()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 @if (users && users.length > 0) {
   <ion-list lines="inset"> <!-- O "full" o "none" -->
     @for (user of users; track user.id) {
-      <ion-item button (click)="navigateDetailsUser(user.id)"> <!-- 'button' para efecto visual al pulsar -->
+      <ion-item (click)="navigateDetailsUser(user.id)"> <!-- 'button' para efecto visual al pulsar -->
         <ion-label>
           <h2>{{ user.name }}</h2>
           <p>{{ user.email }}</p>

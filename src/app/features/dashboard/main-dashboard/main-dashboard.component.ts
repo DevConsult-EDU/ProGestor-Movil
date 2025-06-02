@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {ProjectLayoutComponent} from "../../../project-layout/project-layout.component";
 
 @Component({
   selector: 'app-main-dashboard',
@@ -6,9 +7,13 @@ import { Component } from '@angular/core';
   templateUrl: './main-dashboard.component.html',
   styleUrls: ['./main-dashboard.component.scss'],
 })
-export class MainDashboardComponent {
+export class MainDashboardComponent implements OnInit {
+  constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
+  }
 
-  constructor() { }
+  ngOnInit() {
+    this.parent.titulo = 'Dashboard';
+  }
 
 
 }

@@ -1,0 +1,53 @@
+<ion-card class="ion-margin">
+  <ion-card-content>
+    <div class="ion-text-center ion-margin-bottom">
+
+      <ion-avatar style="width: 136px; height: 136px; margin: auto; display: flex; align-items: center; justify-content: center; --border-radius: 50%;">
+        <svg style="width: 80%; height: 80%;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.03v13m0-13c-2.819-.831-4.715-1.076-8.029-1.023A.99.99 0 0 0 3 6v11c0 .563.466 1.014 1.03 1.007 3.122-.043 5.018.212 7.97 1.023m0-13c2.819-.831 4.715-1.076 8.029-1.023A.99.99 0 0 1 21 6v11c0 .563-.466 1.014-1.03 1.007-3.122-.043-5.018.212-7.97 1.023"/>
+        </svg>
+      </ion-avatar>
+    </div>
+
+    <form [formGroup]="createProjectForm" (ngSubmit)="storeProject($event)">
+      <ion-list lines="none">
+
+        <ion-item class="ion-margin-top">
+          <ion-label position="stacked" class="ion-text-center">Nombre del proyecto</ion-label>
+          <ion-input class="ion-text-center" required formControlName="name" type="text" placeholder="..."></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-label position="stacked" class="ion-text-center">Descripcion</ion-label>
+          <ion-input class="ion-text-center" required formControlName="description" type="text" placeholder="..."></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-label position="stacked" class="ion-text-center">Cliente</ion-label>
+          <ion-select class="ion-text-center" required formControlName="customer_id" interface="popover" placeholder="Seleccionar cliente">
+            @for (customer of customers; track customer.id) {
+              <ion-select-option [value]="customer.id">
+                {{customer.name}}
+              </ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-label position="stacked" class="ion-text-center">Fecha de inicio</ion-label>
+          <ion-input class="ion-text-center" required formControlName="started_at" type="date" placeholder="YYYY-MM-DD"></ion-input>
+        </ion-item>
+      </ion-list>
+    </form>
+
+
+    <div class="ion-padding-top">
+      <ion-button class="ion-margin-top" expand="block" (click)="storeProject($event)">
+        Guardar proyecto
+      </ion-button>
+      <ion-button class="ion-margin-top" expand="block" routerLink="/projects" color="danger">
+        Cancelar
+      </ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
