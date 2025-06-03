@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {ProjectLayoutComponent} from "./project-layout/project-layout.component";
 import {IsAdminGuard} from "./core/auth/guards/is-admin.guard";
+import {FullscreenLayoutComponent} from "./fullscreen-layout/fullscreen-layout.component";
 
 const routes: Routes = [
   {
@@ -10,9 +11,20 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'login',
-    title: 'Login',
-    loadChildren: () => import('./features/auth/pages/login-page/login-page.module').then(m => m.LoginPageModule),
+    path: '',
+    component: FullscreenLayoutComponent,
+    children: [
+      {
+        path: 'login',
+        title: 'Login',
+        loadChildren: () => import('./features/auth/pages/login-page/login-page.module').then(m => m.LoginPageModule),
+      },
+      {
+        path: 'register',
+        title: 'Register',
+        loadChildren: () => import('./features/auth/pages/register-page/register-page.module').then(m => m.RegisterPageModule),
+      },
+    ]
   },
   {
     path: '',

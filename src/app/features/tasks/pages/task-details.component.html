@@ -1,53 +1,82 @@
-<ion-card class="ion-margin"> <!-- m-4 -> ion-margin -->
-  <ion-card-content class="ion-padding"> <!-- p-8 -> ion-padding (ion-card-content ya tiene padding por defecto, ion-padding lo puede aumentar) -->
-
-    <div class="ion-text-center ion-margin-bottom"> <!-- flex justify-center mb-6 -->
-      <ion-avatar class="profile-avatar-custom"> <!-- Contenedor para el icono, necesita algo de CSS para el bg y tamaño -->
-        <ion-icon name="person-circle-outline" class="profile-icon-custom"></ion-icon>
-      </ion-avatar>
-    </div>
-
-    <div>
-      <p><ion-text><strong>ID Proyecto: </strong> {{task.project_id}}</ion-text></p>
-      <p><ion-text><strong>ID Usuario: </strong> {{task.user_id}}</ion-text></p>
-      <p><ion-text><strong>Titulo: </strong> {{task.title}}</ion-text></p>
-      <p><ion-text><strong>Description: </strong> {{task.description}}</ion-text></p>
-
-      @if (task.status === 'pendiente') {
-        <p><strong>Estado: </strong></p><ion-text color="warning">{{ task.status }}</ion-text>
-      } @else if (task.status === 'en progreso') {
-        <p><strong>Estado: </strong></p><ion-text color="primary">{{ task.status }}</ion-text>
-      } @else if (task.status === 'completado') {
-        <p><strong>Estado: </strong></p><ion-text color="success">{{ task.status }}</ion-text>
-      }
-
-      @if (task.priority === 'media') {
-        <p><strong>Prioridad: </strong><ion-text color="warning">{{ task.priority }}</ion-text></p>
-      } @else if (task.priority === 'alta') {
-        <p><strong>Prioridad: </strong><ion-text color="danger">{{ task.priority }}</ion-text></p>
-      } @else {
-        <p><strong>Prioridad: </strong>{{ task.priority }}</p>
-      }
-
-      @if (!task.due_date) {
-        <p><strong>Fecha de vencimiento: </strong><ion-text>No decidida...</ion-text></p>
-      } @else {
-        <p><ion-text><strong>Fecha de vencimiento: </strong> {{task.due_date | date: 'dd/MM/yyyy'}}</ion-text></p>
-      }
-    </div>
-
-    <ion-button expand="block" color="primary" (click)="navigateUpdateTask()" class="ion-margin-top">
-      Editar perfil
-    </ion-button>
-    @if (rol && rol === 'admin') {
-      <ion-button expand="block" color="danger" (click)="executeDeleteTask()" class="ion-margin-top">
-        Eliminar cuenta
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="'/tasks'" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
-    }
-    <ion-button expand="block" color="tertiary" routerLink="/tasks" class="ion-margin-top"> <!-- Usando tertiary para violeta, puede necesitar ajuste de tema -->
-      Volver
-    </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">{{ task.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  </ion-card-content>
-</ion-card>
+<ion-content class="ion-no-border ion-margin-top">
+  <ion-toolbar color="light">
+    <div class="ion-padding-horizontal ion-padding-top ion-padding-bottom">
+      <ion-item lines="none" color="transparent">
+        <ion-label slot="start">Tiempo total registrado</ion-label>
+        <ion-label slot="end" color="primary"><strong>{{this.total_time}}</strong></ion-label>
+      </ion-item>
+      <br>
+      <ion-item lines="none" color="transparent">
+        <ion-label slot="start">Estado</ion-label>
+        @if (task.status === 'pendiente'){
+          <ion-chip slot="end" color="warning">{{task.status}}</ion-chip>
+        } @else if (task.status === 'en progreso'){
+          <ion-chip slot="end" color="primary">{{task.status}}</ion-chip>
+        } @else if (task.status === 'completado'){
+          <ion-chip slot="end" color="success">{{task.status}}</ion-chip>
+        }
 
+      </ion-item>
+    </div>
+  </ion-toolbar>
+
+  <ion-segment [(ngModel)]="selectedSegment" value="tiempo">
+    <ion-segment-button value="tiempo">
+      <ion-label>Tiempo</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="comentarios">
+      <ion-label>Comentarios</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="archivos">
+      <ion-label>Archivos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <div [ngSwitch]="selectedSegment" class="ion-padding">
+    <div *ngSwitchCase="'tiempo'">
+      <ion-card>
+        <ion-card-content><app-time-entries-list [taskId]="taskId"/></ion-card-content>
+      </ion-card>
+      <ion-button expand="block" class="ion-margin-top">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Añadir tiempo
+      </ion-button>
+    </div>
+
+    <div *ngSwitchCase="'comentarios'">
+      <ion-card>
+        <ion-card-content>
+          Aqui iran los comentarios
+        </ion-card-content>
+      </ion-card>
+      <ion-button expand="block" class="ion-margin-top">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Añadir Comentario
+      </ion-button>
+    </div>
+
+    <div *ngSwitchCase="'archivos'">
+      <ion-card>
+        <ion-card-content>
+          Aqui iran los archivos
+        </ion-card-content>
+      </ion-card>
+      <ion-button expand="block" class="ion-margin-top">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Añadir Archivo
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

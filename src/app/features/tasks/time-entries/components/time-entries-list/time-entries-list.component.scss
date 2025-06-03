@@ -1,0 +1,11 @@
+.rounded-custom {
+  --border-radius: 5px;
+}
+
+.compact-time-entry-item {
+  --padding-top: 4px;     /* Reduce el padding superior del item. Ajusta este valor. */
+  --padding-bottom: 4px;  /* Reduce el padding inferior del item. Ajusta este valor. */
+  --inner-padding-top: 2px; /* Reduce el padding interno superior si es necesario. */
+  --inner-padding-bottom: 2px;/* Reduce el padding interno inferior si es necesario. */
+  --min-height: auto;     /* Permite que la altura del item se ajuste a su contenido. */
+}
