@@ -15,24 +15,24 @@
         <!-- El div original con class="mt-10" se traduce a ion-margin-top en la lista o en el primer item -->
         <ion-list lines="none" class="ion-margin-top"> <!-- lines="none" para quitar bordes por defecto de items si los inputs tendrán los suyos -->
 
-          <ion-item class="ion-margin-top"> <!-- mt-5 (para este y los siguientes), sm:col-span-2 es implícito en la lista vertical -->
+          <ion-item [ngClass]="{'has-Error': createCustomerForm.get('name')?.invalid}"> <!-- mt-5 (para este y los siguientes), sm:col-span-2 es implícito en la lista vertical -->
             <ion-label position="stacked" class="ion-text-center custom-label">Nombre</ion-label> <!-- font-bold flex justify-center -->
-            <ion-input required formControlName="name" type="text" placeholder="Nombre..." class="ion-text-center custom-input"></ion-input> <!-- w-full ... text-center -->
+            <ion-input required formControlName="name" fill="outline" type="text" placeholder="Nombre..." class="ion-text-center custom-input"></ion-input> <!-- w-full ... text-center -->
           </ion-item>
 
-          <ion-item class="ion-margin-top"> <!-- sm:col-auto mt-5 -->
+          <ion-item [ngClass]="{'has-Error': createCustomerForm.get('email')?.invalid}"> <!-- sm:col-auto mt-5 -->
             <ion-label position="stacked" class="ion-text-center custom-label">Email</ion-label>
-            <ion-input required formControlName="email" type="email" placeholder="Email..." class="ion-text-center custom-input"></ion-input>
+            <ion-input required formControlName="email" fill="outline" type="email" placeholder="Email..." class="ion-text-center custom-input"></ion-input>
           </ion-item>
 
-          <ion-item class="ion-margin-top"> <!-- sm:col-span-2 mt-5 -->
+          <ion-item [ngClass]="{'has-Error': createCustomerForm.get('phone')?.invalid}"> <!-- sm:col-span-2 mt-5 -->
             <ion-label position="stacked" class="ion-text-center custom-label">Teléfono</ion-label>
-            <ion-input required formControlName="phone" type="text" placeholder="Teléfono..." class="ion-text-center custom-input"></ion-input>
+            <ion-input required formControlName="phone" fill="outline" type="text" placeholder="Teléfono..." class="ion-text-center custom-input"></ion-input>
           </ion-item>
 
-          <ion-item class="ion-margin-top"> <!-- sm:col-span-2 mt-5 -->
+          <ion-item [ngClass]="{'has-Error': createCustomerForm.get('address')?.invalid}"> <!-- sm:col-span-2 mt-5 -->
             <ion-label position="stacked" class="ion-text-center custom-label">Dirección</ion-label>
-            <ion-input required formControlName="address" type="text" placeholder="Dirección..." class="ion-text-center custom-input"></ion-input>
+            <ion-input required formControlName="address" fill="outline" type="text" placeholder="Dirección..." class="ion-text-center custom-input"></ion-input>
           </ion-item>
 
         </ion-list>

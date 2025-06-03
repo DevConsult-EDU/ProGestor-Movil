@@ -24,12 +24,14 @@
       <p><ion-text><strong>Fecha de vencimiento:</strong> {{project.finished_at | date: 'dd/MM/yyyy'}}</ion-text></p>
     </div>
 
-    <ion-button expand="block" color="primary" (click)="navigateUpdateProject()" class="ion-margin-top">
-      Editar perfil
-    </ion-button>
-    <ion-button expand="block" color="danger" (click)="executeDeleteProject()" class="ion-margin-top">
-      Eliminar cuenta
-    </ion-button>
+    @if (rol && rol === 'admin') {
+      <ion-button expand="block" color="primary" (click)="navigateUpdateProject()" class="ion-margin-top">
+        Editar perfil
+      </ion-button>
+      <ion-button expand="block" color="danger" (click)="executeDeleteProject()" class="ion-margin-top">
+        Eliminar cuenta
+      </ion-button>
+    }
     <ion-button expand="block" color="tertiary" routerLink="/projects" class="ion-margin-top"> <!-- Usando tertiary para violeta, puede necesitar ajuste de tema -->
       Volver
     </ion-button>

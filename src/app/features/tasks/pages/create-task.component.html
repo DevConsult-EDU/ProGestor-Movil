@@ -8,11 +8,11 @@
       </div>
 
       <form [formGroup]="createTaskForm" (ngSubmit)="storeTask($event)">
-        <div class="ion-margin-top">
+        <ion-list lines="none" class="ion-margin-top">
 
-          <ion-item lines="none" class="ion-margin-bottom">
+          <ion-item [ngClass]="{'has-Error': createTaskForm.get('project_id')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Proyecto</ion-label>
-            <ion-select interface="popover" required formControlName="project_id" class="ion-text-center">
+            <ion-select interface="popover" fill="outline" required formControlName="project_id" class="ion-text-center">
               @for (project of projects; track project.id) {
                 <ion-select-option [value]="project.id">
                   {{project.name}}
@@ -21,28 +21,28 @@
             </ion-select>
           </ion-item>
 
-          <ion-item lines="none" class="ion-margin-bottom">
+          <ion-item [ngClass]="{'has-Error': createTaskForm.get('title')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Título</ion-label>
-            <ion-input required formControlName="title" type="text" placeholder="..." class="ion-text-center"></ion-input>
+            <ion-input required fill="outline" formControlName="title" type="text" placeholder="..." class="ion-text-center"></ion-input>
           </ion-item>
 
-          <ion-item lines="none" class="ion-margin-bottom">
+          <ion-item [ngClass]="{'has-Error': createTaskForm.get('description')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Descripcion</ion-label>
-            <ion-input required formControlName="description" type="text" placeholder="..." class="ion-text-center"></ion-input>
+            <ion-input required fill="outline" formControlName="description" type="text" placeholder="..." class="ion-text-center"></ion-input>
           </ion-item>
 
-          <ion-item lines="none" class="ion-margin-bottom">
+          <ion-item [ngClass]="{'has-Error': createTaskForm.get('priority')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Prioridad</ion-label>
-            <ion-select interface="popover" required formControlName="priority" class="ion-text-center">
+            <ion-select interface="popover" required fill="outline" formControlName="priority" class="ion-text-center">
               <ion-select-option value="baja">baja</ion-select-option>
               <ion-select-option value="media">media</ion-select-option>
               <ion-select-option value="alta">alta</ion-select-option>
             </ion-select>
           </ion-item>
 
-          <ion-item lines="none" class="ion-margin-bottom">
+          <ion-item [ngClass]="{'has-Error': createTaskForm.get('user_id')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Usuario</ion-label>
-            <ion-select interface="popover" required formControlName="user_id" class="ion-text-center">
+            <ion-select interface="popover" required fill="outline" formControlName="user_id" class="ion-text-center">
               @for (user of users; track user.id) {
                 <ion-select-option [value]="user.id">
                   {{user.name}}
@@ -51,25 +51,15 @@
             </ion-select>
           </ion-item>
 
-          <ion-item lines="none">
+          <ion-item [ngClass]="{'has-Error': createTaskForm.get('due_date')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Fecha de vencimiento</ion-label>
-            <ion-datetime-button datetime="datetimePicker" class="ion-text-center"></ion-datetime-button>
-            <ion-modal [keepContentsMounted]="true">
-              <ng-template>
-                <ion-datetime
-                  id="datetimePicker"
-                  presentation="date"
-                  formControlName="due_date"
-                  required>
-                </ion-datetime>
-              </ng-template>
-            </ion-modal>
+            <ion-input class="ion-text-center" fill="outline" required formControlName="due_date" type="date" placeholder="YYYY-MM-DD"></ion-input>
           </ion-item>
-        </div>
+        </ion-list>
       </form>
 
       <div class="ion-margin-top ion-padding-top">
-        <ion-button type="submit" (click)="storeTask($event)" expand="block" color="primary" [disabled]="createTaskForm.invalid">
+        <ion-button type="submit" (click)="storeTask($event)" expand="block" color="primary">
           Guardar tarea
         </ion-button>
         <ion-button routerLink="/tasks" expand="block" color="danger" class="ion-margin-top">

@@ -26,7 +26,7 @@
       } @else if (task.priority === 'alta') {
         <p><strong>Prioridad: </strong><ion-text color="danger">{{ task.priority }}</ion-text></p>
       } @else {
-        <p><strong>Prioridad: </strong><ion-text color="success">{{ task.priority }}</ion-text></p>
+        <p><strong>Prioridad: </strong>{{ task.priority }}</p>
       }
 
       @if (!task.due_date) {
@@ -39,12 +39,15 @@
     <ion-button expand="block" color="primary" (click)="navigateUpdateTask()" class="ion-margin-top">
       Editar perfil
     </ion-button>
-    <ion-button expand="block" color="danger" (click)="executeDeleteTask()" class="ion-margin-top">
-      Eliminar cuenta
-    </ion-button>
+    @if (rol && rol === 'admin') {
+      <ion-button expand="block" color="danger" (click)="executeDeleteTask()" class="ion-margin-top">
+        Eliminar cuenta
+      </ion-button>
+    }
     <ion-button expand="block" color="tertiary" routerLink="/tasks" class="ion-margin-top"> <!-- Usando tertiary para violeta, puede necesitar ajuste de tema -->
       Volver
     </ion-button>
 
   </ion-card-content>
 </ion-card>
+

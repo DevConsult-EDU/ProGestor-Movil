@@ -10,21 +10,21 @@
     </div>
 
     <form [formGroup]="createProjectForm" (ngSubmit)="storeProject($event)">
-      <ion-list lines="none">
+      <ion-list lines="none" class="ion-margin-top">
 
-        <ion-item class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': createProjectForm.get('name')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Nombre del proyecto</ion-label>
-          <ion-input class="ion-text-center" required formControlName="name" type="text" placeholder="..."></ion-input>
+          <ion-input class="ion-text-center" fill="outline" required formControlName="name" type="text" placeholder="..."></ion-input>
         </ion-item>
 
-        <ion-item class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': createProjectForm.get('description')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Descripcion</ion-label>
-          <ion-input class="ion-text-center" required formControlName="description" type="text" placeholder="..."></ion-input>
+          <ion-input class="ion-text-center" fill="outline" required formControlName="description" type="text" placeholder="..."></ion-input>
         </ion-item>
 
-        <ion-item class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': createProjectForm.get('customer_id')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Cliente</ion-label>
-          <ion-select class="ion-text-center" required formControlName="customer_id" interface="popover" placeholder="Seleccionar cliente">
+          <ion-select class="ion-text-center" fill="outline" required formControlName="customer_id" interface="popover" placeholder="Seleccionar cliente">
             @for (customer of customers; track customer.id) {
               <ion-select-option [value]="customer.id">
                 {{customer.name}}
@@ -33,9 +33,9 @@
           </ion-select>
         </ion-item>
 
-        <ion-item class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': createProjectForm.get('started_at')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Fecha de inicio</ion-label>
-          <ion-input class="ion-text-center" required formControlName="started_at" type="date" placeholder="YYYY-MM-DD"></ion-input>
+          <ion-input class="ion-text-center" fill="outline" required formControlName="started_at" type="date" placeholder="YYYY-MM-DD"></ion-input>
         </ion-item>
       </ion-list>
     </form>

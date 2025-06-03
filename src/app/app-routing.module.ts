@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {ProjectLayoutComponent} from "./project-layout/project-layout.component";
+import {IsAdminGuard} from "./core/auth/guards/is-admin.guard";
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       {
         path: 'users',
         title: 'Users',
+        canMatch: [IsAdminGuard],
         children: [
           {
             path: '',
@@ -51,6 +53,7 @@ const routes: Routes = [
       {
         path: 'customers',
         title: 'Customers',
+        canMatch: [IsAdminGuard],
         children: [
           {
             path: '',
@@ -60,6 +63,11 @@ const routes: Routes = [
             path: 'createCustomer',
             title: 'Create Customer',
             loadChildren: () => import('./features/customers/components/create-customer/create-customer.module').then(m => m.CreateCustomerModule),
+          },
+          {
+            path: 'updateCustomer/:idCustomer',
+            title: 'Update Customer',
+            loadChildren: () => import('./features/customers/components/update-customer/update-customer.module').then(m => m.UpdateCustomerModule),
           },
           {
             path: ':idCustomer',
@@ -78,8 +86,15 @@ const routes: Routes = [
           },
           {
             path: 'createProject',
+            canMatch: [IsAdminGuard],
             title: 'Create Project',
             loadChildren: () => import('./features/projects/components/create-project/create-project.module').then(m => m.CreateProjectModule),
+          },
+          {
+            path: 'updateProject/:idProject',
+            title: 'Update Project',
+            canMatch: [IsAdminGuard],
+            loadChildren: () => import('./features/projects/components/update-project/update-project.module').then(m => m.UpdateProjectModule),
           },
           {
             path: ':idProject',
@@ -98,14 +113,30 @@ const routes: Routes = [
           },
           {
             path: 'createTask',
+            canMatch: [IsAdminGuard],
             title: 'Create Task',
             loadChildren: () => import('./features/tasks/components/create-task/create-task.module').then(m => m.CreateTaskModule),
+          },
+          {
+            path: 'updateTask/:idTask',
+            title: 'Update Task',
+            loadChildren: () => import('./features/tasks/components/update-task/update-task.module').then(m => m.UpdateTaskModule),
           },
           {
             path: ':idTask',
             loadChildren: () => import('./features/tasks/components/task-details/task-details.module').then(m => m.TaskDetailsModule),
           },
 
+        ]
+      },
+      {
+        path: 'attachments',
+        title: 'Attachments',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./features/tasks/attachments/components/attachments-list/attachments-list.module').then(m => m.AttachmentsListModule),
+          },
         ]
       },
       {
@@ -120,6 +151,7 @@ const routes: Routes = [
     title: 'Register',
     loadChildren: () => import('./features/auth/pages/register-page/register-page.module').then(m => m.RegisterPageModule),
   },
+
 ];
 
 @NgModule({

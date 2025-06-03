@@ -1,0 +1,83 @@
+<ion-content class="ion-padding">
+<ion-card>
+  <ion-card-header>
+    <ion-item lines="none">
+      <ion-icon name="archive-outline" slot="start" color="primary" aria-hidden="true"></ion-icon>
+      <ion-chip (click)="markAllAsRead(userId)" slot="end" outline="true">
+        <ion-label color="primary">Marcar todas como leídas</ion-label>
+      </ion-chip>
+    </ion-item>
+  </ion-card-header>
+
+  <ion-card-content>
+    @if (notifications && notifications.length > 0) {
+      <ion-list [inset]="true"> <!-- inset="true" puede dar un efecto similar al padding original -->
+        @for (notification of notifications; track notification.id; let i = $index) {
+          <ion-item [lines]="i === notifications.length - 1 ? 'none' : 'full'">
+            <ion-label>
+              <div class="ion-justify-content-between ion-align-items-start" style="display: flex; width: 100%;">
+                <div>
+                  <div style="display: flex; align-items: center;">
+                    <h3>{{notification.title}}</h3>
+                    @if (!notification.read) {
+                      <!-- Span "Nuevo" reemplazado por ion-badge -->
+                      <ion-badge color="primary" style="margin-left: 8px;">
+                        <!-- El SVG del punto puede ser un ion-icon o un estilo CSS en el badge -->
+                        <ion-icon name="ellipse" style="font-size: 8px; margin-right: 4px;"></ion-icon>
+                        Nuevo
+                      </ion-badge>
+                    }
+                  </div>
+                  <p class="ion-text-wrap"><small>{{notification.created_at | timeAgo }}</small></p>
+                  <ion-button fill="clear" size="small" (click)="markAsRead(notification.id)" class="ion-no-padding ion-text-capitalize">
+                    Marcar como leído
+                  </ion-button>
+                </div>
+
+                <ion-button
+                  fill="clear"
+                  (click)="toggleNotification(notification)"
+                  [attr.aria-expanded]="notification.isExpanded"
+                  [attr.aria-controls]="'details-' + notification.id"
+                  size="small"
+                  style="align-self: flex-start; margin-left: auto;"
+                >
+                  {{ notification.isExpanded ? 'Ver menos' : 'Ver más' }}
+                  <ion-icon
+                    slot="end"
+                    [name]="notification.isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+                  ></ion-icon>
+                </ion-button>
+              </div>
+
+              @if (notification.isExpanded) {
+                <div
+                  [id]="'details-' + notification.id"
+                  class="ion-padding-top ion-margin-top"
+                  style="width: 100%; border-left: 2px solid var(--ion-color-medium-shade); padding-left: 10px;"
+                >
+                  @if (notification.content) {
+                    <p class="ion-text-wrap"><small>{{notification.content}}</small></p>
+                  }
+                  @if (notification.link) {
+                    <ion-text color="primary">
+                      <a [routerLink]="notification.link" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                        Ver detalle
+                        <ion-icon name="open-outline" style="vertical-align: middle;"></ion-icon>
+                      </a>
+                    </ion-text>
+                  }
+                </div>
+              }
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    } @else {
+      <ion-text class="ion-text-center">
+        <p>No hay notificaciones nuevas.</p>
+      </ion-text>
+    }
+  </ion-card-content>
+</ion-card>
+ </ion-content>

@@ -35,3 +35,8 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+.has-Error{
+  --border-color: var(--ion-color-danger);
+  --highlight-color-invalid: var(--ion-color-danger);
+}

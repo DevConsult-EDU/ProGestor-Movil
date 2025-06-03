@@ -56,11 +56,12 @@ export class UpdateUserComponent  implements OnInit {
     this.updateUserService.updateUser(this.updateUserForm.value, this.userId).subscribe({
       next: (result) => {
         this.router.navigateByUrl('/users');
-        window.location.reload();
+
       }, error: (errorResponse) => {
         console.log(errorResponse);
       }
     });
+
   }
 
   private fillForm() {

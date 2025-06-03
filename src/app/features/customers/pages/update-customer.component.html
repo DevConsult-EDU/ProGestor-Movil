@@ -1,0 +1,45 @@
+
+<ion-card>
+  <ion-card-content>
+    <div class="ion-text-center ion-margin-bottom">
+      <div style="height: 8.5rem; width: 8.5rem; border-radius: 50%; background-color: #E0F2FE; display: flex; align-items: center; justify-content: center; margin-left: auto; margin-right: auto;">
+        <svg style="width: 4rem; height: 4rem; color: #1F2937;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="2" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"/>
+        </svg>
+      </div>
+    </div>
+
+    <form [formGroup]="updateCustomerForm" (ngSubmit)="editCustomer($event)">
+      <ion-list lines="none" class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': updateCustomerForm.get('name')?.invalid}">
+          <ion-label position="stacked" class="ion-text-center">Nombre</ion-label>
+          <ion-input required formControlName="name" fill="outline" type="text" placeholder="Nombre..." class="ion-text-center"></ion-input>
+        </ion-item>
+
+        <ion-item [ngClass]="{'has-Error': updateCustomerForm.get('email')?.invalid}">
+          <ion-label position="stacked" class="ion-text-center">Email</ion-label>
+          <ion-input required formControlName="email" fill="outline" type="email" placeholder="Email..." class="ion-text-center"></ion-input>
+        </ion-item>
+
+        <ion-item [ngClass]="{'has-Error': updateCustomerForm.get('phone')?.invalid}">
+          <ion-label position="stacked" class="ion-text-center">Teléfono</ion-label>
+          <ion-input required formControlName="phone" fill="outline" type="text" placeholder="Teléfono..." class="ion-text-center"></ion-input>
+        </ion-item>
+
+        <ion-item [ngClass]="{'has-Error': updateCustomerForm.get('address')?.invalid}">
+          <ion-label position="stacked" class="ion-text-center">Dirección</ion-label>
+          <ion-input required formControlName="address" fill="outline" type="text" placeholder="Dirección..." class="ion-text-center"></ion-input>
+        </ion-item>
+      </ion-list>
+    </form>
+
+    <div class="ion-margin-top">
+      <ion-button (click)="editCustomer($event)" expand="block" color="primary" class="ion-margin-top">
+        Guardar cambios
+      </ion-button>
+      <ion-button [routerLink]="['/customers', customerId]" expand="block" color="danger" class="ion-margin-top">
+        Cancelar
+      </ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>

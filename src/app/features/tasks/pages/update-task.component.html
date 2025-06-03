@@ -1,0 +1,96 @@
+<ion-content>
+  <ion-card class="ion-margin">
+    <ion-card-content>
+      <div class="ion-text-center ion-margin-bottom">
+        <div style="display: inline-block; padding: 20px; border-radius: 50%; background-color: #e0f2fe;"> <!-- Estilo inline para el círculo, ya que pediste "sin CSS" externo -->
+          <svg style="width: 64px; height: 64px; color: #1f2937;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="2" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <form [formGroup]="updateTaskForm" (ngSubmit)="editTask($event)">
+        <ion-list lines="none" class="ion-margin-top">
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('project_id')?.invalid}">
+            <ion-label position="stacked" class="ion-text-center">Proyecto</ion-label>
+            <ion-select required fill="outline" formControlName="project_id" interface="popover" placeholder="Seleccionar Proyecto" class="ion-text-center">
+              @for (project of projects; track project.id) {
+                <ion-select-option [value]="project.id">
+                  {{project.name}}
+                </ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('title')?.invalid}">
+            <ion-label position="stacked" class="ion-text-center">Título</ion-label>
+            <ion-input required fill="outline" formControlName="title" type="text" placeholder="Título..." class="ion-text-center"></ion-input>
+          </ion-item>
+
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('description')?.invalid}">
+            <ion-label position="stacked" class="ion-text-center">Descripción</ion-label>
+            <ion-input required fill="outline" formControlName="description" type="text" placeholder="Descripción..." class="ion-text-center"></ion-input>
+          </ion-item>
+
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('status')?.invalid}">
+            <ion-label position="stacked" class="ion-text-center">Estado</ion-label>
+            <ion-select required fill="outline" formControlName="status" interface="popover" placeholder="Seleccionar Estado" class="ion-text-center">
+              <ion-select-option value="pendiente">pendiente</ion-select-option>
+              <ion-select-option value="en progreso">en progreso</ion-select-option>
+              <ion-select-option value="completado">completado</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('priority')?.invalid}">
+            <ion-label position="stacked" class="ion-text-center">Prioridad</ion-label>
+            <ion-select required fill="outline" formControlName="priority" interface="popover" placeholder="Seleccionar Prioridad" class="ion-text-center">
+              <ion-select-option value="baja">baja</ion-select-option>
+              <ion-select-option value="media">media</ion-select-option>
+              <ion-select-option value="alta">alta</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('user_id')?.invalid}">
+            <ion-label position="stacked" class="ion-text-center">Usuario</ion-label>
+            <ion-select required fill="outline" formControlName="user_id" interface="popover" placeholder="Seleccionar Usuario" class="ion-text-center">
+              @for (user of users; track user.id) {
+                <ion-select-option [value]="user.id">
+                  {{user.name}}
+                </ion-select-option>
+              }
+            </ion-select>
+          </ion-item>
+
+          <ion-item [ngClass]="{'has-Error': updateTaskForm.get('due_date')?.invalid}">
+            <ion-label position="stacked" fill="outline" class="ion-text-center">Fecha de vencimiento</ion-label>
+            <ion-input class="ion-text-center" fill="outline" required formControlName="due_date" type="date" placeholder="YYYY-MM-DD"></ion-input>
+          </ion-item>
+        </ion-list>
+
+        <!-- El modal para ion-datetime -->
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime
+              id="dueDate"
+              formControlName="due_date"
+              presentation="date"
+              [showDefaultButtons]="true"
+              doneText="Hecho"
+              cancelText="Cancelar"
+              class="ion-text-center">
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+
+        <div class="ion-padding-top">
+          <ion-button type="submit" expand="block" color="primary" class="ion-margin-top">
+            Guardar cambios
+          </ion-button>
+          <ion-button [routerLink]="['/tasks', taskId]" expand="block" color="danger" class="ion-margin-top">
+            Cancelar
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -10,7 +10,7 @@
 
     <form [formGroup]="updateUserForm" (ngSubmit)="editUser($event)">
       <ion-list lines="none" class="ion-margin-top">
-        <ion-item>
+        <ion-item [ngClass]="{'has-Error': updateUserForm.get('name')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Nombre</ion-label>
           <ion-input
             required
@@ -18,10 +18,11 @@
             type="text"
             placeholder="..."
             class="ion-text-center"
+            fill="outline"
           ></ion-input>
         </ion-item>
 
-        <ion-item class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': updateUserForm.get('email')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Email</ion-label>
           <ion-input
             required
@@ -29,10 +30,11 @@
             type="email"
             placeholder="..."
             class="ion-text-center"
+            fill="outline"
           ></ion-input>
         </ion-item>
 
-        <ion-item class="ion-margin-top">
+        <ion-item [ngClass]="{'has-Error': updateUserForm.get('password')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Contraseña</ion-label>
           <ion-input
             required
@@ -40,18 +42,23 @@
             type="password"
             placeholder="..."
             class="ion-text-center"
+            fill="outline"
           ></ion-input>
         </ion-item>
 
-        <ion-item class="ion-margin-top">
-          <ion-label position="stacked" class="ion-text-center">Rol del usuario</ion-label>
-          <ion-input
+        <ion-item [ngClass]="{'has-Error': updateUserForm.get('rol')?.invalid}">
+          <ion-label position="stacked" class="ion-text-center">Rol</ion-label>
+          <ion-select
             required
             formControlName="rol"
             type="text"
             placeholder="..."
             class="ion-text-center"
-          ></ion-input>
+            fill="outline"
+          >
+            <ion-select-option>admin</ion-select-option>
+            <ion-select-option>user</ion-select-option>
+          </ion-select>
         </ion-item>
       </ion-list>
     </form>

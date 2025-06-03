@@ -1,7 +1,6 @@
 <ion-card class="ion-margin">
   <ion-card-content>
     <div class="ion-text-center ion-margin-bottom">
-      <!-- Ajusta el tamaño del avatar y el SVG según sea necesario -->
       <ion-avatar style="width: 120px; height: 120px; background-color: var(--ion-color-primary-tint, #93c5fd); margin: 0 auto; display: flex; align-items: center; justify-content: center;">
         <svg style="width: 80px; height: 80px;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12h4m-2 2v-4M4 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
@@ -11,38 +10,121 @@
 
     <form [formGroup]="createUserForm" (ngSubmit)="storeUser($event)">
       <ion-list lines="none">
-        <ion-item class="ion-margin-top" fill="outline">
+        <!-- Campo Nombre -->
+        <ion-item  [ngClass]="{'has-Error': createUserForm.get('name')?.invalid}">
           <ion-label position="stacked" class="ion-text-center ion-text-bold">Nombre</ion-label>
-          <ion-input required formControlName="name" type="text" placeholder="..." class="ion-text-center"></ion-input>
+          <ion-input
+            formControlName="name"
+            type="text"
+            placeholder="..."
+            class="ion-text-center"
+            fill="outline"
+            (ionInput)="clearSpecificServerValidationError('name')">
+          </ion-input>
+          <ion-note slot="error" *ngIf="f['name'].hasError('required') && (f['name'].touched || isSubmitted)">
+            El nombre es obligatorio.
+          </ion-note>
+          <ion-note slot="error" *ngIf="f['name'].hasError('maxlength') && !f['name'].hasError('required') && (f['name'].touched || isSubmitted)">
+            El nombre es demasiado largo.
+          </ion-note>
+          <ion-note slot="error"
+                    *ngIf="f['name'].hasError('serverValidationError') &&
+                   !f['name'].hasError('required') &&
+                   !f['name'].hasError('maxlength') &&
+                   (f['name'].touched || isSubmitted)">
+            Este campo tiene un error.
+          </ion-note>
         </ion-item>
 
-        <ion-item class="ion-margin-top" fill="outline">
+        <!-- Campo Email -->
+        <ion-item [ngClass]="{'has-Error': createUserForm.get('email')?.invalid}">
           <ion-label position="stacked" class="ion-text-center ion-text-bold">Email</ion-label>
-          <ion-input required formControlName="email" type="email" placeholder="..." class="ion-text-center"></ion-input>
+          <ion-input
+            formControlName="email"
+            type="email"
+            placeholder="..."
+            class="ion-text-center"
+            fill="outline"
+            (ionInput)="clearSpecificServerValidationError('email')">
+          </ion-input>
+          <ion-note slot="error" *ngIf="f['email'].hasError('required') && (f['email'].touched || isSubmitted)">
+            El email es obligatorio.
+          </ion-note>
+          <ion-note slot="error" *ngIf="f['email'].hasError('email') && !f['email'].hasError('required') && (f['email'].touched || isSubmitted)">
+            El formato del email no es válido.
+          </ion-note>
+          <ion-note slot="error" *ngIf="f['email'].hasError('maxlength') && !f['email'].hasError('required') && !f['email'].hasError('email') && (f['email'].touched || isSubmitted)">
+            El email es demasiado largo.
+          </ion-note>
+          <ion-note slot="error"
+                    *ngIf="f['email'].hasError('serverValidationError') &&
+                   !f['email'].hasError('required') &&
+                   !f['email'].hasError('email') &&
+                   !f['email'].hasError('maxlength') &&
+                   (f['email'].touched || isSubmitted)">
+            Este campo tiene un error (ej: email ya en uso).
+          </ion-note>
         </ion-item>
 
-        <ion-item class="ion-margin-top" fill="outline">
+        <!-- Campo Contraseña -->
+        <ion-item [ngClass]="{'has-Error': createUserForm.get('password')?.invalid}">
           <ion-label position="stacked" class="ion-text-center ion-text-bold">Contraseña</ion-label>
-          <ion-input required formControlName="password" type="password" placeholder="..." class="ion-text-center"></ion-input>
+          <ion-input
+            formControlName="password"
+            type="password"
+            placeholder="..."
+            class="ion-text-center"
+            fill="outline"
+            (ionInput)="clearSpecificServerValidationError('password')">
+          </ion-input>
+          <ion-note slot="error" *ngIf="f['password'].hasError('required') && (f['password'].touched || isSubmitted)">
+            La contraseña es obligatoria.
+          </ion-note>
+          <ion-note slot="error" *ngIf="f['password'].hasError('minlength') && !f['password'].hasError('required') && (f['password'].touched || isSubmitted)">
+            La contraseña es muy corta.
+          </ion-note>
+          <ion-note slot="error"
+                    *ngIf="f['password'].hasError('serverValidationError') &&
+                   !f['password'].hasError('required') &&
+                   !f['password'].hasError('minlength') &&
+                   (f['password'].touched || isSubmitted)">
+            Este campo tiene un error.
+          </ion-note>
         </ion-item>
 
-        <ion-item class="ion-margin-top" fill="outline">
+        <!-- Campo Rol -->
+        <ion-item [ngClass]="{'has-Error': createUserForm.get('rol')?.invalid}">
           <ion-label position="stacked" class="ion-text-center ion-text-bold">Rol del usuario</ion-label>
-          <ion-select required formControlName="rol" interface="popover" placeholder="Seleccionar rol" class="ion-text-center">
+          <ion-select
+            formControlName="rol"
+            interface="popover"
+            placeholder="Seleccionar rol"
+            class="ion-text-center"
+            fill="outline"
+            (ionChange)="clearSpecificServerValidationError('rol')">
             <ion-select-option value="user">user</ion-select-option>
             <ion-select-option value="admin">admin</ion-select-option>
           </ion-select>
+          <ion-note slot="error" *ngIf="f['rol'].hasError('required') && (f['rol'].touched || isSubmitted)">
+            El rol es obligatorio.
+          </ion-note>
+          <ion-note slot="error"
+                    *ngIf="f['rol'].hasError('serverValidationError') &&
+                   !f['rol'].hasError('required') &&
+                   (f['rol'].touched || isSubmitted)">
+            Este campo tiene un error.
+          </ion-note>
         </ion-item>
       </ion-list>
-    </form>
 
-    <div class="ion-margin-top ion-padding-top">
-      <ion-button expand="block" (click)="storeUser($event)" color="primary" class="ion-margin-top">
-        Guardar usuario
-      </ion-button>
-      <ion-button expand="block" routerLink="/users" color="danger" class="ion-margin-top">
-        Cancelar
-      </ion-button>
-    </div>
+      <div class="ion-margin-top ion-padding-top">
+        <ion-button expand="block" type="submit" color="primary" class="ion-margin-top">
+          Guardar usuario
+        </ion-button>
+        <ion-button expand="block" routerLink="/users" color="danger" class="ion-margin-top">
+          Cancelar
+        </ion-button>
+      </div>
+    </form>
   </ion-card-content>
 </ion-card>
