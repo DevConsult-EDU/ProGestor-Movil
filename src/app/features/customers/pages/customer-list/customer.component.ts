@@ -7,7 +7,7 @@ import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.
 @Component({
   selector: 'app-customer',
   standalone: false,
-  templateUrl: '../../pages/customer.component.html',
+  templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent  implements OnInit {

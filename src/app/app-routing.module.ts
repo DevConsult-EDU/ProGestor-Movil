@@ -24,7 +24,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./features/users/components/users-list/users.module').then(m => m.UsersModule),
+        loadChildren: () => import('./features/users/pages/users-list/users.module').then(m => m.UsersModule),
       },
       {
         path: 'createUser',
@@ -38,7 +38,7 @@ const routes: Routes = [
       },
       {
         path: ':idUser',
-        loadChildren: () => import('./features/users/components/user-details/user-details.module').then(m => m.UserDetailsModule),
+        loadChildren: () => import('./features/users/pages/user-details/user-details.module').then(m => m.UserDetailsModule),
       },
     ],
   },
@@ -50,7 +50,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./features/customers/components/customer-list/customer.module').then(m => m.CustomerModule),
+        loadChildren: () => import('./features/customers/pages/customer-list/customer.module').then(m => m.CustomerModule),
       },
       {
         path: 'createCustomer',
@@ -64,7 +64,7 @@ const routes: Routes = [
       },
       {
         path: ':idCustomer',
-        loadChildren: () => import('./features/customers/components/customer-details/customer-details.module').then(m => m.CustomerDetailsModule),
+        loadChildren: () => import('./features/customers/pages/customer-details/customer-details.module').then(m => m.CustomerDetailsModule),
       },
 
     ]
@@ -76,7 +76,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./features/projects/components/projects-list/projects.module').then(m => m.ProjectsModule),
+        loadChildren: () => import('./features/projects/pages/projects-list/projects.module').then(m => m.ProjectsModule),
       },
       {
         path: 'createProject',
@@ -92,7 +92,7 @@ const routes: Routes = [
       },
       {
         path: ':idProject',
-        loadChildren: () => import('./features/projects/components/project-details/project-details.module').then(m => m.ProjectDetailsModule),
+        loadChildren: () => import('./features/projects/pages/project-details/project-details.module').then(m => m.ProjectDetailsModule),
       },
 
     ]
@@ -104,7 +104,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./features/tasks/components/tasks-list/tasks.module').then(m => m.TasksModule),
+        loadChildren: () => import('./features/tasks/pages/tasks-list/tasks.module').then(m => m.TasksModule),
       },
       {
         path: 'createTask',
@@ -122,7 +122,7 @@ const routes: Routes = [
   {
     path: 'tasks/:idTask',
     component: FullscreenLayoutComponent,
-    loadChildren: () => import('./features/tasks/components/task-details/task-details.module').then(m => m.TaskDetailsModule),
+    loadChildren: () => import('./features/tasks/pages/task-details/task-details.module').then(m => m.TaskDetailsModule),
   },
   {
     path: 'notifications',

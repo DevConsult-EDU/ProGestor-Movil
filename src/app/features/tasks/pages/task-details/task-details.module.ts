@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import {IonicModule} from "@ionic/angular";
 import {RouterModule} from "@angular/router";
 import { TaskDetailsComponent } from './task-details.component';
-import {AttachmentsListModule} from "../../attachments/components/attachments-list/attachments-list.module";
+import {AttachmentsListModule} from "../../attachments/pages/attachments-list/attachments-list.module";
 import {FormsModule} from "@angular/forms";
-import {TimeEntriesListModule} from "../../time-entries/components/time-entries-list/time-entries-list.module";
+import {TimeEntriesListModule} from "../../time-entries/pages/time-entries-list/time-entries-list.module";
+import {CommentsListModule} from "../../comments/pages/comments-list/comments-list.module";
 
 
 
@@ -23,6 +24,7 @@ import {TimeEntriesListModule} from "../../time-entries/components/time-entries-
 
     ]),
     FormsModule,
+    CommentsListModule,
 
   ],
 })

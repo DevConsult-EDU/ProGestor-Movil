@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {ModalService} from "../../../../../shared/modal/modal.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {CreateTimeEntryService} from "../../services/create-time-entry-service/create-time-entry.service";
+import {CommonModule} from "@angular/common";
+import {IonicModule, ModalController, ToastController} from "@ionic/angular";
 
 export interface CreateTimeEntry {
   task_id: string | undefined;

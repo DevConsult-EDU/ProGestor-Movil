@@ -20,7 +20,7 @@ export interface CreateTask {
 @Component({
   selector: 'app-create-task',
   standalone: false,
-  templateUrl: '../../pages/create-task.component.html',
+  templateUrl: './create-task.component.html',
   styleUrls: ['./create-task.component.scss'],
 })
 export class CreateTaskComponent  implements OnInit {

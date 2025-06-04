@@ -33,32 +33,44 @@
 
   <ion-segment [(ngModel)]="selectedSegment" value="tiempo">
     <ion-segment-button value="tiempo">
-      <ion-label>Tiempo</ion-label>
+      <ion-label>
+        <ion-icon name="alarm-outline"></ion-icon>
+        Tiempo
+      </ion-label>
     </ion-segment-button>
     <ion-segment-button value="comentarios">
-      <ion-label>Comentarios</ion-label>
+      <ion-label>
+        <ion-icon name="chatbubble-outline"></ion-icon>
+        Comentarios
+      </ion-label>
     </ion-segment-button>
     <ion-segment-button value="archivos">
-      <ion-label>Archivos</ion-label>
+      <ion-label>
+        <ion-icon name="attach-outline"></ion-icon>
+        Archivos
+      </ion-label>
     </ion-segment-button>
   </ion-segment>
 
 
-  <div [ngSwitch]="selectedSegment" class="ion-padding">
+  <div [ngSwitch]="selectedSegment">
     <div *ngSwitchCase="'tiempo'">
       <ion-card>
-        <ion-card-content><app-time-entries-list [taskId]="taskId"/></ion-card-content>
+        <ion-card-content>
+          <app-time-entries-list [taskId]="taskId"/>
+        </ion-card-content>
       </ion-card>
-      <ion-button expand="block" class="ion-margin-top">
-        <ion-icon slot="start" name="add"></ion-icon>
-        Añadir tiempo
-      </ion-button>
+      <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button (click)="openModal()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </div>
 
     <div *ngSwitchCase="'comentarios'">
       <ion-card>
         <ion-card-content>
-          Aqui iran los comentarios
+          <app-comments-list [taskId]="taskId"/>
         </ion-card-content>
       </ion-card>
       <ion-button expand="block" class="ion-margin-top">

@@ -11,7 +11,7 @@ import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.
 @Component({
   selector: 'app-tasks',
   standalone: false,
-  templateUrl: '../../pages/tasks.component.html',
+  templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss'],
 })
 export class TasksComponent  implements OnInit {

@@ -3,16 +3,18 @@ import {TaskDetailsService} from "../../services/task-details-service/task-detai
 import {ActivatedRoute, Router} from "@angular/router";
 import {DeleteTaskService} from "../../services/delete-task-service/delete-task.service";
 import {Task} from "../../../../shared/interfaces/task.interface";
-import {ModalService} from "../../../../shared/modal/modal.service";
+import {ModalController} from "@ionic/angular";
+import {CreateTimeEntryComponent} from "../../time-entries/components/create-time-entry/create-time-entry.component";
+import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-list/time-entries-list.component";
 
 @Component({
   selector: 'app-task-details',
   standalone: false,
-  templateUrl: '../../pages/task-details.component.html',
+  templateUrl: './task-details.component.html',
   styleUrls: ['./task-details.component.scss'],
 })
 export class TaskDetailsComponent  implements OnInit {
-
+  @ViewChild(TimeEntriesListComponent) timeEntriesListComponent!: TimeEntriesListComponent;
   public rol: string|null;
   selectedSegment: string = 'tiempo';
   public total_time!: string;
@@ -25,11 +27,10 @@ export class TaskDetailsComponent  implements OnInit {
 
   taskDetailsService = inject(TaskDetailsService);
   deleteTaskService = inject(DeleteTaskService)
-  modalService = inject(ModalService)
 
   router = inject(Router)
 
-  constructor() {
+  constructor(private modalCtrl: ModalController) {
     this.rol = localStorage.getItem('rol');
   }
 
@@ -74,6 +75,25 @@ export class TaskDetailsComponent  implements OnInit {
       return "0min";
     }
     return result;
+  }
+
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: CreateTimeEntryComponent,
+      componentProps: {
+        taskId: this.taskId,
+      }
+    });
+    await modal.present();
+
+    const {data, role} = await modal.onWillDismiss();
+
+    if(role === 'confirm') {
+      this.timeEntriesListComponent.getTimeEntries();
+    }
+
+    this.ngOnInit();
+
   }
 
   navigateUpdateTask() {

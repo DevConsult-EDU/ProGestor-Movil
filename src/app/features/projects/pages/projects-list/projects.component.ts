@@ -9,7 +9,7 @@ import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.
 @Component({
   selector: 'app-projects',
   standalone: false,
-  templateUrl: '../../pages/projects.component.html',
+  templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent  implements OnInit {

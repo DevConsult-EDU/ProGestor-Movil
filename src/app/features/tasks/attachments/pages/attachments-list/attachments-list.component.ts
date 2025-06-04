@@ -9,7 +9,7 @@ import {DeleteAttachmentService} from "../../services/delete-attachment-service/
 @Component({
   selector: 'app-attachments-list',
   standalone: false,
-  templateUrl: '../../pages/attachments-list.component.html',
+  templateUrl: './attachments-list.component.html',
   styleUrls: ['./attachments-list.component.scss'],
 })
 export class AttachmentsListComponent  implements OnInit {

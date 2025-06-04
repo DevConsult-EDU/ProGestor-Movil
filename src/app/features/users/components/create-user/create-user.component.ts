@@ -15,7 +15,7 @@ export interface CreateUser {
 @Component({
   selector: 'app-create-user',
   standalone: false,
-  templateUrl: '../../pages/create-user.component.html',
+  templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent {

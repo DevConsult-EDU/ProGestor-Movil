@@ -7,7 +7,7 @@ import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.
 @Component({
   selector: 'app-users',
   standalone: false,
-  templateUrl: '../../pages/users.component.html',
+  templateUrl: './users.component.html',
 })
 export class UsersComponent  implements OnInit {
 
