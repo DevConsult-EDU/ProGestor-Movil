@@ -48,20 +48,6 @@ export class TimeEntriesListComponent  implements OnInit {
     })
   }
 
-  public openCreateTimeEntryModal(): void {
-    const modalRef = this.modalService.loadComponent(CreateTimeEntryComponent);
-    modalRef.instance.taskId = this._taskId;
-    this.modalService.setTitulo('Crear nueva entrada');
-    this.modalService.onDidDismiss$.subscribe({
-      next: (data) => {
-        if (data) {
-          this.getTimeEntries();
-        }
-      }
-    })
-  }
-
-
   // public navigateDetailsTimeEntry(id: string): void {
   //   this.router.navigate(['/auth/time-entries', id]);
   // }
