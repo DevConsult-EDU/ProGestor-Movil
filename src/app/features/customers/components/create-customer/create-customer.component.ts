@@ -13,7 +13,7 @@ export interface CreateCustomer {
 @Component({
   selector: 'app-create-customer',
   standalone: false,
-  templateUrl: '../../pages/create-customer.component.html',
+  templateUrl: './create-customer.component.html',
   styleUrls: ['./create-customer.component.scss'],
 })
 export class CreateCustomerComponent {

@@ -1,0 +1,94 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="'/tasks'" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">{{ task.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-border ion-margin-top">
+  <ion-toolbar color="light">
+    <div class="ion-padding-horizontal ion-padding-top ion-padding-bottom">
+      <ion-item lines="none" color="transparent">
+        <ion-label slot="start">Tiempo total registrado</ion-label>
+        <ion-label slot="end" color="primary"><strong>{{this.total_time}}</strong></ion-label>
+      </ion-item>
+      <br>
+      <ion-item lines="none" color="transparent">
+        <ion-label slot="start">Estado</ion-label>
+        @if (task.status === 'pendiente'){
+          <ion-chip slot="end" color="warning">{{task.status}}</ion-chip>
+        } @else if (task.status === 'en progreso'){
+          <ion-chip slot="end" color="primary">{{task.status}}</ion-chip>
+        } @else if (task.status === 'completado'){
+          <ion-chip slot="end" color="success">{{task.status}}</ion-chip>
+        }
+
+      </ion-item>
+    </div>
+  </ion-toolbar>
+
+  <ion-segment [(ngModel)]="selectedSegment" value="tiempo">
+    <ion-segment-button value="tiempo">
+      <ion-label>
+        <ion-icon name="alarm-outline"></ion-icon>
+        Tiempo
+      </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="comentarios">
+      <ion-label>
+        <ion-icon name="chatbubble-outline"></ion-icon>
+        Comentarios
+      </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="archivos">
+      <ion-label>
+        <ion-icon name="attach-outline"></ion-icon>
+        Archivos
+      </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+  <div [ngSwitch]="selectedSegment">
+    <div *ngSwitchCase="'tiempo'">
+      <ion-card>
+        <ion-card-content>
+          <app-time-entries-list [taskId]="taskId"/>
+        </ion-card-content>
+      </ion-card>
+      <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button (click)="openModal()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+
+    <div *ngSwitchCase="'comentarios'">
+      <ion-card>
+        <ion-card-content>
+          <app-comments-list [taskId]="taskId"/>
+        </ion-card-content>
+      </ion-card>
+      <ion-button expand="block" class="ion-margin-top">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Añadir Comentario
+      </ion-button>
+    </div>
+
+    <div *ngSwitchCase="'archivos'">
+      <ion-card>
+        <ion-card-content>
+          Aqui iran los archivos
+        </ion-card-content>
+      </ion-card>
+      <ion-button expand="block" class="ion-margin-top">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Añadir Archivo
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

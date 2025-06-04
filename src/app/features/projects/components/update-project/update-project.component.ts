@@ -19,7 +19,7 @@ export interface UpdateProject {
 @Component({
   selector: 'app-update-project',
   standalone: false,
-  templateUrl: '../../pages/update-project.component.html',
+  templateUrl: './update-project.component.html',
   styleUrls: ['./update-project.component.scss'],
 })
 export class UpdateProjectComponent  implements OnInit {

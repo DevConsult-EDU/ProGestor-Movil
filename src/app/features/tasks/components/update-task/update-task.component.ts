@@ -22,7 +22,7 @@ export interface  UpdateTask {
 @Component({
   selector: 'app-update-task',
   standalone: false,
-  templateUrl: '../../pages/update-task.component.html',
+  templateUrl: './update-task.component.html',
   styleUrls: ['./update-task.component.scss'],
 })
 export class UpdateTaskComponent  implements OnInit {

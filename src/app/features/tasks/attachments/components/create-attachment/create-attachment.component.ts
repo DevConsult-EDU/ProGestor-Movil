@@ -11,7 +11,7 @@ export interface CreateAttachment {
 @Component({
   selector: 'app-create-attachment',
   standalone: false,
-  templateUrl: '../../pages/create-attachment.component.html',
+  templateUrl: './create-attachment.component.html',
   styleUrls: ['./create-attachment.component.scss'],
 })
 export class CreateAttachmentComponent  implements OnInit {

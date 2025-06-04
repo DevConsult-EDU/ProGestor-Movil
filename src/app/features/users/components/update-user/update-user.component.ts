@@ -15,7 +15,7 @@ export interface UpdateUser {
 @Component({
   selector: 'app-update-user',
   standalone: false,
-  templateUrl: '../../pages/update-user.component.html',
+  templateUrl: './update-user.component.html',
   styleUrls: ['./update-user.component.scss'],
 })
 export class UpdateUserComponent  implements OnInit {

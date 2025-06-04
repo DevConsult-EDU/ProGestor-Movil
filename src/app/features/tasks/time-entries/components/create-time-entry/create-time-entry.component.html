@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Crear Entrada de Tiempo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="storeTimeEntry($event)" [strong]="true">Guardar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="createTimeEntryForm" (ngSubmit)="storeTimeEntry($event)">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Fecha</ion-label>
+        <ion-datetime formControlName="date" type="datetime" required></ion-datetime>
+
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tiempo (minutos)</ion-label>
+        <ion-input formControlName="minutes" type="number" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-textarea
+          formControlName="description"
+          type="text"
+          rows="4"
+          placeholder="Escribe la descripción"
+          required
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

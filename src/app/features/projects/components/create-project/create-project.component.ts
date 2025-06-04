@@ -15,7 +15,7 @@ export interface CreateProject {
 @Component({
   selector: 'app-create-project',
   standalone: false,
-  templateUrl: '../../pages/create-project.component.html',
+  templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.scss'],
 })
 export class CreateProjectComponent  implements OnInit {
