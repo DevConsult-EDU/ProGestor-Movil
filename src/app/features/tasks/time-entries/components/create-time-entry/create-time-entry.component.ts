@@ -14,23 +14,30 @@ export interface CreateTimeEntry {
 
 @Component({
   selector: 'app-create-time-entry',
-  standalone: false,
-  templateUrl: '../../pages/create-time-entry.component.html',
+  standalone: true,
+  imports: [
+    CommonModule,
+    IonicModule,
+    ReactiveFormsModule,
+  ],
+  templateUrl: './create-time-entry.component.html',
   styleUrls: ['./create-time-entry.component.scss'],
 })
-export class CreateTimeEntryComponent  implements OnInit {
+export class CreateTimeEntryComponent implements OnInit {
 
   protected createTimeEntryForm!: FormGroup;
   public taskId: string | undefined = undefined;
 
   constructor(private formBuilder: FormBuilder,
               private createTimeEntryService: CreateTimeEntryService,
-              private modalService: ModalService) {
+              private modalCtrl: ModalController,
+              private toastController: ToastController) {
     this.buildForm();
   }
 
 
   ngOnInit() {
+    console.log(this.taskId);
     this.createTimeEntryForm.get('task_id')?.setValue(this.taskId);
   }
 
@@ -55,23 +62,32 @@ export class CreateTimeEntryComponent  implements OnInit {
 
 
     this.createTimeEntryService.createTimeEntry(this.createTimeEntryForm.value).subscribe({
-      next: (result) => {
-        this.closeModal();
-        window.alert('Entrada creada correctamente');
-      }, error: (errorResponse) => {
-        window.alert('Ha habido un error creando la entrada. Intentelo de nuevo');
-        console.log(errorResponse);
+      next: async (result) => {
+        const toaster = await this.toastController.create({
+          message: 'Entrada de tiempo creada correctamente',
+          position: 'bottom',
+          duration: 3000,
+          color: 'success',
+        })
+        await toaster.present();
+        await this.modalCtrl.dismiss(true, 'confirm');
+      }, error: async (errorResponse) => {
+        const toaster = await this.toastController.create({
+          message: 'Error al crear la entrada de tiempo',
+          position: 'bottom',
+          duration: 3000,
+          color: 'danger',
+        })
+        await toaster.present();
+        await this.modalCtrl.dismiss(false, 'close');
       }
     });
 
   }
 
-  public closeModal() {
-    this.modalService.close(true);
+  cancel() {
+    return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  public dismissModal() {
-    this.modalService.dismiss();
-  }
 
 }
