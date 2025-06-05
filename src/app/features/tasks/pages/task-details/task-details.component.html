@@ -83,7 +83,7 @@
     <div *ngSwitchCase="'archivos'">
       <ion-card>
         <ion-card-content>
-          Aqui iran los archivos
+          <app-attachments-list [taskId]="taskId"/>
         </ion-card-content>
       </ion-card>
       <ion-button expand="block" class="ion-margin-top">
