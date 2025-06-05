@@ -25,6 +25,11 @@
       <ion-button fill="clear" size="small" (click)="downloadAttachment(attachment.id, attachment.file_name)">
         <ion-icon name="download-outline" slot="icon-only" color="medium"></ion-icon>
       </ion-button>
+      @if (rol && rol === 'admin' || name && name === getUserName(attachment.user_id)) {
+        <ion-button fill="clear" size="small" (click)="deleteAttachment(attachment.id)">
+          <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>
+        </ion-button>
+      }
     </ion-item>
 
   </ion-list>

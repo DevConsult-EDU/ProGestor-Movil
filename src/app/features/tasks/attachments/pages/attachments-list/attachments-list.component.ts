@@ -5,6 +5,7 @@ import {AttachmentsListService} from "../../services/attachments-list-service/at
 import {DownloadAttachmentService} from "../../services/download-attachment-service/download-attachment.service";
 import {UserListService} from "../../../../users/services/user-list-service/user-list.service";
 import {DeleteAttachmentService} from "../../services/delete-attachment-service/delete-attachment.service";
+import {ToastController} from "@ionic/angular";
 
 @Component({
   selector: 'app-attachments-list',
@@ -30,7 +31,7 @@ export class AttachmentsListComponent  implements OnInit {
   userListService = inject(UserListService);
   deleteAttachmentService = inject(DeleteAttachmentService);
 
-  constructor() {
+  constructor(private toastController: ToastController,) {
     this.rol = localStorage.getItem('rol')
     this.name = localStorage.getItem('name')
   }
@@ -82,30 +83,37 @@ export class AttachmentsListComponent  implements OnInit {
         error: (error) => console.error('Error al descargar el archivo:', error)
       });
   }
-//
-//   deleteAttachment(id: string) {
-//
-//     const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este archivo?');
-//
-//     if (confirmDelete) {
-//       this.deleteAttachmentService.deleteAttachment(id)
-//         .subscribe({
-//           next: () => {
-//             window.location.reload();
-//           },
-//           error: (error) => {
-//             console.error('Error al eliminar el archivo:', error);
-//           }
-//         });
-//     }
-//
-//   }
-//
 
-//   @if (rol && rol === 'admin' || name && name === getUserName(attachment.user_id)) {
-// <ion-button fill="clear" size="small">
-//     <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>
-//     </ion-button>
-// }
+  deleteAttachment(id: string) {
+
+    const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este archivo?');
+
+    if (confirmDelete) {
+      this.deleteAttachmentService.deleteAttachment(id)
+        .subscribe({
+          next: async () => {
+            const toaster = await this.toastController.create({
+              message: 'Archivo adjunto borrado correctamente',
+              position: 'bottom',
+              duration: 3000,
+              color: 'success',
+            })
+            await toaster.present();
+            window.location.reload();
+          },
+          error: async (error) => {
+            const toaster = await this.toastController.create({
+              message: 'Error al borrar el archivo adjunto',
+              position: 'bottom',
+              duration: 3000,
+              color: 'danger',
+            })
+            await toaster.present();
+          }
+        });
+    }
+
+  }
+
 
 }
