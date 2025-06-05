@@ -12,14 +12,14 @@ import {MenuItem} from "../shared/interfaces/menu-item";
 })
 export class ProjectLayoutComponent {
   public titulo: string = '';
-  public menuItems: MenuItem[];
+  public menuItems!: MenuItem[];
   @ViewChild('menu') menu!: HTMLIonMenuElement;
 
   constructor(public router: Router,
               public authService: AuthService,
               public menuService: MenuServiceService) {
 
-    this.menuItems = this.menuService.getMenuByRol();
+
   }
 
   async navigateRoute(ruta: string) {
@@ -29,5 +29,10 @@ export class ProjectLayoutComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  public ionViewWillEnter() {
+    this.menuItems = [];
+    this.menuItems = this.menuService.getMenuByRol();
   }
 }

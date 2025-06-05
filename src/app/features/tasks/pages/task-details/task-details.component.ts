@@ -3,9 +3,14 @@ import {TaskDetailsService} from "../../services/task-details-service/task-detai
 import {ActivatedRoute, Router} from "@angular/router";
 import {DeleteTaskService} from "../../services/delete-task-service/delete-task.service";
 import {Task} from "../../../../shared/interfaces/task.interface";
-import {ModalController} from "@ionic/angular";
+import {IonContent, ModalController} from "@ionic/angular";
 import {CreateTimeEntryComponent} from "../../time-entries/components/create-time-entry/create-time-entry.component";
 import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-list/time-entries-list.component";
+import {UpdateTimeEntryComponent} from "../../time-entries/components/update-time-entry/update-time-entry.component";
+import {CommentsListComponent} from "../../comments/pages/comments-list/comments-list.component";
+import {CreateCommentComponent} from "../../comments/components/create-comment/create-comment.component";
+import {AttachmentsListComponent} from "../../attachments/pages/attachments-list/attachments-list.component";
+import {CreateAttachmentComponent} from "../../attachments/components/create-attachment/create-attachment.component";
 
 @Component({
   selector: 'app-task-details',
@@ -14,7 +19,15 @@ import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-li
   styleUrls: ['./task-details.component.scss'],
 })
 export class TaskDetailsComponent  implements OnInit {
+
+  @ViewChild('chatContent') content!: IonContent;
+
   @ViewChild(TimeEntriesListComponent) timeEntriesListComponent!: TimeEntriesListComponent;
+
+  @ViewChild(CommentsListComponent) commentsListComponent!: CommentsListComponent;
+
+  @ViewChild(AttachmentsListComponent) attachmentsListComponent!: AttachmentsListComponent;
+
   public rol: string|null;
   selectedSegment: string = 'tiempo';
   public total_time!: string;
@@ -40,11 +53,13 @@ export class TaskDetailsComponent  implements OnInit {
     this.taskDetailsService.invoke(this.taskId).subscribe({
       next: result => {
 
+        this.scrollToBottom(300);
+
         this.task = result;
         if (this.task && typeof this.task.totalTime !== 'undefined') {
           this.total_time = this.formatMinutesToHoursAndMinutes(this.task.totalTime);
         } else {
-          this.total_time = this.formatMinutesToHoursAndMinutes(null); // O manejar como error
+          this.total_time = this.formatMinutesToHoursAndMinutes(null);
         }
       }
 
@@ -77,7 +92,7 @@ export class TaskDetailsComponent  implements OnInit {
     return result;
   }
 
-  async openModal() {
+  async openModalCreateTimeEntry() {
     const modal = await this.modalCtrl.create({
       component: CreateTimeEntryComponent,
       componentProps: {
@@ -96,8 +111,42 @@ export class TaskDetailsComponent  implements OnInit {
 
   }
 
-  navigateUpdateTask() {
-    this.router.navigate(['/tasks/updateTask/' + this.taskId]);
+  async openModalCreateComment() {
+    const modal = await this.modalCtrl.create({
+      component: CreateCommentComponent,
+      componentProps: {
+        taskId: this.taskId,
+      }
+    });
+    await modal.present();
+
+    const {data, role} = await modal.onWillDismiss();
+
+    if(role === 'confirm') {
+      this.commentsListComponent.getComments();
+    }
+
+    this.ngOnInit();
+
+  }
+
+  async openModalCreateAttachment() {
+    const modal = await this.modalCtrl.create({
+      component: CreateAttachmentComponent,
+      componentProps: {
+        taskId: this.taskId,
+      }
+    });
+    await modal.present();
+
+    const {data, role} = await modal.onWillDismiss();
+
+    if(role === 'confirm') {
+      this.attachmentsListComponent.getAttachments();
+    }
+
+    this.ngOnInit();
+
   }
 
   executeDeleteTask() {
@@ -113,6 +162,14 @@ export class TaskDetailsComponent  implements OnInit {
             console.error('Error al eliminar tarea:', error);
           }
         });
+    }
+  }
+
+  private scrollToBottom(delay: number = 0): void {
+    if (this.content) {
+      setTimeout(() => {
+        this.content.scrollToBottom(300); // 300ms para la animación del scroll
+      }, delay);
     }
   }
 
