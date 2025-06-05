@@ -14,7 +14,7 @@
           </svg>
         </ion-avatar>
       @if (this.userId === comment.user_id) {
-        <ion-label class="comment-bubble-author">
+        <ion-label class="comment-bubble-author" (press)="openActionSheet(comment.id)">
           <div class="comment-header">
             <ion-text class="comment-user-name-author">
               <strong>{{ getUserName(comment.user_id) }}</strong>

@@ -14,11 +14,11 @@ import {ActionSheetController} from "@ionic/angular/standalone";
   templateUrl: './comments-list.component.html',
   styleUrls: ['./comments-list.component.scss'],
 })
-export class CommentsListComponent  implements OnInit {
+export class CommentsListComponent implements OnInit {
 
-  public rol: string|null;
-  public name: string|null;
-  public userId: string|null;
+  public rol: string | null;
+  public name: string | null;
+  public userId: string | null;
   public comments: CommentsListed[] = [];
   public users: UserListed[] = [];
   public _taskId!: string;
