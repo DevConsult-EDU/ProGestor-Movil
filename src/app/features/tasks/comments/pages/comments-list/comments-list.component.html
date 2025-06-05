@@ -1,0 +1,52 @@
+
+<ion-list lines="none" class="comment-list">
+
+  @for (comment of comments; track comment.id) {
+    <ion-item lines="none" class="comment-item">
+
+        <ion-avatar slot="start" aria-hidden="true" class="comment-avatar">
+          <svg
+            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"
+          >
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+        </ion-avatar>
+      @if (this.userId === comment.user_id) {
+        <ion-label class="comment-bubble-author">
+          <div class="comment-header">
+            <ion-text class="comment-user-name-author">
+              <strong>{{ getUserName(comment.user_id) }}</strong>
+            </ion-text>
+            <ion-text color="medium" class="comment-time-author">
+              {{ comment.created_at | date: 'dd/MM/yyyy HH:mm' }}
+            </ion-text>
+          </div>
+
+          <p class="ion-text-wrap comment-text-author">{{ comment.comment }}</p>
+        </ion-label>
+      } @else {
+        <ion-label class="comment-bubble">
+          <div class="comment-header">
+            <ion-text class="comment-user-name">
+              <strong>{{ getUserName(comment.user_id) }}</strong>
+            </ion-text>
+            <ion-text color="medium" class="comment-time">
+              {{ comment.created_at | date: 'dd/MM/yyyy HH:mm' }}
+            </ion-text>
+          </div>
+
+          <p class="ion-text-wrap comment-text">{{ comment.comment }}</p>
+        </ion-label>
+      }
+
+    </ion-item>
+  } @empty {
+    <ion-item lines="none">
+      <ion-label>
+        <p>No hay comentarios aún.</p>
+      </ion-label>
+    </ion-item>
+  }
+</ion-list>
