@@ -1,0 +1,139 @@
+.comment-list {
+  --ion-background-color: transparent; // O el color de fondo de tu página de chat
+  padding: 8px; // Espacio alrededor de la lista de comentarios
+}
+
+.comment-item {
+  --background: transparent; // Hacemos el item transparente, la burbuja tendrá el fondo
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --min-height: auto; // Ajustar altura al contenido
+  margin-bottom: 12px; // Espacio entre comentarios
+  align-items: flex-start; // Alinea el avatar con la parte superior de la burbuja
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px; // Evita que se encoja
+  margin-top: 2px; // Pequeño ajuste para alinear mejor con el texto
+  margin-right: 8px; // Espacio entre el avatar y la burbuja de texto
+
+  // Para el estilo de iniciales (si decides usarlo)
+  // background-color: var(--ion-color-primary); // Color de fondo para las iniciales
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+
+  // .avatar-initials {
+  //   color: var(--ion-color-primary-contrast);
+  //   font-size: 16px;
+  //   font-weight: bold;
+  // }
+
+  // Para el SVG
+  svg {
+    width: 100%; // Haz que el SVG ocupe todo el avatar
+    height: 100%;
+    // Si el SVG no tiene un color de fondo y quieres uno para el círculo:
+    // path { stroke: var(--ion-color-primary); } // o el color que desees para el ícono
+  }
+}
+
+
+.comment-bubble {
+  background-color: #f0f0f0; // Color de fondo de la burbuja (similar a la imagen)
+  border-radius: 12px;      // Bordes redondeados para la burbuja
+  padding: 10px 12px;       // Espaciado interno de la burbuja
+  margin: 0;                // Resetear margen por defecto de ion-label
+  overflow: visible;        // Para que el box-shadow se vea bien
+
+  // Sombra sutil para dar profundidad (opcional)
+  // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.comment-bubble-author {
+  background-color: #1a65eb;
+  border-radius: 12px;      // Bordes redondeados para la burbuja
+  padding: 10px 12px;       // Espaciado interno de la burbuja
+  margin: 0;                // Resetear margen por defecto de ion-label
+  overflow: visible;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px; // Espacio entre el header y el texto del comentario
+}
+
+.comment-user-name {
+  font-weight: 600; // Más grueso que bold normal
+  color: #333;    // Color oscuro para el nombre
+  margin-right: 6px;
+}
+
+.comment-user-name-author {
+  font-weight: 600;
+  color: #e7e7e7;
+  margin-right: 6px;
+}
+
+.comment-time {
+  font-size: 0.8em;
+  color: #777;    // Color grisáceo para la hora
+}
+
+.comment-time-author {
+  font-size: 0.8em;
+  color: #e7e7e7;
+}
+
+.comment-text {
+  font-size: 0.95em;
+  color: #222; // Color del texto del comentario
+  line-height: 1.4;
+  white-space: pre-wrap; // Respeta saltos de línea y espacios múltiples en el texto
+}
+
+.comment-text-author {
+  font-size: 0.95em;
+  color: #e7e7e7; // Color del texto del comentario
+  line-height: 1.4;
+  white-space: pre-wrap; // Respeta saltos de línea y espacios múltiples en el texto
+}
+
+.comment-actions {
+  // Si el botón de eliminar está presente y quieres alinearlo mejor
+  align-self: flex-start; // Lo alinea con la parte superior de la burbuja
+  margin-top: -2px;     // Pequeño ajuste si es necesario
+  margin-left: 4px;      // Espacio si el botón está al lado de la burbuja
+}
+
+// Si tuvieras comentarios del "usuario actual" y quisieras alinearlos a la derecha
+// y con un color diferente (estilo chat):
+/*
+.comment-item.is-current-user {
+  flex-direction: row-reverse; // Mueve el avatar a la derecha
+
+  .comment-avatar {
+    margin-left: 8px;
+    margin-right: 0;
+  }
+
+  .comment-bubble {
+    background-color: var(--ion-color-primary); // Color primario para el usuario actual
+    color: var(--ion-color-primary-contrast);
+  }
+
+  .comment-user-name,
+  .comment-time,
+  .comment-text {
+    color: var(--ion-color-primary-contrast); // Asegura que el texto sea legible
+  }
+  .comment-time {
+    opacity: 0.8; // Hacer la hora un poco más tenue
+  }
+}
+*/
