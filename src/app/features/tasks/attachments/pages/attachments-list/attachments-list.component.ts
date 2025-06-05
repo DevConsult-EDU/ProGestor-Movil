@@ -60,8 +60,6 @@ export class AttachmentsListComponent  implements OnInit {
     })
   }
 
-
-
   getFileIconName(fileName: string): string {
     const extension = fileName.split('.').pop()?.toLowerCase();
     if (extension === 'pdf') {
@@ -75,5 +73,41 @@ export class AttachmentsListComponent  implements OnInit {
     }
     return 'document-outline'; // Icono por defecto
   }
+
+
+//   downloadAttachment(idAttachment: string, fileName: string): void {
+//     this.downloadAttachmentService.downloadAttachment(idAttachment, fileName)
+//       .subscribe({
+//         next: () => console.log('Archivo descargado correctamente'),
+//         error: (error) => console.error('Error al descargar el archivo:', error)
+//       });
+//   }
+//
+//   deleteAttachment(id: string) {
+//
+//     const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este archivo?');
+//
+//     if (confirmDelete) {
+//       this.deleteAttachmentService.deleteAttachment(id)
+//         .subscribe({
+//           next: () => {
+//             window.location.reload();
+//           },
+//           error: (error) => {
+//             console.error('Error al eliminar el archivo:', error);
+//           }
+//         });
+//     }
+//
+//   }
+//
+// <ion-button fill="clear" size="small" (click)="downloadAttachment(attachment.id, attachment.file_name)">
+//     <ion-icon name="download-outline" slot="icon-only" color="medium"></ion-icon>
+//     </ion-button>
+//   @if (rol && rol === 'admin' || name && name === getUserName(attachment.user_id)) {
+// <ion-button fill="clear" size="small">
+//     <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>
+//     </ion-button>
+// }
 
 }

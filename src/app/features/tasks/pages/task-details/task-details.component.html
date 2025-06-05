@@ -86,10 +86,11 @@
           <app-attachments-list [taskId]="taskId"/>
         </ion-card-content>
       </ion-card>
-      <ion-button expand="block" class="ion-margin-top">
-        <ion-icon slot="start" name="add"></ion-icon>
-        Añadir Archivo
-      </ion-button>
+      <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button (click)="openModalCreateAttachment()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </div>
   </div>
 </ion-content>

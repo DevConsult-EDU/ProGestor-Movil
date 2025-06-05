@@ -9,6 +9,8 @@ import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-li
 import {UpdateTimeEntryComponent} from "../../time-entries/components/update-time-entry/update-time-entry.component";
 import {CommentsListComponent} from "../../comments/pages/comments-list/comments-list.component";
 import {CreateCommentComponent} from "../../comments/components/create-comment/create-comment.component";
+import {AttachmentsListComponent} from "../../attachments/pages/attachments-list/attachments-list.component";
+import {CreateAttachmentComponent} from "../../attachments/components/create-attachment/create-attachment.component";
 
 @Component({
   selector: 'app-task-details',
@@ -23,6 +25,8 @@ export class TaskDetailsComponent  implements OnInit {
   @ViewChild(TimeEntriesListComponent) timeEntriesListComponent!: TimeEntriesListComponent;
 
   @ViewChild(CommentsListComponent) commentsListComponent!: CommentsListComponent;
+
+  @ViewChild(AttachmentsListComponent) attachmentsListComponent!: AttachmentsListComponent;
 
   public rol: string|null;
   selectedSegment: string = 'tiempo';
@@ -120,6 +124,25 @@ export class TaskDetailsComponent  implements OnInit {
 
     if(role === 'confirm') {
       this.commentsListComponent.getComments();
+    }
+
+    this.ngOnInit();
+
+  }
+
+  async openModalCreateAttachment() {
+    const modal = await this.modalCtrl.create({
+      component: CreateAttachmentComponent,
+      componentProps: {
+        taskId: this.taskId,
+      }
+    });
+    await modal.present();
+
+    const {data, role} = await modal.onWillDismiss();
+
+    if(role === 'confirm') {
+      this.attachmentsListComponent.getAttachments();
     }
 
     this.ngOnInit();
