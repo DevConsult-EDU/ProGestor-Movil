@@ -7,6 +7,8 @@ import {IonContent, ModalController} from "@ionic/angular";
 import {CreateTimeEntryComponent} from "../../time-entries/components/create-time-entry/create-time-entry.component";
 import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-list/time-entries-list.component";
 import {UpdateTimeEntryComponent} from "../../time-entries/components/update-time-entry/update-time-entry.component";
+import {CommentsListComponent} from "../../comments/pages/comments-list/comments-list.component";
+import {CreateCommentComponent} from "../../comments/components/create-comment/create-comment.component";
 
 @Component({
   selector: 'app-task-details',
@@ -19,6 +21,8 @@ export class TaskDetailsComponent  implements OnInit {
   @ViewChild('chatContent') content!: IonContent;
 
   @ViewChild(TimeEntriesListComponent) timeEntriesListComponent!: TimeEntriesListComponent;
+
+  @ViewChild(CommentsListComponent) commentsListComponent!: CommentsListComponent;
 
   public rol: string|null;
   selectedSegment: string = 'tiempo';
@@ -84,7 +88,7 @@ export class TaskDetailsComponent  implements OnInit {
     return result;
   }
 
-  async openModalCreate() {
+  async openModalCreateTimeEntry() {
     const modal = await this.modalCtrl.create({
       component: CreateTimeEntryComponent,
       componentProps: {
@@ -97,6 +101,25 @@ export class TaskDetailsComponent  implements OnInit {
 
     if(role === 'confirm') {
       this.timeEntriesListComponent.getTimeEntries();
+    }
+
+    this.ngOnInit();
+
+  }
+
+  async openModalCreateComment() {
+    const modal = await this.modalCtrl.create({
+      component: CreateCommentComponent,
+      componentProps: {
+        taskId: this.taskId,
+      }
+    });
+    await modal.present();
+
+    const {data, role} = await modal.onWillDismiss();
+
+    if(role === 'confirm') {
+      this.commentsListComponent.getComments();
     }
 
     this.ngOnInit();

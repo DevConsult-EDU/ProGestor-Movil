@@ -61,7 +61,7 @@
         </ion-card-content>
       </ion-card>
       <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-        <ion-fab-button (click)="openModalCreate()">
+        <ion-fab-button (click)="openModalCreateTimeEntry()">
           <ion-icon name="add"></ion-icon>
         </ion-fab-button>
       </ion-fab>
@@ -73,10 +73,11 @@
           <app-comments-list [taskId]="taskId"/>
         </ion-card-content>
       </ion-card>
-      <ion-button expand="block" class="ion-margin-top">
-        <ion-icon slot="start" name="add"></ion-icon>
-        Añadir Comentario
-      </ion-button>
+      <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+        <ion-fab-button (click)="openModalCreateComment()">
+          <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
     </div>
 
     <div *ngSwitchCase="'archivos'">
