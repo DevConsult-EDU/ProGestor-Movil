@@ -4,7 +4,9 @@ import { UserListed } from 'src/app/shared/interfaces/userListed.interface';
 import {TimeEntriesListService} from "../../services/time-entries-list-service/time-entries-list.service";
 import {UserListService} from "../../../../users/services/user-list-service/user-list.service";
 import {Router} from "@angular/router";
-import {CreateTimeEntryComponent} from "../../components/create-time-entry/create-time-entry.component";
+import {UpdateTimeEntryComponent} from "../../components/update-time-entry/update-time-entry.component";
+import {ModalController} from "@ionic/angular";
+import {TimeEntry} from "../../../../../shared/interfaces/time-entry";
 
 @Component({
   selector: 'app-time-entries-list',
@@ -17,8 +19,10 @@ export class TimeEntriesListComponent  implements OnInit {
   public users = [] as UserListed[];
   public timeEntries = [] as TimeEntriesListed[];
   public _taskId!: string;
+  public rol: string|null;
+  public name: string|null;
 
-  //@ViewChild (CommentsComponent) private commentsComponent!: CommentsComponent;
+  //@ViewChild (UpdateTimeEntryComponent) private updateTimeEntryComponent!: UpdateTimeEntryComponent;
 
   @Input()
   set taskId(taskId: string) {
@@ -29,6 +33,11 @@ export class TimeEntriesListComponent  implements OnInit {
   userListService = inject(UserListService);
   router = inject(Router)
   //deleteTimeEntryService = inject(DeleteTimeEntryService);
+
+  constructor(private modalCtrl: ModalController) {
+    this.rol = localStorage.getItem('rol');
+    this.name = localStorage.getItem('name');
+  }
 
   ngOnInit() {
 
@@ -46,10 +55,35 @@ export class TimeEntriesListComponent  implements OnInit {
     })
   }
 
-  // public navigateDetailsTimeEntry(id: string): void {
-  //   this.router.navigate(['/auth/time-entries', id]);
-  // }
-  //
+  async openModalEdit(timeEntryId: string) {
+
+    console.log('ID de la entrada de tiempo a editar:', timeEntryId);
+
+    const modal = await this.modalCtrl.create({
+      component: UpdateTimeEntryComponent,
+      componentProps: {
+        taskId: this.taskId,
+        timeEntryId: timeEntryId,
+      }
+    });
+    await modal.present();
+
+    const {data, role} = await modal.onWillDismiss();
+
+    if(role === 'confirm') {
+      this.getTimeEntries();
+    }
+  }
+
+  public getUserName(userId: string | number): string {
+    if (!this.users || this.users.length === 0) {
+      return 'Cargando...';
+    }
+
+    const user = this.users.find(u => String(u.id) === String(userId));
+    return user ? user.name : 'Usuario Desconocido';
+  }
+
   // deleteTimeEntry(id: string) {
   //
   //   const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar esta entrada de tiempo?');

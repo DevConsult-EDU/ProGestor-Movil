@@ -6,6 +6,7 @@ import {Task} from "../../../../shared/interfaces/task.interface";
 import {ModalController} from "@ionic/angular";
 import {CreateTimeEntryComponent} from "../../time-entries/components/create-time-entry/create-time-entry.component";
 import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-list/time-entries-list.component";
+import {UpdateTimeEntryComponent} from "../../time-entries/components/update-time-entry/update-time-entry.component";
 
 @Component({
   selector: 'app-task-details',
@@ -44,7 +45,7 @@ export class TaskDetailsComponent  implements OnInit {
         if (this.task && typeof this.task.totalTime !== 'undefined') {
           this.total_time = this.formatMinutesToHoursAndMinutes(this.task.totalTime);
         } else {
-          this.total_time = this.formatMinutesToHoursAndMinutes(null); // O manejar como error
+          this.total_time = this.formatMinutesToHoursAndMinutes(null);
         }
       }
 
@@ -77,7 +78,7 @@ export class TaskDetailsComponent  implements OnInit {
     return result;
   }
 
-  async openModal() {
+  async openModalCreate() {
     const modal = await this.modalCtrl.create({
       component: CreateTimeEntryComponent,
       componentProps: {
@@ -94,10 +95,6 @@ export class TaskDetailsComponent  implements OnInit {
 
     this.ngOnInit();
 
-  }
-
-  navigateUpdateTask() {
-    this.router.navigate(['/tasks/updateTask/' + this.taskId]);
   }
 
   executeDeleteTask() {
