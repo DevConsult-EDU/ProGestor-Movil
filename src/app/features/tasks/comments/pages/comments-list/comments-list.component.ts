@@ -15,6 +15,7 @@ export class CommentsListComponent  implements OnInit {
 
   public rol: string|null;
   public name: string|null;
+  public userId: string|null;
   public comments: CommentsListed[] = [];
   public users: UserListed[] = [];
   public _taskId!: string;
@@ -29,19 +30,18 @@ export class CommentsListComponent  implements OnInit {
 
   commentsListService = inject(CommentsListService);
   userListService = inject(UserListService);
-  //deleteCommentService = inject(DeleteCommentService);
   router = inject(Router);
 
   constructor() {
     this.rol = localStorage.getItem('rol');
     this.name = localStorage.getItem('name');
+    this.userId = localStorage.getItem('id');
   }
 
   ngOnInit() {
     this.getUsers();
-    if (this._taskId && this.comments.length === 0) {
-      this.getComments();
-    }
+
+    this.getComments();
   }
 
   public getUsers(): void {
@@ -83,23 +83,5 @@ export class CommentsListComponent  implements OnInit {
     const user = this.users.find(u => String(u.id) === String(userId));
     return user ? user.name : 'Usuario Desconocido';
   }
-
-  // deleteComment(id: string) {
-  //
-  //   const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este comentario?');
-  //
-  //   if (confirmDelete) {
-  //     this.deleteCommentService.deleteComment(id)
-  //       .subscribe({
-  //         next: () => {
-  //           window.location.reload();
-  //         },
-  //         error: (error) => {
-  //           console.error('Error al eliminar el comentario:', error);
-  //         }
-  //       });
-  //   }
-  //
-  // }
 
 }
