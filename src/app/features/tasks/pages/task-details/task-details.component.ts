@@ -3,7 +3,7 @@ import {TaskDetailsService} from "../../services/task-details-service/task-detai
 import {ActivatedRoute, Router} from "@angular/router";
 import {DeleteTaskService} from "../../services/delete-task-service/delete-task.service";
 import {Task} from "../../../../shared/interfaces/task.interface";
-import {ModalController} from "@ionic/angular";
+import {IonContent, ModalController} from "@ionic/angular";
 import {CreateTimeEntryComponent} from "../../time-entries/components/create-time-entry/create-time-entry.component";
 import {TimeEntriesListComponent} from "../../time-entries/pages/time-entries-list/time-entries-list.component";
 import {UpdateTimeEntryComponent} from "../../time-entries/components/update-time-entry/update-time-entry.component";
@@ -15,7 +15,11 @@ import {UpdateTimeEntryComponent} from "../../time-entries/components/update-tim
   styleUrls: ['./task-details.component.scss'],
 })
 export class TaskDetailsComponent  implements OnInit {
+
+  @ViewChild('chatContent') content!: IonContent;
+
   @ViewChild(TimeEntriesListComponent) timeEntriesListComponent!: TimeEntriesListComponent;
+
   public rol: string|null;
   selectedSegment: string = 'tiempo';
   public total_time!: string;
@@ -40,6 +44,8 @@ export class TaskDetailsComponent  implements OnInit {
 
     this.taskDetailsService.invoke(this.taskId).subscribe({
       next: result => {
+
+        this.scrollToBottom(300);
 
         this.task = result;
         if (this.task && typeof this.task.totalTime !== 'undefined') {
@@ -110,6 +116,14 @@ export class TaskDetailsComponent  implements OnInit {
             console.error('Error al eliminar tarea:', error);
           }
         });
+    }
+  }
+
+  private scrollToBottom(delay: number = 0): void {
+    if (this.content) {
+      setTimeout(() => {
+        this.content.scrollToBottom(300); // 300ms para la animación del scroll
+      }, delay);
     }
   }
 

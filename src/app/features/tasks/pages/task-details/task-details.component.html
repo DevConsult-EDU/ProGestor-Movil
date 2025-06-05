@@ -69,7 +69,7 @@
 
     <div *ngSwitchCase="'comentarios'">
       <ion-card>
-        <ion-card-content>
+        <ion-card-content #chatContent>
           <app-comments-list [taskId]="taskId"/>
         </ion-card-content>
       </ion-card>
