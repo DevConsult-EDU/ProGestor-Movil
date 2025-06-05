@@ -75,13 +75,13 @@ export class AttachmentsListComponent  implements OnInit {
   }
 
 
-//   downloadAttachment(idAttachment: string, fileName: string): void {
-//     this.downloadAttachmentService.downloadAttachment(idAttachment, fileName)
-//       .subscribe({
-//         next: () => console.log('Archivo descargado correctamente'),
-//         error: (error) => console.error('Error al descargar el archivo:', error)
-//       });
-//   }
+  downloadAttachment(idAttachment: string, fileName: string): void {
+    this.downloadAttachmentService.downloadAttachment(idAttachment, fileName)
+      .subscribe({
+        next: () => console.log('Archivo descargado correctamente'),
+        error: (error) => console.error('Error al descargar el archivo:', error)
+      });
+  }
 //
 //   deleteAttachment(id: string) {
 //
@@ -101,9 +101,7 @@ export class AttachmentsListComponent  implements OnInit {
 //
 //   }
 //
-// <ion-button fill="clear" size="small" (click)="downloadAttachment(attachment.id, attachment.file_name)">
-//     <ion-icon name="download-outline" slot="icon-only" color="medium"></ion-icon>
-//     </ion-button>
+
 //   @if (rol && rol === 'admin' || name && name === getUserName(attachment.user_id)) {
 // <ion-button fill="clear" size="small">
 //     <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>

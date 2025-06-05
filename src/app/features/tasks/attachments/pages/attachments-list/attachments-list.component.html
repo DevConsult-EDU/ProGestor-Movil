@@ -22,6 +22,9 @@
           </p>
         }
       </ion-label>
+      <ion-button fill="clear" size="small" (click)="downloadAttachment(attachment.id, attachment.file_name)">
+        <ion-icon name="download-outline" slot="icon-only" color="medium"></ion-icon>
+      </ion-button>
     </ion-item>
 
   </ion-list>
