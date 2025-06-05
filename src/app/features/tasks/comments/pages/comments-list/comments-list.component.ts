@@ -4,6 +4,9 @@ import {UserListed} from "../../../../../shared/interfaces/userListed.interface"
 import {CommentsListService} from "../../services/comments-list-service/comments-list.service";
 import {UserListService} from "../../../../users/services/user-list-service/user-list.service";
 import {Router} from "@angular/router";
+import {DeleteCommentService} from "../../services/delete-comment-service/delete-comment.service";
+import {ToastController} from "@ionic/angular";
+import {ActionSheetController} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-comments-list',
@@ -30,9 +33,11 @@ export class CommentsListComponent  implements OnInit {
 
   commentsListService = inject(CommentsListService);
   userListService = inject(UserListService);
+  deleteCommentService = inject(DeleteCommentService);
   router = inject(Router);
 
-  constructor() {
+  constructor(public toastController: ToastController,
+              private actionSheetCtrl: ActionSheetController) {
     this.rol = localStorage.getItem('rol');
     this.name = localStorage.getItem('name');
     this.userId = localStorage.getItem('id');
@@ -82,6 +87,60 @@ export class CommentsListComponent  implements OnInit {
 
     const user = this.users.find(u => String(u.id) === String(userId));
     return user ? user.name : 'Usuario Desconocido';
+  }
+
+  deleteComment(id: string) {
+
+
+    this.deleteCommentService.deleteComment(id)
+      .subscribe({
+        next: async (result) => {
+          const toaster = await this.toastController.create({
+            message: 'Comentario borrada correctamente',
+            position: 'bottom',
+            duration: 3000,
+            color: 'success',
+          })
+          await toaster.present();
+        }, error: async (errorResponse) => {
+          const toaster = await this.toastController.create({
+            message: 'Error al borrar el comentario',
+            position: 'bottom',
+            duration: 3000,
+            color: 'danger',
+          })
+          await toaster.present();
+        }
+      });
+
+  }
+
+  async openActionSheet(commentId: string) {
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Actions',
+      buttons: [
+        {
+          text: 'Borrar comentario',
+          role: 'destructive',
+          data: {
+            action: 'delete',
+          },
+          handler: () => {
+            this.deleteComment(commentId);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+    });
+
+    await actionSheet.present();
   }
 
 }
