@@ -59,6 +59,7 @@ export class AuthService {
     this.removeToken();
     this.isAuthenticatedSubject.next(false);
     console.log('Logged out');
+    localStorage.clear();
 
     this.router.navigate(['/login']);
 

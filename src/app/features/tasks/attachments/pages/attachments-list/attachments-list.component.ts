@@ -17,6 +17,8 @@ export class AttachmentsListComponent  implements OnInit {
   public users = [] as UserListed[];
   public attachments = [] as AttachmentsListed[];
   public _taskId!: string;
+  public rol!: string|null;
+  public name!: string|null;
 
   @Input()
   set taskId(taskId: string) {
@@ -28,6 +30,11 @@ export class AttachmentsListComponent  implements OnInit {
   userListService = inject(UserListService);
   deleteAttachmentService = inject(DeleteAttachmentService);
 
+  constructor() {
+    this.rol = localStorage.getItem('rol')
+    this.name = localStorage.getItem('name')
+  }
+
   ngOnInit() {
 
     this.getAttachments();
@@ -38,29 +45,35 @@ export class AttachmentsListComponent  implements OnInit {
 
   }
 
+  public getUserName(userId: string | number): string {
+    if (!this.users || this.users.length === 0) {
+      return 'Cargando...';
+    }
+
+    const user = this.users.find(u => String(u.id) === String(userId));
+    return user ? user.name : 'Usuario Desconocido';
+  }
+
   public getAttachments() {
     this.attachmentListService.invoke(this._taskId).subscribe((response: AttachmentsListed[]) => {
       this.attachments = response;
     })
   }
 
-  deleteAttachment(id: string) {
-
-    const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este archivo?');
-
-    if (confirmDelete) {
-      this.deleteAttachmentService.deleteAttachment(id)
-        .subscribe({
-          next: () => {
-            window.location.reload();
-          },
-          error: (error) => {
-            console.error('Error al eliminar el archivo:', error);
-          }
-        });
+  getFileIconName(fileName: string): string {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    if (extension === 'pdf') {
+      return 'document-text-outline'; // O un icono específico de PDF si tienes
+    } else if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(extension || '')) {
+      return 'image-outline';
+    } else if (['doc', 'docx'].includes(extension || '')) {
+      return 'document-text-outline'; // O icono de Word
+    } else if (['xls', 'xlsx'].includes(extension || '')) {
+      return 'stats-chart-outline'; // O icono de Excel
     }
-
+    return 'document-outline'; // Icono por defecto
   }
+
 
   downloadAttachment(idAttachment: string, fileName: string): void {
     this.downloadAttachmentService.downloadAttachment(idAttachment, fileName)
@@ -69,5 +82,30 @@ export class AttachmentsListComponent  implements OnInit {
         error: (error) => console.error('Error al descargar el archivo:', error)
       });
   }
+//
+//   deleteAttachment(id: string) {
+//
+//     const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este archivo?');
+//
+//     if (confirmDelete) {
+//       this.deleteAttachmentService.deleteAttachment(id)
+//         .subscribe({
+//           next: () => {
+//             window.location.reload();
+//           },
+//           error: (error) => {
+//             console.error('Error al eliminar el archivo:', error);
+//           }
+//         });
+//     }
+//
+//   }
+//
+
+//   @if (rol && rol === 'admin' || name && name === getUserName(attachment.user_id)) {
+// <ion-button fill="clear" size="small">
+//     <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>
+//     </ion-button>
+// }
 
 }

@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import {Injectable, NgModule} from '@angular/core';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule} from '@angular/platform-browser';
 import {RouteReuseStrategy} from '@angular/router';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
@@ -12,6 +12,7 @@ import {ProjectLayoutComponent} from "./project-layout/project-layout.component"
 import {NotificationIconModule} from "./features/notifications/components/notification-icon/notification-icon.module";
 import {FullscreenLayoutComponent} from "./fullscreen-layout/fullscreen-layout.component";
 import {CommonModule} from "@angular/common";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [AppComponent, ProjectLayoutComponent, FullscreenLayoutComponent],
@@ -20,6 +21,7 @@ import {CommonModule} from "@angular/common";
     CommonModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    HammerModule,
     NotificationIconModule,
   ],
   providers: [
@@ -27,6 +29,10 @@ import {CommonModule} from "@angular/common";
     provideHttpClient(withInterceptors([
       authInterceptor
     ])),
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: HammerGestureConfig
+    }
   ],
   bootstrap: [AppComponent],
 })

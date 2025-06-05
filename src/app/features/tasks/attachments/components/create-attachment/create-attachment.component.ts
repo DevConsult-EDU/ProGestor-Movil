@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {CreateAttachmentService} from "../../services/create-attachment-service/create-attachment.service";
-import {ModalService} from "../../../../../shared/modal/modal.service";
+import {IonicModule, ModalController, ToastController} from "@ionic/angular";
+import {CommonModule} from "@angular/common";
 
 export interface CreateAttachment {
   file_name: string | undefined;
@@ -10,9 +11,13 @@ export interface CreateAttachment {
 
 @Component({
   selector: 'app-create-attachment',
-  standalone: false,
+  standalone: true,
   templateUrl: './create-attachment.component.html',
   styleUrls: ['./create-attachment.component.scss'],
+  imports: [
+    IonicModule,
+    CommonModule
+  ]
 })
 export class CreateAttachmentComponent  implements OnInit {
 
@@ -23,13 +28,14 @@ export class CreateAttachmentComponent  implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private createAttachmentService: CreateAttachmentService,
-              private modalService: ModalService) {
+              private toastController: ToastController,
+              private modalCtrl: ModalController,) {
     this.buildForm();
   }
 
 
   ngOnInit() {
-
+    this.createAttachmentForm.get('task_id')?.setValue(this.taskId);
   }
 
   public buildForm() {
@@ -55,25 +61,32 @@ export class CreateAttachmentComponent  implements OnInit {
     }
 
     this.createAttachmentService.uploadAttachment(this.taskId, documentoData).subscribe({
-      next: (result) => {
-        this.closeModal();
-        window.alert('Archivo creado correctamente');
-        window.location.reload();
-      }, error: (errorResponse) => {
-        window.alert('Ha habido un error creando el archivo. Intentelo de nuevo');
-        console.log(errorResponse);
+      next: async (result) => {
+        const toaster = await this.toastController.create({
+          message: 'Archivo subido correctamente',
+          position: 'bottom',
+          duration: 3000,
+          color: 'success',
+        })
+        await toaster.present();
+        await this.modalCtrl.dismiss(true, 'confirm');
+      }, error: async (errorResponse) => {
+        const toaster = await this.toastController.create({
+          message: 'Error al subir el archivo',
+          position: 'bottom',
+          duration: 3000,
+          color: 'danger',
+        })
+        await toaster.present();
+        await this.modalCtrl.dismiss(false, 'close');
       }
     });
 
 
   }
 
-  public closeModal() {
-    this.modalService.close(true);
-  }
-
-  public dismissModal() {
-    this.modalService.dismiss();
+  cancel() {
+    return this.modalCtrl.dismiss(null, 'cancel');
   }
 
   public uploadFileChanged($event: any) {
