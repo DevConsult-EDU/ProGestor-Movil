@@ -12,20 +12,21 @@ import {CommentsListModule} from "../../comments/pages/comments-list/comments-li
 
 @NgModule({
   declarations: [TaskDetailsComponent],
-  imports: [
-    TimeEntriesListModule,
-    CommonModule,
-    IonicModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: TaskDetailsComponent,
-      },
+    imports: [
+        TimeEntriesListModule,
+        CommonModule,
+        IonicModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: TaskDetailsComponent,
+            },
 
-    ]),
-    FormsModule,
-    CommentsListModule,
+        ]),
+        FormsModule,
+        CommentsListModule,
+        AttachmentsListModule,
 
-  ],
+    ],
 })
 export class TaskDetailsModule { }
