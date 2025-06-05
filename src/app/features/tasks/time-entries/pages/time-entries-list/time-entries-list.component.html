@@ -12,7 +12,7 @@
             <ion-button fill="clear" size="small" (click)="openModalEdit(timeEntry.id)">
               <ion-icon name="create-outline" slot="icon-only" color="medium"></ion-icon>
             </ion-button>
-            <ion-button fill="clear" size="small">
+            <ion-button fill="clear" size="small" (click)="deleteTimeEntry(timeEntry.id)">
               <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>
             </ion-button>
           }

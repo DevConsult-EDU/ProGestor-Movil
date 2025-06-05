@@ -5,8 +5,9 @@ import {TimeEntriesListService} from "../../services/time-entries-list-service/t
 import {UserListService} from "../../../../users/services/user-list-service/user-list.service";
 import {Router} from "@angular/router";
 import {UpdateTimeEntryComponent} from "../../components/update-time-entry/update-time-entry.component";
-import {ModalController} from "@ionic/angular";
+import {ModalController, ToastController} from "@ionic/angular";
 import {TimeEntry} from "../../../../../shared/interfaces/time-entry";
+import {DeleteTimeEntryService} from "../../services/delete-time-entry-service/delete-time-entry.service";
 
 @Component({
   selector: 'app-time-entries-list',
@@ -19,8 +20,8 @@ export class TimeEntriesListComponent  implements OnInit {
   public users = [] as UserListed[];
   public timeEntries = [] as TimeEntriesListed[];
   public _taskId!: string;
-  public rol: string|null;
-  public name: string|null;
+  public rol: string | null;
+  public name: string | null;
 
   //@ViewChild (UpdateTimeEntryComponent) private updateTimeEntryComponent!: UpdateTimeEntryComponent;
 
@@ -32,9 +33,10 @@ export class TimeEntriesListComponent  implements OnInit {
   timeEntriesListService = inject(TimeEntriesListService);
   userListService = inject(UserListService);
   router = inject(Router)
-  //deleteTimeEntryService = inject(DeleteTimeEntryService);
+  deleteTimeEntryService = inject(DeleteTimeEntryService);
 
-  constructor(private modalCtrl: ModalController) {
+  constructor(private modalCtrl: ModalController,
+              private toastController: ToastController) {
     this.rol = localStorage.getItem('rol');
     this.name = localStorage.getItem('name');
   }
@@ -70,7 +72,7 @@ export class TimeEntriesListComponent  implements OnInit {
 
     const {data, role} = await modal.onWillDismiss();
 
-    if(role === 'confirm') {
+    if (role === 'confirm') {
       this.getTimeEntries();
     }
   }
@@ -84,19 +86,33 @@ export class TimeEntriesListComponent  implements OnInit {
     return user ? user.name : 'Usuario Desconocido';
   }
 
-  // deleteTimeEntry(id: string) {
-  //
-  //   const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar esta entrada de tiempo?');
-  //
-  //   if (confirmDelete) {
-  //     this.deleteTimeEntryService.deleteTimeEntry(id)
-  //       .subscribe({
-  //         next: () => {
-  //           window.location.reload();
-  //         },
-  //         error: (error) => {
-  //           console.error('Error al eliminar la entrada:', error);
-  //         }
-  //       });
-  //   }
+  deleteTimeEntry(id: string) {
+
+    const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar esta entrada de tiempo?');
+
+    if (confirmDelete) {
+      this.deleteTimeEntryService.deleteTimeEntry(id)
+        .subscribe({
+          next: async () => {
+            const toaster = await this.toastController.create({
+              message: 'Entrada de tiempo borrada correctamente',
+              position: 'bottom',
+              duration: 3000,
+              color: 'success',
+            })
+            await toaster.present();
+            window.location.reload();
+          },
+          error: async (error) => {
+            const toaster = await this.toastController.create({
+              message: 'Error al borrar la entrada de tiempo',
+              position: 'bottom',
+              duration: 3000,
+              color: 'danger',
+            })
+            await toaster.present();
+          }
+        });
+    }
+  }
 }
