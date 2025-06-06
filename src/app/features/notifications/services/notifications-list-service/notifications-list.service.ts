@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from "../../../../../environments/environment.prod";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {NotificationsListed} from "../../../../shared/interfaces/notifications-listed";
 
@@ -13,7 +13,12 @@ export class NotificationsListService {
 
   public apiUrl = environment.baseUrl;
 
-  invoke(userId: string): Observable<NotificationsListed[]> {
-    return this.http.get<NotificationsListed[]>(`${this.apiUrl}/auth/notifications/${userId}`);
+  invoke(userId: string, page: number, limit: number): Observable<NotificationsListed[]> {
+
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+
+    return this.http.get<NotificationsListed[]>(`${this.apiUrl}/auth/notifications/${userId}`, { params });
   }
 }

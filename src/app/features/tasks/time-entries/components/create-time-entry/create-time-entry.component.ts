@@ -37,7 +37,7 @@ export class CreateTimeEntryComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.taskId);
+
     this.createTimeEntryForm.get('task_id')?.setValue(this.taskId);
   }
 

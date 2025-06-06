@@ -1,3 +1,50 @@
-<p>
-  create-attachment works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Crear Entrada de Tiempo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="storeAttachment($event)" [strong]="true">Guardar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  @if (filesSelected.length === 0) {
+    <div>
+      <div class="upload-prompt-container ion-text-center">
+        <ion-icon name="cloud-upload-outline" size="large" color="medium" aria-hidden="true"></ion-icon>
+
+        <div class="ion-margin-top">
+          <ion-text color="primary" (click)="attachFile()" style="cursor: pointer;">
+            <strong>Sube un archivo</strong>
+          </ion-text>
+          <ion-text color="medium"> o arrastra y suelta</ion-text>
+        </div>
+        <ion-text color="medium">
+          <p><small>PNG, JPG, GIF</small></p>
+        </ion-text>
+      </div>
+      <input #fileInput (change)="uploadFileChanged($event)" hidden type="file" multiple>
+    </div>
+  } @else {
+    <div class="ion-margin-top">
+      <ion-list lines="none">
+        @for (file of filesSelected; track $index; let i = $index) {
+          <ion-item>
+            <ion-icon name="document-outline" slot="start" color="medium" aria-hidden="true"></ion-icon>
+            <ion-label>
+              {{ file.name }}
+            </ion-label>
+            <ion-button slot="end" fill="clear" color="danger" (click)="eliminarDocumentoSubido(i)" size="small">
+              <ion-icon slot="icon-only" name="close-circle-outline" aria-hidden="true"></ion-icon>
+            </ion-button>
+          </ion-item>
+        }
+      </ion-list>
+    </div>
+  }
+
+</ion-content>

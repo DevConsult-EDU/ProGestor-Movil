@@ -1,3 +1,13 @@
-@if (this.cont > 0){
-  <p><b>({{this.cont}})</b></p>
+@if (this.cont > 0) {
+  <ion-button fill="clear" slot="end" [routerLink]="['/notifications']">
+    @if (!isMenuItem) {
+      <ion-icon name="notifications-outline" color="dark" slot="icon-only"
+                style="margin-right: 1px; vertical-align: middle;">
+      </ion-icon>
+      <ion-badge color="danger" style="position: absolute; right: 4px; top: -8px;">{{ this.cont }}</ion-badge>
+    } @else {
+      <ion-badge color="danger" style="margin-right: 5px;">{{ this.cont }}</ion-badge>
+    }
+  </ion-button>
 }
+

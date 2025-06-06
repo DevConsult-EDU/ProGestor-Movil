@@ -4,6 +4,9 @@ import {UserListed} from "../../../../../shared/interfaces/userListed.interface"
 import {CommentsListService} from "../../services/comments-list-service/comments-list.service";
 import {UserListService} from "../../../../users/services/user-list-service/user-list.service";
 import {Router} from "@angular/router";
+import {DeleteCommentService} from "../../services/delete-comment-service/delete-comment.service";
+import {ToastController} from "@ionic/angular";
+import {ActionSheetController} from "@ionic/angular/standalone";
 
 @Component({
   selector: 'app-comments-list',
@@ -11,10 +14,11 @@ import {Router} from "@angular/router";
   templateUrl: './comments-list.component.html',
   styleUrls: ['./comments-list.component.scss'],
 })
-export class CommentsListComponent  implements OnInit {
+export class CommentsListComponent implements OnInit {
 
-  public rol: string|null;
-  public name: string|null;
+  public rol: string | null;
+  public name: string | null;
+  public userId: string | null;
   public comments: CommentsListed[] = [];
   public users: UserListed[] = [];
   public _taskId!: string;
@@ -29,19 +33,20 @@ export class CommentsListComponent  implements OnInit {
 
   commentsListService = inject(CommentsListService);
   userListService = inject(UserListService);
-  //deleteCommentService = inject(DeleteCommentService);
+  deleteCommentService = inject(DeleteCommentService);
   router = inject(Router);
 
-  constructor() {
+  constructor(public toastController: ToastController,
+              private actionSheetCtrl: ActionSheetController) {
     this.rol = localStorage.getItem('rol');
     this.name = localStorage.getItem('name');
+    this.userId = localStorage.getItem('id');
   }
 
   ngOnInit() {
     this.getUsers();
-    if (this._taskId && this.comments.length === 0) {
-      this.getComments();
-    }
+
+    this.getComments();
   }
 
   public getUsers(): void {
@@ -84,22 +89,58 @@ export class CommentsListComponent  implements OnInit {
     return user ? user.name : 'Usuario Desconocido';
   }
 
-  // deleteComment(id: string) {
-  //
-  //   const confirmDelete = window.confirm('¿Estas seguro de que deseas eliminar este comentario?');
-  //
-  //   if (confirmDelete) {
-  //     this.deleteCommentService.deleteComment(id)
-  //       .subscribe({
-  //         next: () => {
-  //           window.location.reload();
-  //         },
-  //         error: (error) => {
-  //           console.error('Error al eliminar el comentario:', error);
-  //         }
-  //       });
-  //   }
-  //
-  // }
+  deleteComment(id: string) {
+
+
+    this.deleteCommentService.deleteComment(id)
+      .subscribe({
+        next: async (result) => {
+          const toaster = await this.toastController.create({
+            message: 'Comentario borrada correctamente',
+            position: 'bottom',
+            duration: 3000,
+            color: 'success',
+          })
+          await toaster.present();
+        }, error: async (errorResponse) => {
+          const toaster = await this.toastController.create({
+            message: 'Error al borrar el comentario',
+            position: 'bottom',
+            duration: 3000,
+            color: 'danger',
+          })
+          await toaster.present();
+        }
+      });
+
+  }
+
+  async openActionSheet(commentId: string) {
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Actions',
+      buttons: [
+        {
+          text: 'Borrar comentario',
+          role: 'destructive',
+          data: {
+            action: 'delete',
+          },
+          handler: () => {
+            this.deleteComment(commentId);
+          }
+        },
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ],
+    });
+
+    await actionSheet.present();
+  }
 
 }

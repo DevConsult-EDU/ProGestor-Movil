@@ -1,27 +1,34 @@
-
 @for (timeEntry of timeEntries; track timeEntry.id) {
   <ion-list class="rounded-custom">
     <ion-item>
       <ion-label>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
-          <strong>{{ timeEntry.date | date: 'dd/MM/yyyy'}}
+          <strong>{{ timeEntry.date | date: 'dd/MM/yyyy' }}
             <ion-text color="primary">
-              {{timeEntry.minutes}}min
+              {{ timeEntry.minutes }}min
             </ion-text>
           </strong>
-
+          @if (rol && rol === 'admin' || name && name === getUserName(timeEntry.user_id)) {
+            <ion-button fill="clear" size="small" (click)="openModalEdit(timeEntry.id)">
+              <ion-icon name="create-outline" slot="icon-only" color="medium"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" size="small" (click)="deleteTimeEntry(timeEntry.id)">
+              <ion-icon name="trash-outline" slot="icon-only" color="medium"></ion-icon>
+            </ion-button>
+          }
         </div>
 
         @if (timeEntry.description) {
-          <p style="font-size: 0.9em; color: var(--ion-color-medium-shade); margin-top: 0; margin-bottom: 2px; white-space: normal;">
-            {{timeEntry.description}}
+          <p
+            style="font-size: 0.9em; color: var(--ion-color-medium-shade); margin-top: 0; margin-bottom: 2px; white-space: normal;">
+            {{ timeEntry.description }}
           </p>
         }
 
         @for (user of users; track user.id) {
-          @if (user.id === timeEntry.user_id){
+          @if (user.id === timeEntry.user_id) {
             <p style="font-size: 1.0em; color: var(--ion-color-medium); margin-top: 0; margin-bottom: 0;">
-              <small>por {{user.name}}</small>
+              <small>por {{ user.name }}</small>
             </p>
           }
         }
