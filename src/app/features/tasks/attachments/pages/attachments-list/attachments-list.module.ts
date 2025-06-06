@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {AttachmentsListComponent} from "./attachments-list.component";
 import {IonicModule} from "@ionic/angular";
 import {RouterModule} from "@angular/router";
-
 
 
 @NgModule({
@@ -13,13 +12,8 @@ import {RouterModule} from "@angular/router";
   ],
   imports: [
     CommonModule,
-    IonicModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        component: AttachmentsListComponent,
-      }
-    ])
+    IonicModule
   ]
 })
-export class AttachmentsListModule { }
+export class AttachmentsListModule {
+}

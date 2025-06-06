@@ -6,7 +6,7 @@ import {MenuItem} from "../interfaces/menu-item";
 })
 export class MenuServiceService {
 
-  public rol: string|null;
+  public rol!: string | null;
 
   private sharedMenu: MenuItem[] = [
     {
@@ -45,10 +45,16 @@ export class MenuServiceService {
   ]
 
   constructor() {
-    this.rol = localStorage.getItem("rol");
+
   }
 
   public getMenuByRol(): MenuItem[] {
+    this.rol = localStorage.getItem("rol");
+
+    if (this.rol == null) {
+      return [];
+    }
+
     if (this.rol !== 'admin') {
       return this.sharedMenu;
     }

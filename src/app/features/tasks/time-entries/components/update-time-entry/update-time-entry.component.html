@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title>Editar Entrada de Tiempo</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editTimeEntry($event)" [strong]="true">Actualizar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form
+        class="ion-padding"
+        [formGroup]="updateTimeEntryForm"
+        (ngSubmit)="editTimeEntry($event)"
+  >
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Fecha</ion-label>
+        <ion-datetime formControlName="date" type="date" id="date" required></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Tiempo (minutos)</ion-label>
+        <ion-input formControlName="minutes" type="number" id="minutes" required></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea formControlName="description" id="description" rows="4"
+                      placeholder="Escribe la descripción" autoGrow="true"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
