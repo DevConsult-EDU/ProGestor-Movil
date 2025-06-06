@@ -10,7 +10,8 @@
         <ion-item (click)="navigateRoute(menuItem.url)">
           <ion-icon name="{{menuItem.icon}}" slot="start"></ion-icon>
           @if (menuItem.name === 'Notificaciones') {
-            <ion-label>{{ menuItem.name }}</ion-label><app-notification-icon />
+            <ion-label>{{ menuItem.name }}</ion-label>
+            <app-notification-icon [cont]="cont"/>
           } @else {
             <ion-label>{{ menuItem.name }}</ion-label>
           }
@@ -26,7 +27,21 @@
 
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ titulo }}</ion-title>
+    <ion-title>
+
+      <span style="vertical-align: middle;">{{ titulo }}</span>
+
+    </ion-title>
+
+    @if (this.cont > 0) {
+      <app-notification-icon slot="end" [isMenuItem]="false" [cont]="cont"/>
+    } @else {
+      <ion-button fill="clear" slot="end" (click)="navigateToNotifications()">
+        <ion-icon name="notifications-outline" slot="icon-only" color="dark"
+                  style="margin-right: 1px; vertical-align: middle;">
+        </ion-icon>
+      </ion-button>
+    }
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
