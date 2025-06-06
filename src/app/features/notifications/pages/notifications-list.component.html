@@ -149,7 +149,7 @@
           </ion-item-sliding>
         }
       </ion-list>
-    } @else {
+    } @else if (!isLoading) {
       <ion-text class="ion-text-center">
         <p>No hay notificaciones nuevas.</p>
       </ion-text>
@@ -157,4 +157,10 @@
   </ion-card-content>
 </ion-card>
   }
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)" [disabled]="!hasMoreData">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando más notificaciones...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
  </ion-content>

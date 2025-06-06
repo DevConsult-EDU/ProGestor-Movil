@@ -12,7 +12,7 @@ import {NotificationsListService} from "../../services/notifications-list-servic
 import {UserListService} from "../../../users/services/user-list-service/user-list.service";
 import {ActivatedRoute} from "@angular/router";
 import {AlertController, LoadingController, RefresherCustomEvent, ToastController} from "@ionic/angular";
-import {forkJoin, tap, timer} from "rxjs";
+import {forkJoin, map, Observable, tap, timer} from "rxjs";
 
 @Component({
   selector: 'app-notifications-list',
@@ -25,6 +25,9 @@ export class NotificationsListComponent  implements OnInit {
   public users = [] as UserListed[];
   public notifications = [] as NotificationsListed[];
   public isLoading: boolean = true;
+  private currentPage = 1;
+  private readonly pageSize = 20;
+  public hasMoreData = true;
 
   notificationsListService = inject(NotificationsListService);
   markAsReadService = inject(MarkNotificationAsReadService);
@@ -68,26 +71,40 @@ export class NotificationsListComponent  implements OnInit {
   }
 
 
-  public getNotifications(event?: RefresherCustomEvent) {
-    this.isLoading = true;
+  public getNotifications(isInitialLoad: boolean = false, event?: any) {
+    if (isInitialLoad) {
+      this.currentPage = 1;
+      this.notifications = [];
+      this.hasMoreData = true;
+      this.isLoading = true;
+    }
 
-    // 1. Definimos el tiempo mínimo de espera.
-    const minimumTime = timer(2000);
+    const apiCall = this.notificationsListService.invoke(this.userId, this.currentPage, this.pageSize);
 
-    // 2. Definimos la llamada a la API como un observable.
-    const apiCall = this.notificationsListService.invoke(this.userId);
+    let finalObservable: Observable<NotificationsListed[]>;
 
-    // 3. Usamos forkJoin para esperar a que ambos se completen.
-    forkJoin([apiCall, minimumTime]).subscribe({
-      next: ([response]) => {
-        this.notifications = response;
-        this.isLoading = false;
+    if (isInitialLoad) {
+      const minimumTime = timer(2000);
+      finalObservable = forkJoin([apiCall, minimumTime]).pipe(
+        map(([apiResponse, timerResult]) => apiResponse)
+      );
+    } else {
+
+      finalObservable = apiCall;
+    }
+
+    finalObservable.subscribe({
+      next: (newNotifications: NotificationsListed[]) => {
+        this.notifications.push(...newNotifications.map(n => ({ ...n, isExpanded: false })));
+        if (newNotifications.length < this.pageSize) {
+          this.hasMoreData = false;
+        }
         if (event) {
           event.target.complete();
         }
+        this.isLoading = false;
       },
       error: async (errorResponse) => {
-
         const toaster = await this.toastController.create({
           message: 'Error al cargar las notificaciones',
           position: 'bottom',
@@ -105,9 +122,21 @@ export class NotificationsListComponent  implements OnInit {
 
   handleRefresh(event: RefresherCustomEvent) {
     console.log('Refrescando notificaciones...');
-    this.getNotifications(event);
+    this.getNotifications(true, event);
 
   }
+
+  loadMore(event: any) {
+    if (!this.hasMoreData) {
+      event.target.complete();
+      return;
+    }
+
+    this.currentPage++;
+    console.log(`Cargando página ${this.currentPage}...`);
+    this.getNotifications(false, event);
+  }
+
 
   public markAsRead(id: string, fromToggle: boolean = false) {
 
@@ -118,13 +147,11 @@ export class NotificationsListComponent  implements OnInit {
     }
     const originalReadState = notification.read;
 
-    // 1. Actualización Optimista: cambia el estado en la UI inmediatamente
     notification.read = true;
     if (!fromToggle && notification.isExpanded) {
       notification.isExpanded = false;
     }
 
-    // 2. Llama al servicio en segundo plano
     this.markAsReadService.invoke(id).subscribe({
       next: (result) => {
         console.log(`Notificación ${id} marcada como leída en el servidor.`);
