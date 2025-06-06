@@ -53,8 +53,6 @@ export class TaskDetailsComponent  implements OnInit {
     this.taskDetailsService.invoke(this.taskId).subscribe({
       next: result => {
 
-        this.scrollToBottom(300);
-
         this.task = result;
         if (this.task && typeof this.task.totalTime !== 'undefined') {
           this.total_time = this.formatMinutesToHoursAndMinutes(this.task.totalTime);
@@ -164,27 +162,5 @@ export class TaskDetailsComponent  implements OnInit {
         });
     }
   }
-
-  private scrollToBottom(delay: number = 0): void {
-    if (this.content) {
-      setTimeout(() => {
-        this.content.scrollToBottom(300); // 300ms para la animación del scroll
-      }, delay);
-    }
-  }
-
-  // public openCreateAttachmentModal(): void {
-  //   const modalRef = this.modalService.loadComponent(CreateAttachmentsComponent);
-  //   modalRef.instance.taskId = this.taskId;
-  //   this.modalService.setTitulo('Subir nuevo archivo');
-  //   this.modalService.onDidDismiss$.subscribe({
-  //     next: (data) => {
-  //       if (data) {
-  //
-  //
-  //       }
-  //     }
-  //   })
-  // }
 
 }

@@ -1,5 +1,59 @@
 <ion-content class="ion-padding">
-<ion-card>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tira para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Refrescando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+
+  @if (isLoading) {
+    <ion-card>
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-icon name="archive-outline" slot="start" color="primary" aria-hidden="true"></ion-icon>
+          <!-- Skeleton para el chip "Marcar todas como leídas" -->
+          <ion-skeleton-text [animated]="true" slot="end" style="width: 180px; height: 32px; border-radius: 16px;"></ion-skeleton-text>
+        </ion-item>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list [inset]="true">
+          <!-- Repetimos un esqueleto de item varias veces para simular la lista -->
+          @for (item of [1, 2, 3, 4, 5]; track item) {
+            <ion-item [lines]="$index === 4 ? 'none' : 'full'">
+              <ion-label>
+                <div class="ion-justify-content-between" style="display: flex; width: 100%;">
+                  <!-- Columna izquierda con el contenido del esqueleto -->
+                  <div style="flex-grow: 1; display: flex; align-items: center;">
+                    <!-- Esqueleto para el icono de tipo -->
+                    <ion-skeleton-text [animated]="true" style="width: 24px; height: 24px; margin-right: 16px;"></ion-skeleton-text>
+                    <div>
+                      <!-- Esqueleto para el título -->
+                      <h3>
+                        <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+                      </h3>
+                      <!-- Esqueleto para la fecha -->
+                      <p>
+                        <ion-skeleton-text [animated]="true" style="width: 40%;"></ion-skeleton-text>
+                      </p>
+                    </div>
+                  </div>
+                  <!-- Esqueleto para el botón 'Más/Menos' -->
+                  <ion-skeleton-text [animated]="true" style="width: 60px; height: 20px; align-self: center;"></ion-skeleton-text>
+                </div>
+              </ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  } @else {
+
+  <ion-card>
   <ion-card-header>
     <ion-item lines="none">
       <ion-icon name="archive-outline" slot="start" color="primary" aria-hidden="true"></ion-icon>
@@ -11,66 +65,87 @@
 
   <ion-card-content>
     @if (notifications && notifications.length > 0) {
-      <ion-list [inset]="true"> <!-- inset="true" puede dar un efecto similar al padding original -->
+      <ion-list [inset]="true">
         @for (notification of notifications; track notification.id; let i = $index) {
-          <ion-item [lines]="i === notifications.length - 1 ? 'none' : 'full'">
-            <ion-label>
-              <div class="ion-justify-content-between ion-align-items-start" style="display: flex; width: 100%;">
-                <div>
-                  <div style="display: flex; align-items: center;">
-                    <h3>{{notification.title}}</h3>
+          <ion-item-sliding #slidingItem>
+            <ion-item [lines]="i === notifications.length - 1 ? 'none' : 'full'">
+              <ion-label>
+                <div class="ion-justify-content-between ion-align-items-start" style="display: flex; width: 100%;">
+                  <div>
+                    @if (notification.type === 'Comentario') {
+                      <ion-icon name="chatbox-outline"></ion-icon>
+                    } @else if (notification.type === 'Notificación'){
+                      <ion-icon name="notifications-circle-outline"></ion-icon>
+                    } @else if (notification.type === 'Modificación') {
+                      <ion-icon name="create-outline"></ion-icon>
+                    }
+
                     @if (!notification.read) {
-                      <!-- Span "Nuevo" reemplazado por ion-badge -->
+                      <div style="display: flex; align-items: center;">
+                        <h3> <strong>{{notification.title}}</strong></h3>
+                      </div>
+                      <p class="ion-text-wrap"><small>{{notification.created_at | timeAgo }}</small></p>
+
                       <ion-badge color="primary" style="margin-left: 8px;">
-                        <!-- El SVG del punto puede ser un ion-icon o un estilo CSS en el badge -->
                         <ion-icon name="ellipse" style="font-size: 8px; margin-right: 4px;"></ion-icon>
                         Nuevo
                       </ion-badge>
+                  } @else {
+                      <div style="display: flex; align-items: center;">
+                        <h3>{{notification.title}}</h3>
+                      </div>
+                      <p class="ion-text-wrap"><small>{{notification.created_at | timeAgo }}</small></p>
                     }
                   </div>
-                  <p class="ion-text-wrap"><small>{{notification.created_at | timeAgo }}</small></p>
-                  <ion-button fill="clear" size="small" (click)="markAsRead(notification.id)" class="ion-no-padding ion-text-capitalize">
-                    Marcar como leído
+
+                  <ion-button
+                    fill="clear"
+                    (click)="toggleNotification(notification)"
+                    [attr.aria-expanded]="notification.isExpanded"
+                    [attr.aria-controls]="'details-' + notification.id"
+                    size="big"
+                    style="align-self: flex-start; margin-left: auto;"
+                  >
+                    {{ notification.isExpanded ? 'Menos' : 'Más' }}
+                    <ion-icon
+                      slot="end"
+                      [name]="notification.isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"
+                    ></ion-icon>
                   </ion-button>
                 </div>
 
-                <ion-button
-                  fill="clear"
-                  (click)="toggleNotification(notification)"
-                  [attr.aria-expanded]="notification.isExpanded"
-                  [attr.aria-controls]="'details-' + notification.id"
-                  size="small"
-                  style="align-self: flex-start; margin-left: auto;"
-                >
-                  {{ notification.isExpanded ? 'Ver menos' : 'Ver más' }}
-                  <ion-icon
-                    slot="end"
-                    [name]="notification.isExpanded ? 'chevron-up-outline' : 'chevron-down-outline'"
-                  ></ion-icon>
-                </ion-button>
-              </div>
+                @if (notification.isExpanded) {
+                  <div
+                    [id]="'details-' + notification.id"
+                    class="ion-padding-top ion-margin-top"
+                    style="width: 100%; border-left: 2px solid var(--ion-color-medium-shade); padding-left: 10px;"
+                  >
+                    @if (notification.content) {
+                      <p class="ion-text-wrap"><small>{{notification.content}}</small></p>
+                    }
+                    @if (notification.link) {
+                      <ion-text color="primary">
+                        <a [routerLink]="notification.link" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                          Ver detalle
+                          <ion-icon name="open-outline" style="vertical-align: middle;"></ion-icon>
+                        </a>
+                      </ion-text>
+                    }
+                  </div>
+                }
+              </ion-label>
+            </ion-item>
 
-              @if (notification.isExpanded) {
-                <div
-                  [id]="'details-' + notification.id"
-                  class="ion-padding-top ion-margin-top"
-                  style="width: 100%; border-left: 2px solid var(--ion-color-medium-shade); padding-left: 10px;"
-                >
-                  @if (notification.content) {
-                    <p class="ion-text-wrap"><small>{{notification.content}}</small></p>
-                  }
-                  @if (notification.link) {
-                    <ion-text color="primary">
-                      <a [routerLink]="notification.link" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-                        Ver detalle
-                        <ion-icon name="open-outline" style="vertical-align: middle;"></ion-icon>
-                      </a>
-                    </ion-text>
-                  }
-                </div>
+            <ion-item-options side="end">
+
+              @if (!notification.read) {
+                <ion-item-option color="success" (click)="markAsRead(notification.id); slidingItem.close()">
+                  <ion-icon slot="icon-only" name="checkmark-done-outline"></ion-icon>
+                  Leída
+                </ion-item-option>
               }
-            </ion-label>
-          </ion-item>
+            </ion-item-options>
+          </ion-item-sliding>
         }
       </ion-list>
     } @else {
@@ -80,4 +155,5 @@
     }
   </ion-card-content>
 </ion-card>
+  }
  </ion-content>

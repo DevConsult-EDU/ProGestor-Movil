@@ -1,28 +1,21 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {
-  CountUnreadNotificationsService
-} from "../../services/count-unread-notifications-service/count-unread-notifications.service";
+import {Component, Input} from '@angular/core';
+import {CommonModule} from "@angular/common";
+import {IonicModule} from "@ionic/angular";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-notification-icon',
-  standalone: false,
+  standalone: true,
   templateUrl: '../../pages/notification-icon.component.html',
   styleUrls: ['./notification-icon.component.scss'],
+  imports: [
+    CommonModule,
+    IonicModule,
+    RouterLink
+  ]
 })
-export class NotificationIconComponent  implements OnInit {
+export class NotificationIconComponent  {
 
-  countUnreadNotificationsService = inject(CountUnreadNotificationsService);
-  public cont = 0;
-
-  public getCountUnreadNotifications(){
-    this.countUnreadNotificationsService.invoke().subscribe((response: number) => {
-      this.cont = response;
-    })
-  }
-  ngOnInit() {
-
-    this.getCountUnreadNotifications();
-
-  }
-
+  @Input() isMenuItem: boolean = true;
+  @Input() cont: number = 0;
 }
