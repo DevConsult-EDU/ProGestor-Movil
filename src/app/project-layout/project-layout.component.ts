@@ -47,9 +47,10 @@ export class ProjectLayoutComponent implements OnInit {
     }
 
     public navigateToNotifications() {
-    this.router.navigate(['/notifications']);
-
-    this.notificationsList.getNotifications()
+      this.router.navigate(['/notifications']);
+      if (this.cont > 0){
+        this.notificationsList.getNotifications()
+      }
     }
 
   public getCountUnreadNotifications(){

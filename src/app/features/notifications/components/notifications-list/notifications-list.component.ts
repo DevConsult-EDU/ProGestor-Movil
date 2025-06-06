@@ -11,7 +11,7 @@ import {
 import {NotificationsListService} from "../../services/notifications-list-service/notifications-list.service";
 import {UserListService} from "../../../users/services/user-list-service/user-list.service";
 import {ActivatedRoute} from "@angular/router";
-import {RefresherCustomEvent, ToastController} from "@ionic/angular";
+import {AlertController, LoadingController, RefresherCustomEvent, ToastController} from "@ionic/angular";
 import {forkJoin, tap, timer} from "rxjs";
 
 @Component({
@@ -32,11 +32,13 @@ export class NotificationsListComponent  implements OnInit {
   userListService = inject(UserListService);
   activatedRoute = inject(ActivatedRoute);
   toastController = inject(ToastController);
+  loadController = inject(LoadingController);
+  alertController = inject(AlertController);
 
   userId = this.activatedRoute.snapshot.params['idUser'];
 
 
-  constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
+  constructor(@Inject(ProjectLayoutComponent) protected parent: ProjectLayoutComponent) {
 
   }
 
@@ -143,22 +145,59 @@ export class NotificationsListComponent  implements OnInit {
 
 
 
-  public markAllAsRead(id: string) {
+  public async markAllAsRead(id: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmación',
+      message: '¿Estás seguro de que quieres marcar todas las notificaciones como leídas?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Operación cancelada');
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: async () => {
+            await this.executeMarkAllAsRead(id);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Función auxiliar que contiene la lógica de carga y la llamada a la API.
+   * Esto mantiene el código más limpio.
+   */
+  private async executeMarkAllAsRead(id: string) {
+    const loading = await this.loadController.create({
+      message: 'Marcando todas como leídas...',
+      spinner: 'circles',
+    });
+    await loading.present();
+
     this.markAllAsReadService.invoke(id).subscribe({
       next: (result) => {
+        loading.dismiss();
         this.getNotifications();
-
-      }, error: async (errorResponse) => {
+      },
+      error: async (errorResponse) => {
+        await loading.dismiss();
         console.log(errorResponse);
         const toaster = await this.toastController.create({
-          message: 'Error al marcar como leida las notificaciones',
+          message: 'Error al marcar las notificaciones como leídas',
           position: 'bottom',
           duration: 3000,
           color: 'danger',
-        })
+        });
         await toaster.present();
       }
-    })
+    });
   }
 
 }

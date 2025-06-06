@@ -54,15 +54,16 @@
   } @else {
 
   <ion-card>
-  <ion-card-header>
-    <ion-item lines="none">
-      <ion-icon name="archive-outline" slot="start" color="primary" aria-hidden="true"></ion-icon>
-      <ion-chip (click)="markAllAsRead(userId)" slot="end" outline="true">
-        <ion-label color="primary">Marcar todas como leídas</ion-label>
-      </ion-chip>
-    </ion-item>
-  </ion-card-header>
-
+    @if (this.parent.cont > 0) {
+      <ion-card-header>
+        <ion-item lines="none">
+          <ion-icon name="archive-outline" slot="start" color="primary"></ion-icon>
+          <ion-chip (click)="markAllAsRead(userId)" slot="start" outline="true">
+            <ion-label color="primary">Marcar todas como leídas</ion-label>
+          </ion-chip>
+        </ion-item>
+      </ion-card-header>
+    }
   <ion-card-content>
     @if (notifications && notifications.length > 0) {
       <ion-list [inset]="true">
