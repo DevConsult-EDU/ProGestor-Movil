@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Filtrar Notificaciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <p>Selecciona los tipos de notificación que quieres ver.</p>
+
+  <div class="ion-padding-vertical">
+    @for(filter of availableFilters; track filter) {
+      <ion-chip
+        [outline]="!selectedFilters.has(filter)"
+        (click)="toggleFilter(filter)"
+        color="primary">
+        <ion-label>{{ filter }}</ion-label>
+      </ion-chip>
+    }
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="clearFilters()" fill="clear" color="danger">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Limpiar
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="applyFilters()" fill="solid">
+        Aplicar Filtros
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,4 +1,4 @@
-import {Component, inject, Inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, Inject, OnInit} from '@angular/core';
 import {ProjectLayoutComponent} from "../../../../project-layout/project-layout.component";
 import {
   MarkNotificationAsReadService
@@ -11,13 +11,23 @@ import {
 import {NotificationsListService} from "../../services/notifications-list-service/notifications-list.service";
 import {UserListService} from "../../../users/services/user-list-service/user-list.service";
 import {ActivatedRoute} from "@angular/router";
-import {AlertController, LoadingController, RefresherCustomEvent, ToastController} from "@ionic/angular";
+import {
+  AlertController,
+  LoadingController,
+  ModalController,
+  RefresherCustomEvent,
+  ToastController
+} from "@ionic/angular";
 import {forkJoin, map, Observable, tap, timer} from "rxjs";
+import {FilterPreferenceService} from "../../services/filter-preferences-service/filter-preferences.service";
+import {
+  NotificationFiltersModalComponent
+} from "../../components/notification-filters-modal/notification-filters-modal.component";
 
 @Component({
   selector: 'app-notifications-list',
   standalone: false,
-  templateUrl: '../../pages/notifications-list.component.html',
+  templateUrl: './notifications-list.component.html',
   styleUrls: ['./notifications-list.component.scss'],
 })
 export class NotificationsListComponent  implements OnInit {
@@ -28,6 +38,7 @@ export class NotificationsListComponent  implements OnInit {
   private currentPage = 1;
   private readonly pageSize = 20;
   public hasMoreData = true;
+  public activeFilters: string[] = [];
 
   notificationsListService = inject(NotificationsListService);
   markAsReadService = inject(MarkNotificationAsReadService);
@@ -37,6 +48,9 @@ export class NotificationsListComponent  implements OnInit {
   toastController = inject(ToastController);
   loadController = inject(LoadingController);
   alertController = inject(AlertController);
+  modalController = inject(ModalController);
+  filterPreferencesService = inject(FilterPreferenceService);
+  cdr = inject(ChangeDetectorRef);
 
   userId = this.activatedRoute.snapshot.params['idUser'];
 
@@ -45,11 +59,9 @@ export class NotificationsListComponent  implements OnInit {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     this.parent.titulo = 'Notificaciones';
-
-    this.getNotifications();
 
     this.userListService.invoke().subscribe((response: UserListed[]) => {
       this.users = response;
@@ -59,6 +71,9 @@ export class NotificationsListComponent  implements OnInit {
       ...notification,
       isExpanded: notification.isExpanded || false
     }));
+
+    this.activeFilters = await this.filterPreferencesService.loadFilters();
+    this.getNotifications(true);
 
   }
 
@@ -79,7 +94,8 @@ export class NotificationsListComponent  implements OnInit {
       this.isLoading = true;
     }
 
-    const apiCall = this.notificationsListService.invoke(this.userId, this.currentPage, this.pageSize);
+    const apiCall = this.notificationsListService.
+    invoke(this.userId, this.currentPage, this.pageSize, this.activeFilters);
 
     let finalObservable: Observable<NotificationsListed[]>;
 
@@ -118,6 +134,26 @@ export class NotificationsListComponent  implements OnInit {
         }
       }
     });
+  }
+
+  async openFilterModal() {
+    const modal = await this.modalController.create({
+      component: NotificationFiltersModalComponent,
+      componentProps: {
+        currentFilters: this.activeFilters
+      }
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+
+    if (role === 'apply') {
+      this.activeFilters = data;
+
+      await this.filterPreferencesService.saveFilters(this.activeFilters);
+      this.getNotifications(true);
+    }
   }
 
   handleRefresh(event: RefresherCustomEvent) {
@@ -197,28 +233,38 @@ export class NotificationsListComponent  implements OnInit {
     await alert.present();
   }
 
-  /**
-   * Función auxiliar que contiene la lógica de carga y la llamada a la API.
-   * Esto mantiene el código más limpio.
-   */
   private async executeMarkAllAsRead(id: string) {
+
     const loading = await this.loadController.create({
-      message: 'Marcando todas como leídas...',
-      spinner: 'circles',
+      message: 'Actualizando...',
     });
     await loading.present();
 
+    const originalNotifications = JSON.parse(JSON.stringify(this.notifications));
+
+    this.notifications.forEach(notification => {
+      notification.read = true;
+    });
+
+    this.cdr.detectChanges();
+
     this.markAllAsReadService.invoke(id).subscribe({
-      next: (result) => {
-        loading.dismiss();
-        this.getNotifications();
+      next: async (result) => {
+
+        console.log('Backend actualizado correctamente.');
+        await loading.dismiss();
       },
       error: async (errorResponse) => {
+
+        console.error('Error al actualizar el backend, revirtiendo UI.', errorResponse);
+
+        this.notifications = originalNotifications;
+        this.cdr.detectChanges();
+
         await loading.dismiss();
-        console.log(errorResponse);
+
         const toaster = await this.toastController.create({
-          message: 'Error al marcar las notificaciones como leídas',
-          position: 'bottom',
+          message: 'No se pudieron marcar las notificaciones.',
           duration: 3000,
           color: 'danger',
         });

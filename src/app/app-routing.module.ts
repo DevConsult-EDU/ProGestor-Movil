@@ -128,7 +128,7 @@ const routes: Routes = [
     path: 'notifications',
     title: 'Notifications',
     component: ProjectLayoutComponent,
-    loadChildren: () => import('./features/notifications/components/notifications-list/notifications-list.module').then(m => m.NotificationsListModule),
+    loadChildren: () => import('./features/notifications/pages/notifications-list/notifications-list.module').then(m => m.NotificationsListModule),
   },
   {
     path: '',

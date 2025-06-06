@@ -13,11 +13,18 @@ export class NotificationsListService {
 
   public apiUrl = environment.baseUrl;
 
-  invoke(userId: string, page: number, limit: number): Observable<NotificationsListed[]> {
+  invoke(userId: string, page: number, limit: number, filters: string[]): Observable<NotificationsListed[]> {
 
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString());
+
+    if (filters && filters.length > 0) {
+      filters.forEach(filter => {
+
+        params = params.append('types[]', filter);
+      });
+    }
 
     return this.http.get<NotificationsListed[]>(`${this.apiUrl}/auth/notifications/${userId}`, { params });
   }

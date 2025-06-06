@@ -12,7 +12,7 @@ import {
 import {Observable, Subscription, timer} from "rxjs";
 import {
   NotificationsListComponent
-} from "../features/notifications/components/notifications-list/notifications-list.component";
+} from "../features/notifications/pages/notifications-list/notifications-list.component";
 
 @Component({
   selector: 'app-project-layout',
