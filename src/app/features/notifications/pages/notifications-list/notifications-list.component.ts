@@ -13,7 +13,7 @@ import {UserListService} from "../../../users/services/user-list-service/user-li
 import {ActivatedRoute} from "@angular/router";
 import {
   AlertController,
-  LoadingController,
+  LoadingController, MenuController,
   ModalController,
   RefresherCustomEvent,
   ToastController
@@ -39,6 +39,7 @@ export class NotificationsListComponent  implements OnInit {
   private readonly pageSize = 20;
   public hasMoreData = true;
   public activeFilters: string[] = [];
+  public isProgrammaticRefresh = false;
 
   notificationsListService = inject(NotificationsListService);
   markAsReadService = inject(MarkNotificationAsReadService);
@@ -51,6 +52,7 @@ export class NotificationsListComponent  implements OnInit {
   modalController = inject(ModalController);
   filterPreferencesService = inject(FilterPreferenceService);
   cdr = inject(ChangeDetectorRef);
+  menuCtrl = inject(MenuController);
 
   userId = this.activatedRoute.snapshot.params['idUser'];
 
@@ -89,7 +91,7 @@ export class NotificationsListComponent  implements OnInit {
   public getNotifications(isInitialLoad: boolean = false, event?: any) {
     if (isInitialLoad) {
       this.currentPage = 1;
-      this.notifications = [];
+
       this.hasMoreData = true;
       this.isLoading = true;
     }
@@ -272,5 +274,12 @@ export class NotificationsListComponent  implements OnInit {
       }
     });
   }
+
+  ionViewWillEnter() {
+
+    this.menuCtrl.enable(true, 'main-menu');
+  }
+
+
 
 }

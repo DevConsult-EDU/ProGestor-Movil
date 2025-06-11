@@ -1,5 +1,5 @@
 
-<ion-menu side="start" contentId="main-content" #menu>
+<ion-menu side="start" menuId="main-menu" contentId="main-content" #menu>
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>Menú Principal</ion-title>
@@ -44,7 +44,7 @@
       </ion-button>
     }
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
