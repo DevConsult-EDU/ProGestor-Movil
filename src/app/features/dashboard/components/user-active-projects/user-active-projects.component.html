@@ -1,4 +1,4 @@
-<ion-card class="tasks-summary-card">
+<ion-card class="tasks-summary-card" style="max-width: 300px; margin-right: auto; margin-left: auto;">
   <!-- Header -->
   <ion-card-header>
     <ion-item lines="none" class="ion-no-padding">
@@ -6,41 +6,41 @@
       <ion-card-title>Proyectos Activos</ion-card-title>
     </ion-item>
   </ion-card-header>
-  <!-- Removed hr, card-header usually provides separation. Add <hr class="ion-margin-bottom-small"> if needed -->
 
-  <!-- Task List -->
-  <ion-list lines="full">
-    <!-- Task Loop -->
+  <ion-list lines="full" style="margin-right: auto; margin-left: auto; max-width: 250px;">
+
     @for (project of projects; track project.id) {
       @if (project.status !== 'completado' && project.status !== 'cancelado') {
-        <ion-label>
-          <h2 style="font-weight: 600;">{{project.name}}</h2>
+        <div class="ion-padding-bottom">
+          <ion-label>
+            <h2 style="font-weight: 600;">{{project.name}}</h2>
 
-          <!-- Customer Loop -->
-          @for (customer of customers; track customer.id) {
-            <p *ngIf="project.customer_id === customer.id" class="ion-text-small" color="medium" style="margin-top: 0.25rem;">
-              Cliente: {{customer.name}}
+            @for (customer of customers; track customer.id) {
+              <p *ngIf="project.customer_id === customer.id" class="ion-text-small" style="margin-top: 0.25rem;">
+                Cliente: {{customer.name}}
+              </p>
+            }
+
+            <p class="ion-text-small ion-margin-vertical-small">
+              Progreso: {{getPercentage(project.completed_task_count, project.task_count)}}%
             </p>
-          }
+            <div style="display: flex; align-items: center;">
+              <ion-progress-bar
+                type="determinate"
+                color="primary"
+                [value]="getPercentage(project.completed_task_count, project.task_count)"
+                style="flex-grow: 1; margin-right: 8px; --buffer-background: var(--ion-color-light-shade);">
+              </ion-progress-bar>
+              <ion-text class="ion-text-small ion-text-nowrap" color="medium">
+                {{project.completed_task_count}}/{{project.task_count}} tareas
+              </ion-text>
+            </div>
+          </ion-label>
 
-          <p class="ion-text-small ion-margin-vertical-small" color="medium">
-            Progreso: {{(project.task_count > 0 ? (project.completed_task_count / project.task_count) * 100 : 0) | number:'1.0-0'}}%
-          </p>
-          <div style="display: flex; align-items: center;">
-            <ion-progress-bar
-              color="primary"
-              [value]="project.task_count > 0 ? (project.completed_task_count / project.task_count) : 0"
-              style="flex-grow: 1; margin-right: 8px; --buffer-background: var(--ion-color-light-shade);">
-            </ion-progress-bar>
-            <ion-text class="ion-text-small ion-text-nowrap" color="medium">
-              {{project.completed_task_count}}/{{project.task_count}} tareas
-            </ion-text>
-          </div>
-        </ion-label>
+          <ion-badge *ngIf="project.status === 'en progreso'" color="primary" slot="end">{{ project.status }}</ion-badge>
+          <ion-badge *ngIf="project.status === 'pendiente'" color="warning" slot="end">{{ project.status }}</ion-badge>
 
-        <ion-badge *ngIf="project.status === 'en progreso'" color="primary" slot="end">{{ project.status }}</ion-badge>
-        <ion-badge *ngIf="project.status === 'pendiente'" color="warning" slot="end">{{ project.status }}</ion-badge>
-        <!-- You might want to add other status conditions here or use ngSwitch -->
+        </div>
       }
     }
   </ion-list>

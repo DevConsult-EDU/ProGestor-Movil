@@ -6,13 +6,13 @@ import {RecentActivitiesModule} from "../components/recent-activities/recent-act
 import {UserPendingTasksModule} from "../components/user-pending-tasks/user-pending-tasks.module";
 import {UserActiveProjectsModule} from "../components/user-active-projects/user-active-projects.module";
 import {IonicModule} from "@ionic/angular";
+import {AiSummaryWidgetModule} from "../components/ai-summary-widget/ai-summary-widget.module";
 
 
 @NgModule({
   declarations: [MainDashboardComponent],
   imports: [
     CommonModule,
-    RecentActivitiesModule,
     RouterModule.forChild([
       {
         path: '',
@@ -21,6 +21,8 @@ import {IonicModule} from "@ionic/angular";
     ]),
     UserPendingTasksModule,
     UserActiveProjectsModule,
+    RecentActivitiesModule,
+    AiSummaryWidgetModule,
     IonicModule,
 
   ]

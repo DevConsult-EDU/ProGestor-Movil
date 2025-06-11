@@ -1,5 +1,5 @@
 
-<ion-card class="tasks-summary-card">
+<ion-card class="tasks-summary-card" style="max-width: 300px; margin-right: auto; margin-left: auto;">
   <!-- Header -->
   <ion-card-header>
     <ion-item lines="none" class="ion-no-padding">
@@ -10,15 +10,11 @@
 
   <hr class="card-divider ion-margin-start ion-margin-end">
 
-  <!-- Task List -->
-  <!-- The original HTML had <div class="divide-y divide-gray-200"> *inside* the @for loop,
-       which is unusual. Assuming the intent was a list of tasks with dividers.
-       ion-list with lines="full" achieves this. -->
-  <ion-list lines="full" class="ion-no-padding">
+  <ion-list lines="full" class="ion-no-padding" style="margin-right: auto; margin-left: auto; max-width: 250px;">
     @for (task of tasks; track task.id) {
       @if (task.status !== "completado") {
         <!-- Task Item -->
-        <ion-item class="ion-no-padding ion-padding-top ion-padding-bottom">
+        <ion-item class="ion-no-padding ion-padding-bottom">
           <ion-label class="ion-text-wrap">
             <h3 style="font-weight: 600; color: var(--ion-color-dark-tint, #373737);">{{task.title}}</h3>
             @for (project of projects; track project.id) {
