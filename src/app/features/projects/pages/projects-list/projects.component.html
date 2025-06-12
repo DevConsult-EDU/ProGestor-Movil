@@ -5,34 +5,36 @@
 </ion-fab>
 
 @if (projects && projects.length > 0) {
-  <ion-list lines="inset"> <!-- O "full" o "none" -->
-    @for (project of projects; track project.id) {
-      <ion-item (click)="navigateDetailsProject(project.id)"> <!-- 'button' para efecto visual al pulsar -->
-        <ion-label>
-          <h2>{{ project.name }}</h2>
-          <p>{{ project.description }}</p>
-          <p>
-            @for (customer of customers; track customer.id) {
-              @if (customer.id === project.customer_id) {
-                <p>Cliente: <ion-text color="medium"><small>{{ customer.name }}</small></ion-text></p>
+  <ion-content>
+    <ion-list lines="inset"> <!-- O "full" o "none" -->
+      @for (project of projects; track project.id) {
+        <ion-item (click)="navigateDetailsProject(project.id)"> <!-- 'button' para efecto visual al pulsar -->
+          <ion-label>
+            <h2>{{ project.name }}</h2>
+            <p>{{ project.description }}</p>
+            <p>
+              @for (customer of customers; track customer.id) {
+                @if (customer.id === project.customer_id) {
+                  <p>Cliente: <ion-text color="medium"><small>{{ customer.name }}</small></ion-text></p>
+                }
               }
-            }
-            @if (project.status === 'pendiente') {
-              <p>Estado: <ion-text color="warning"><small>{{ project.status }}</small></ion-text></p>
-            } @else if (project.status === 'en progreso') {
-              <p>Estado: <ion-text color="primary"><small>{{ project.status }}</small></ion-text></p>
-            } @else if (project.status === 'completado') {
-              <p>Estado: <ion-text color="success"><small>{{ project.status }}</small></ion-text></p>
-            } @else if (project.status === 'cancelado') {
-              <p>Estado: <ion-text color="error"><small>{{ project.status }}</small></ion-text></p>
-            }
+              @if (project.status === 'pendiente') {
+                <p>Estado: <ion-text color="warning"><small>{{ project.status }}</small></ion-text></p>
+              } @else if (project.status === 'en progreso') {
+                <p>Estado: <ion-text color="primary"><small>{{ project.status }}</small></ion-text></p>
+              } @else if (project.status === 'completado') {
+                <p>Estado: <ion-text color="success"><small>{{ project.status }}</small></ion-text></p>
+              } @else if (project.status === 'cancelado') {
+                <p>Estado: <ion-text color="error"><small>{{ project.status }}</small></ion-text></p>
+              }
 
-          </p>
-        </ion-label>
-        <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
-      </ion-item>
-    }
-  </ion-list>
+            </p>
+          </ion-label>
+          <ion-icon name="chevron-forward-outline" slot="end" color="medium"></ion-icon>
+        </ion-item>
+      }
+    </ion-list>
+  </ion-content>
 } @else {
   <div class="ion-padding ion-text-center">
     <p>No hay usuarios para mostrar.</p>

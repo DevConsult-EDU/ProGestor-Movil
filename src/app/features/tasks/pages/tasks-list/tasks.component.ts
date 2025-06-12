@@ -1,4 +1,4 @@
-import {Component, Inject, inject, OnInit} from '@angular/core';
+import {Component, Inject, inject, OnInit, ViewChild} from '@angular/core';
 import {Router} from "@angular/router";
 import {TaskListed} from "../../../../shared/interfaces/taskListed.interface";
 import {ProjectListed} from "../../../../shared/interfaces/projectListed.interface";
@@ -20,6 +20,8 @@ export class TasksComponent  implements OnInit {
   public tasks = [] as TaskListed[];
   public projects = [] as ProjectListed[];
   public users = [] as UserListed[];
+  public isAiSuggestion: boolean = false;
+
 
   projectListService = inject(ProjectListService);
   taskListService = inject(TaskListService);
@@ -47,6 +49,10 @@ export class TasksComponent  implements OnInit {
       this.users = response;
     })
 
+  }
+
+  toggleAiSuggestion() {
+    this.isAiSuggestion = !this.isAiSuggestion;
   }
 
   navigateCreateTask() {

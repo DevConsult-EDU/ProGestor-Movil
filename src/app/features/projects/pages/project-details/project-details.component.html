@@ -11,20 +11,20 @@
       <p><ion-text><strong>Nombre:</strong> {{project.name}}</ion-text></p>
       <p><ion-text><strong>Descripción:</strong> {{project.description}}</ion-text></p>
       <p><ion-text><strong>ID Cliente:</strong> {{project.customer_id}}</ion-text></p>
-      @if (project.status === 'pendiente') {
+      @if (project.status === 'Pendiente') {
         <p><strong>Estado: </strong></p><ion-text color="warning">{{ project.status }}</ion-text>
-      } @else if (project.status === 'en progreso') {
+      } @else if (project.status === 'En Progreso') {
         <p><strong>Estado: </strong></p><ion-text color="primary">{{ project.status }}</ion-text>
-      } @else if (project.status === 'completado') {
+      } @else if (project.status === 'Completado') {
         <p><strong>Estado: </strong></p><ion-text color="success">{{ project.status }}</ion-text>
-      } @else if (project.status === 'cancelado') {
+      } @else if (project.status === 'Pospuesto') {
         <p><strong>Estado: </strong></p><ion-text color="danger">{{ project.status }}</ion-text>
       }
       <p><ion-text><strong>Fecha de inicio:</strong> {{project.started_at | date: 'dd/MM/yyyy'}}</ion-text></p>
       <p><ion-text><strong>Fecha de vencimiento:</strong> {{project.finished_at | date: 'dd/MM/yyyy'}}</ion-text></p>
     </div>
 
-    @if (rol && rol === 'admin') {
+    @if (rol && rol === 'Admin') {
       <ion-button expand="block" color="primary" (click)="navigateUpdateProject()" class="ion-margin-top">
         Editar perfil
       </ion-button>

@@ -30,7 +30,7 @@ export class AuthService {
   private _user = signal<User | null>(null);
   private _token = signal<string | null>(localStorage.getItem('token'));
 
-  isAdmin = computed(() => this._user()?.rol.includes('admin') ?? false);
+  isAdmin = computed(() => this._user()?.rol.includes('Admin') ?? false);
 
   constructor(
     private http: HttpClient,

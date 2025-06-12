@@ -1,5 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {ProjectLayoutComponent} from "../../../project-layout/project-layout.component";
+import {UserActiveProjectsComponent} from "../components/user-active-projects/user-active-projects.component";
+import {UserPendingTasksComponent} from "../components/user-pending-tasks/user-pending-tasks.component";
+import {AiSummaryWidgetComponent} from "../components/ai-summary-widget/ai-summary-widget.component";
+import {RecentActivitiesComponent} from "../components/recent-activities/recent-activities.component";
 
 @Component({
   selector: 'app-main-dashboard',
@@ -8,11 +12,16 @@ import {ProjectLayoutComponent} from "../../../project-layout/project-layout.com
   styleUrls: ['./main-dashboard.component.scss'],
 })
 export class MainDashboardComponent implements OnInit {
+
+  public isLoading: boolean = false;
+
   constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
   }
 
   ngOnInit() {
+
     this.parent.titulo = 'Dashboard';
+
   }
 
 

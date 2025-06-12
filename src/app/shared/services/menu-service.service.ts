@@ -55,7 +55,7 @@ export class MenuServiceService {
       return [];
     }
 
-    if (this.rol !== 'admin') {
+    if (this.rol !== 'Admin') {
       return this.sharedMenu;
     }
 

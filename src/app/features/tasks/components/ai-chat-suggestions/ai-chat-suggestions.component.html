@@ -1,0 +1,26 @@
+<ion-card-content >
+
+  <markdown [data]="suggestion"></markdown>
+
+  <div class="ion-text-center ion-padding-top">
+    <ion-button
+
+      fill="clear"
+      shape="round"
+      (click)="getSuggestions()"
+      [disabled]="isLoading">
+
+      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+
+      <ion-icon *ngIf="!isLoading" name="refresh-outline" slot="icon-only"></ion-icon>
+
+    </ion-button>
+
+  </div>
+
+</ion-card-content>
+
+
+
+
+

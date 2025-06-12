@@ -19,11 +19,11 @@
       <br>
       <ion-item lines="none" color="transparent">
         <ion-label slot="start">Estado</ion-label>
-        @if (task.status === 'pendiente') {
+        @if (task.status === 'Por Hacer') {
           <ion-chip slot="end" color="warning">{{ task.status }}</ion-chip>
-        } @else if (task.status === 'en progreso') {
+        } @else if (task.status === 'En Progreso') {
           <ion-chip slot="end" color="primary">{{ task.status }}</ion-chip>
-        } @else if (task.status === 'completado') {
+        } @else if (task.status === 'Hecho') {
           <ion-chip slot="end" color="success">{{ task.status }}</ion-chip>
         }
 

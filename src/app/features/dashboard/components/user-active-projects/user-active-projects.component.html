@@ -10,7 +10,7 @@
   <ion-list lines="full" style="margin-right: auto; margin-left: auto; max-width: 250px;">
 
     @for (project of projects; track project.id) {
-      @if (project.status !== 'completado' && project.status !== 'cancelado') {
+      @if (project.status !== 'Completado' && project.status !== 'Pospuesto') {
         <div class="ion-padding-bottom">
           <ion-label>
             <h2 style="font-weight: 600;">{{project.name}}</h2>
@@ -37,8 +37,8 @@
             </div>
           </ion-label>
 
-          <ion-badge *ngIf="project.status === 'en progreso'" color="primary" slot="end">{{ project.status }}</ion-badge>
-          <ion-badge *ngIf="project.status === 'pendiente'" color="warning" slot="end">{{ project.status }}</ion-badge>
+          <ion-badge *ngIf="project.status === 'En Progreso'" color="primary" slot="end">{{ project.status }}</ion-badge>
+          <ion-badge *ngIf="project.status === 'Pendiente'" color="warning" slot="end">{{ project.status }}</ion-badge>
 
         </div>
       }

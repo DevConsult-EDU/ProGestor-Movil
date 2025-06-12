@@ -28,12 +28,12 @@
             </div>
           </ion-label>
 
-          @if (task.priority === "media") {
+          @if (task.priority === "Media") {
             <!-- For closer Tailwind styling, use class="priority-media" and define in CSS (see comment block above) -->
             <ion-chip slot="end" color="warning" style="font-size: 0.75rem; font-weight: 500;">
               <ion-label class="ion-text-capitalize">{{ task.priority }}</ion-label>
             </ion-chip>
-          }@else if (task.priority === "alta") {
+          }@else if (task.priority === "Alta") {
             <ion-chip slot="end" color="danger" style="font-size: 0.75rem; font-weight: 500;">
               <ion-label class="ion-text-capitalize">{{ task.priority }}</ion-label>
             </ion-chip>

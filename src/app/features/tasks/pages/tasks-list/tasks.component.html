@@ -4,10 +4,25 @@
   </ion-fab-button>
 </ion-fab>
 
+<ion-fab horizontal="start" vertical="bottom" slot="fixed">
+  <ion-fab-button (click)="toggleAiSuggestion()">
+    <ion-icon name="help-outline"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-card *ngIf="isAiSuggestion" class="ion-margin-top" style="max-width: 350px; margin-left: auto; margin-right: auto;">
+
+    <app-ai-chat-suggestions></app-ai-chat-suggestions>
+
+</ion-card>
+
+
 @if (tasks && tasks.length > 0) {
-  <ion-list lines="inset"> <!-- O "full" o "none" -->
+
+<ion-content class="ion-padding-bottom">
+  <ion-list lines="inset">
     @for (task of tasks; track task.id) {
-      <ion-item (click)="navigateDetailsTask(task.id)"> <!-- 'button' para efecto visual al pulsar -->
+      <ion-item (click)="navigateDetailsTask(task.id)">
         <ion-label>
           <h2>{{ task.title }}</h2>
           <p>{{ task.description }}</p>
@@ -17,17 +32,17 @@
                 <p>Proyecto: <ion-text color="medium"><small>{{ project.name }}</small></ion-text></p>
               }
             }
-            @if (task.status === 'pendiente') {
+            @if (task.status === 'Por Hacer') {
               <p>Estado: <ion-text color="warning"><small>{{ task.status }}</small></ion-text></p>
-            } @else if (task.status === 'en progreso') {
+            } @else if (task.status === 'En Progreso') {
               <p>Estado: <ion-text color="primary"><small>{{ task.status }}</small></ion-text></p>
-            } @else if (task.status === 'completado') {
+            } @else if (task.status === 'Hecho') {
               <p>Estado: <ion-text color="success"><small>{{ task.status }}</small></ion-text></p>
             }
 
-            @if (task.priority === 'media') {
+            @if (task.priority === 'Media') {
               <p>Prioridad: <ion-text color="warning"><small>{{ task.priority }}</small></ion-text></p>
-            } @else if (task.priority === 'alta') {
+            } @else if (task.priority === 'Alta') {
               <p>Prioridad: <ion-text color="danger"><small>{{ task.priority }}</small></ion-text></p>
             } @else {
               <p>Prioridad: <ion-text color="medium"><small>{{ task.priority }}</small></ion-text></p>
@@ -38,6 +53,7 @@
       </ion-item>
     }
   </ion-list>
+</ion-content>
 } @else {
   <div class="ion-padding ion-text-center">
     <p>No hay usuarios para mostrar.</p>
