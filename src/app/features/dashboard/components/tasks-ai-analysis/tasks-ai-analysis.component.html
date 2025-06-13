@@ -1,0 +1,64 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="ion-text-center">Análisis IA de tus Tareas</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <!-- 1. Estado de Carga -->
+    <div *ngIf="isLoading" class="status-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p class="ion-text-center ion-padding-top">🧠 Analizando distribución de tareas...</p>
+    </div>
+
+    <!-- 2. Estado de Error -->
+    <div *ngIf="error" class="status-container">
+      <!-- ion-item es ideal para mostrar un icono junto a un texto de error -->
+      <ion-item lines="none" color="light">
+        <ion-icon name="alert-circle-outline" slot="start" color="danger"></ion-icon>
+        <ion-label class="ion-text-wrap" color="danger">{{ error }}</ion-label>
+      </ion-item>
+    </div>
+
+    <!-- 3. Contenido Principal con Datos -->
+    <div [hidden]="isLoading || error">
+      <!-- Usamos la rejilla de Ionic para un layout responsivo -->
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+
+          <!-- Columna para el Gráfico -->
+          <ion-col size="12" size-lg="6">
+            <div class="chart-wrapper">
+              <canvas id="canvas">{{ chart }}</canvas>
+            </div>
+          </ion-col>
+
+          <!-- Columna para los Insights y Recomendaciones -->
+          <ion-col size="12" size-lg="6">
+            <!-- Card para el Insight Clave -->
+            <ion-card class="insight-card" color="light">
+              <ion-item lines="none" color="transparent">
+                <ion-icon name="bulb-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Clave del Análisis</h3>
+                  <p class="ion-text-wrap">{{ insight }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-card>
+
+            <!-- Card para la Recomendación -->
+            <ion-card class="recommendation-card" color="light">
+              <ion-item lines="none" color="transparent">
+                <ion-icon name="rocket-outline" slot="start" color="success"></ion-icon>
+                <ion-label>
+                  <h3>Recomendación de Enfoque</h3>
+                  <p class="ion-text-wrap">{{ focusRecommendation }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-card>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-card-content>
+</ion-card>

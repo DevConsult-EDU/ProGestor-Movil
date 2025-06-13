@@ -1,0 +1,35 @@
+/* El contenedor del gráfico aún necesita una altura definida para que Chart.js funcione bien */
+.chart-wrapper {
+  position: relative;
+  height: 300px; /* Ajusta según sea necesario */
+  width: 100%;
+  margin: auto;
+}
+
+/* Contenedor para los mensajes de estado (carga y error) */
+.status-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+/* Ajustes finos para los títulos y párrafos dentro de las tarjetas de insights */
+ion-label h3 {
+  font-weight: bold;
+  color: var(--ion-color-step-800, #333);
+  margin-bottom: 4px;
+}
+
+ion-label p {
+  color: var(--ion-color-step-600, #666);
+  line-height: 1.5;
+}
+
+/* Elimina el padding por defecto de las tarjetas anidadas para un mejor ajuste */
+.insight-card,
+.recommendation-card {
+  margin-left: 0;
+  margin-right: 0;
+}
