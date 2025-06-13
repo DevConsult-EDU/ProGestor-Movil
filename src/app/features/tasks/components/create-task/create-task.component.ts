@@ -6,6 +6,9 @@ import {CreateTaskService} from "../../services/create-task-service/create-task.
 import {ProjectListService} from "../../../projects/services/project-list-service/project-list.service";
 import {UserListService} from "../../../users/services/user-list-service/user-list.service";
 import {Router} from "@angular/router";
+import {
+  DescriptionEnhancerService
+} from "../../../projects/services/description-enhancer-service/description-enhancer.service";
 
 export interface CreateTask {
   project_id: string | undefined;
@@ -34,6 +37,7 @@ export class CreateTaskComponent  implements OnInit {
               private createTaskService: CreateTaskService,
               private projectListService: ProjectListService,
               private userListService: UserListService,
+              private aiDescriptionService: DescriptionEnhancerService,
               private router: Router,) {
     this.buildForm();
   }
@@ -69,13 +73,23 @@ export class CreateTaskComponent  implements OnInit {
       next: (result) => {
         this.router.navigateByUrl('/tasks');
         window.alert('Tarea creada correctamente');
-        window.location.reload();
+
       }, error: (errorResponse) => {
         window.alert('Ha habido un error creando la tarea. Intentelo de nuevo');
         console.log(errorResponse);
       }
     });
 
+  }
+
+  getAssistanceAI(){
+    const title = this.createTaskForm.get('title')!.value;
+    const type = 'task'
+    this.aiDescriptionService.invoke(title, type).subscribe({
+      next: (descriptionAI) => {
+        this.createTaskForm.get('description')!.setValue(descriptionAI.descriptionAI);
+      }
+    })
   }
 
 }

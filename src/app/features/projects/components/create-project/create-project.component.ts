@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {CreateProjectService} from "../../services/create-project-service/create-project.service";
 import {CustomerListService} from "../../../customers/services/customer-list-service/customer-list.service";
 import {Router} from "@angular/router";
+import {DescriptionEnhancerService} from "../../services/description-enhancer-service/description-enhancer.service";
 
 export interface CreateProject {
   name: string | undefined;
@@ -27,6 +28,7 @@ export class CreateProjectComponent  implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private createProjectService: CreateProjectService,
               private customerListService: CustomerListService,
+              private aiDescriptionService: DescriptionEnhancerService,
               private router: Router,) {
     this.buildForm();
   }
@@ -55,13 +57,23 @@ export class CreateProjectComponent  implements OnInit {
       next: (result) => {
         this.router.navigateByUrl('/projects');
         window.alert('Proyecto creado correctamente');
-        window.location.reload();
+
       }, error: (errorResponse) => {
         window.alert('Ha habido un error creando el proyecto. Intentelo de nuevo');
         console.log(errorResponse);
       }
     });
 
+  }
+
+  getAssistanceAI(){
+    const name = this.createProjectForm.get('name')!.value;
+    const type = 'project'
+    this.aiDescriptionService.invoke(name, type).subscribe({
+      next: (descriptionAI) => {
+        this.createProjectForm.get('description')!.setValue(descriptionAI.descriptionAI);
+    }
+    })
   }
 
 }

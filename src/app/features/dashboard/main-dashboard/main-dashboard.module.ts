@@ -7,6 +7,8 @@ import {UserPendingTasksModule} from "../components/user-pending-tasks/user-pend
 import {UserActiveProjectsModule} from "../components/user-active-projects/user-active-projects.module";
 import {IonicModule} from "@ionic/angular";
 import {AiSummaryWidgetModule} from "../components/ai-summary-widget/ai-summary-widget.module";
+import {TasksAiAnalysisModule} from "../components/tasks-ai-analysis/tasks-ai-analysis.module";
+import {AiChatSuggestionsModule} from "../../tasks/components/ai-chat-suggestions/ai-chat-suggestions.module";
 
 
 @NgModule({
@@ -24,6 +26,8 @@ import {AiSummaryWidgetModule} from "../components/ai-summary-widget/ai-summary-
     RecentActivitiesModule,
     AiSummaryWidgetModule,
     IonicModule,
+    TasksAiAnalysisModule,
+    AiChatSuggestionsModule,
 
   ]
 })

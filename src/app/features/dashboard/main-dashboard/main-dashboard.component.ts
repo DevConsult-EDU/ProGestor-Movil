@@ -14,6 +14,7 @@ import {RecentActivitiesComponent} from "../components/recent-activities/recent-
 export class MainDashboardComponent implements OnInit {
 
   public isLoading: boolean = false;
+  public isAiSuggestion: boolean = false;
 
   constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
   }
@@ -22,6 +23,10 @@ export class MainDashboardComponent implements OnInit {
 
     this.parent.titulo = 'Dashboard';
 
+  }
+
+  toggleAiSuggestion() {
+    this.isAiSuggestion = !this.isAiSuggestion;
   }
 
 

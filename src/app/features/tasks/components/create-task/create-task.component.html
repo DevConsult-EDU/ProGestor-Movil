@@ -8,6 +8,19 @@
       </div>
 
       <form [formGroup]="createTaskForm" (ngSubmit)="storeTask($event)">
+
+        <div class="ion-text-center ion-padding-top">
+
+          <ion-label>Asistencia IA</ion-label>
+
+          <ion-button (click)="getAssistanceAI()" fill="clear" shape="round" size="small">
+
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+
+          </ion-button>
+
+        </div>
+
         <ion-list lines="none" class="ion-margin-top">
 
           <ion-item [ngClass]="{'has-Error': createTaskForm.get('project_id')?.invalid}">
@@ -28,7 +41,7 @@
 
           <ion-item [ngClass]="{'has-Error': createTaskForm.get('description')?.invalid}">
             <ion-label position="stacked" class="ion-text-center">Descripcion</ion-label>
-            <ion-input required fill="outline" formControlName="description" type="text" placeholder="..." class="ion-text-center"></ion-input>
+            <ion-textarea required fill="outline" formControlName="description" type="text" placeholder="..." class="ion-text-center"></ion-textarea>
           </ion-item>
 
           <ion-item [ngClass]="{'has-Error': createTaskForm.get('priority')?.invalid}">

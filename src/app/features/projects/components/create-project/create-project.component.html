@@ -1,5 +1,5 @@
 <ion-card class="ion-margin">
-  <ion-card-content>
+
     <div class="ion-text-center ion-margin-bottom">
 
       <ion-avatar style="width: 136px; height: 136px; margin: auto; display: flex; align-items: center; justify-content: center; --border-radius: 50%;">
@@ -10,6 +10,19 @@
     </div>
 
     <form [formGroup]="createProjectForm" (ngSubmit)="storeProject($event)">
+      <div class="ion-text-center ion-padding-top">
+
+        <ion-label>Asistencia IA</ion-label>
+
+        <ion-button (click)="getAssistanceAI()" fill="clear" shape="round" size="small">
+
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+
+        </ion-button>
+
+      </div>
+
+
       <ion-list lines="none" class="ion-margin-top">
 
         <ion-item [ngClass]="{'has-Error': createProjectForm.get('name')?.invalid}">
@@ -19,7 +32,7 @@
 
         <ion-item [ngClass]="{'has-Error': createProjectForm.get('description')?.invalid}">
           <ion-label position="stacked" class="ion-text-center">Descripcion</ion-label>
-          <ion-input class="ion-text-center" fill="outline" required formControlName="description" type="text" placeholder="..."></ion-input>
+          <ion-textarea class="ion-text-center" fill="outline" required formControlName="description" type="text" placeholder="..."></ion-textarea>
         </ion-item>
 
         <ion-item [ngClass]="{'has-Error': createProjectForm.get('customer_id')?.invalid}">
@@ -49,5 +62,5 @@
         Cancelar
       </ion-button>
     </div>
-  </ion-card-content>
+
 </ion-card>
