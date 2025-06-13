@@ -15,8 +15,10 @@ export class MainDashboardComponent implements OnInit {
 
   public isLoading: boolean = false;
   public isAiSuggestion: boolean = false;
+  public rol: string|null;
 
   constructor(@Inject(ProjectLayoutComponent) private parent: ProjectLayoutComponent) {
+    this.rol = localStorage.getItem("rol");
   }
 
   ngOnInit() {

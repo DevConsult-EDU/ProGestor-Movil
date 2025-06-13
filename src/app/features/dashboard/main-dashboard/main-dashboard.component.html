@@ -7,5 +7,9 @@
 
   <app-user-active-projects />
 
+  @if (rol && rol === 'Admin') {
+    <app-risk-analysis-widget />
+  }
+
   <app-recent-activities />
 </ion-content>

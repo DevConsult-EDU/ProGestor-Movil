@@ -9,6 +9,7 @@ import {IonicModule} from "@ionic/angular";
 import {AiSummaryWidgetModule} from "../components/ai-summary-widget/ai-summary-widget.module";
 import {TasksAiAnalysisModule} from "../components/tasks-ai-analysis/tasks-ai-analysis.module";
 import {AiChatSuggestionsModule} from "../../tasks/components/ai-chat-suggestions/ai-chat-suggestions.module";
+import {RiskAnalysisWidgetModule} from "../components/risk-analysis-widget/risk-analysis-widget.module";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {AiChatSuggestionsModule} from "../../tasks/components/ai-chat-suggestion
     IonicModule,
     TasksAiAnalysisModule,
     AiChatSuggestionsModule,
+    RiskAnalysisWidgetModule,
 
   ]
 })
